@@ -1,0 +1,28 @@
+/* ==================================================
+   HEIGHT TOKENS
+   ================================================== */
+
+:root {
+  --size-xs: 24px;
+  --size-sm: 32px;
+  --size-md: 40px;
+  --size-lg: 48px;
+  --size-xl: 56px;
+
+
+
+  --height-0: 0;
+  --height-1: 0.25rem;    /* 4px */
+  --height-1-5: 0.375rem; /* 6px */
+  --height-2: 0.5rem;     /* 8px */
+  --height-2-5: 0.625rem; /* 10px */
+  --height-3: 0.75rem;    /* 12px */
+  --height-4: 1rem;       /* 16px */
+  --height-5: 1.25rem;    /* 20px */
+  --height-6: 1.5rem;     /* 24px */
+  --height-7: 1.75rem;
+  --height-8: 2rem;       /* 32px */
+  --height-10: 2.5rem;    /* 40px */
+  --height-12: 3rem;      /* 48px */
+  --height-16: 4rem;      /*64px */
+}

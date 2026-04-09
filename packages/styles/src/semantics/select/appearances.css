@@ -1,0 +1,29 @@
+[data-role="select"][data-tone] {
+    /* Options */
+    --surface: var(--tone-300);
+    --select-option-hover: var(--tone-400);
+}
+
+[data-role="select"][data-appearance="filled"] {
+    --bg: var(--white);
+    --border: var(--tone-500);
+    --color: var(--tone-500);
+}
+
+[data-role="select"][data-appearance="outline"] {
+    --bg: transparent;
+    --border: var(--tone-500);
+    --color: var(--tone-500);
+}
+
+[data-role="select"][data-appearance="ghost"] {
+    --bg: transparent;
+    --border: transparent;
+    --color: var(--tone-500);
+}
+
+[data-role="select"][data-appearance="soft"] {
+    --bg: var(--tone-200);
+    --border: var(--tone-500);
+    --color: var(--tone-500);
+}

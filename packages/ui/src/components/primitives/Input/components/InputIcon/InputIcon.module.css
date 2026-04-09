@@ -1,0 +1,25 @@
+.icon {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  padding: 2px;
+  pointer-events: none;
+  color: var(--color);
+}
+
+.endIcon{
+  right:0
+}
+
+.leftIcon{
+  left:0
+}
+
+.icon svg {
+  width: 1em;
+  height: 1em;
+  font-size: var(--icon-size);
+  display: block;
+}

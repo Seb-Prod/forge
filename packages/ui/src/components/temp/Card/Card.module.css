@@ -1,0 +1,272 @@
+/* ==================================================
+   CARD COMPONENT
+   ================================================== */
+
+/* ==================================================
+   BASE CARD
+   ================================================== */
+
+.card {
+  /* Initialisation des variables */
+  --card-bg: var(--card-tone-bg, var(--surface-bg, var(--color-surface-base)));
+  --card-text: var(--card-tone-text, var(--surface-text, var(--text-primary)));
+  --card-border: var(--card-tone-border, var(--color-border-default));
+  --card-accent: var(--card-tone-accent, var(--color-cta-primary));
+  
+  --card-shadow: var(--shadow-md);
+  --card-focus: var(--card-tone-focus, rgba(191, 61, 214, 0.6));
+
+  /* Internal state variables */
+  --_bg: var(--card-bg);
+  --_text: var(--card-text);
+  --_border: var(--card-border);
+  --_shadow: var(--card-shadow);
+  --_accent: var(--card-accent);
+
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: fit-content;
+  padding: var(--space-6);
+  box-sizing: border-box;
+
+  /* Appearance */
+  background-color: var(--_bg);
+  color: var(--_text);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--_border);
+  box-shadow: var(--_shadow);
+
+  /* Interaction */
+  outline: none;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.1s ease;
+}
+
+/* Safe box sizing */
+.card *,
+.card *::before,
+.card *::after {
+  box-sizing: inherit;
+}
+
+/* ==================================================
+   VARIANT MODIFIERS (ELEVATION)
+   ================================================== */
+
+/* ---------- Base (default) ---------- */
+.card--base {
+  --card-shadow: none;
+}
+
+/* ---------- Elevated ---------- */
+.card--elevated {
+  --card-shadow: var(--shadow-lg);
+}
+
+/* ---------- Outlined ---------- */
+.card--outlined {
+  --card-shadow: none;
+  --card-border: var(--card-tone-border, var(--color-border-strong));
+}
+
+/* ==================================================
+   TONE ACCENT BAR
+   ================================================== */
+
+.card[data-card-tone]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: var(--space-4);
+  bottom: var(--space-4);
+  width: 4px;
+  background: var(--_accent);
+  border-radius: var(--radius-sm);
+}
+
+/* Adjust padding for accent bar */
+.card[data-card-tone] {
+  padding-left: calc(var(--space-6) + var(--space-3));
+}
+
+/* ==================================================
+   SIZE MODIFIERS
+   ================================================== */
+
+.card--sm {
+  padding: var(--space-4);
+}
+
+.card--sm[data-card-tone] {
+  padding-left: calc(var(--space-4) + var(--space-3));
+}
+
+.card--sm[data-card-tone]::before {
+  top: var(--space-3);
+  bottom: var(--space-3);
+}
+
+.card--lg {
+  padding: var(--space-8);
+}
+
+.card--lg[data-card-tone] {
+  padding-left: calc(var(--space-8) + var(--space-3));
+}
+
+.card--lg[data-card-tone]::before {
+  top: var(--space-6);
+  bottom: var(--space-6);
+}
+
+/* ==================================================
+   CARD HEADER
+   ================================================== */
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--_text);
+  line-height: 1.2;
+}
+
+/* Title uses accent color for tones */
+.card[data-card-tone] .cardTitle {
+  color: var(--_accent);
+}
+
+.cardHeaderAction {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+/* ==================================================
+   CARD CONTENT
+   ================================================== */
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+/* ==================================================
+   CARD FOOTER
+   ================================================== */
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--_border);
+}
+
+/* ==================================================
+   INTERACTIVE STATE
+   ================================================== */
+
+.card--interactive {
+  cursor: pointer;
+  user-select: none;
+}
+
+.card--interactive:hover {
+  --_shadow: var(--shadow-xl);
+  transform: translateY(-2px);
+}
+
+.card--interactive:active {
+  transform: translateY(0);
+  --_shadow: var(--shadow-md);
+}
+
+/* ==================================================
+   ACCESSIBILITY
+   ================================================== */
+
+.card:focus {
+  outline: none;
+}
+
+.card:focus-visible {
+  outline: 3px solid var(--card-focus);
+  outline-offset: 4px;
+}
+
+/* ==================================================
+   SIZE ADJUSTMENTS FOR HEADER/FOOTER
+   ================================================== */
+
+.card--sm .cardHeader {
+  margin-bottom: var(--space-3);
+}
+
+.card--sm .cardTitle {
+  font-size: var(--text-lg);
+}
+
+.card--sm .cardContent {
+  gap: var(--space-3);
+}
+
+.card--sm .cardFooter {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+}
+
+.card--lg .cardHeader {
+  margin-bottom: var(--space-6);
+}
+
+.card--lg .cardTitle {
+  font-size: var(--text-2xl);
+}
+
+.card--lg .cardContent {
+  gap: var(--space-5);
+}
+
+.card--lg .cardFooter {
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+}
+
+/* ==================================================
+   REDUCED MOTION
+   ================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+  
+  .card--interactive:hover {
+    transform: none;
+  }
+  
+  .card--interactive:active {
+    transform: none;
+  }
+}

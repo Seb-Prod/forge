@@ -1,0 +1,7 @@
+[data-role="card"][data-tone] {
+    --bg: var(--tone-100);
+    --border: var(--tone-200);
+
+    --header-bg: var(--tone-400);
+    --footer-bg: var(--tone-200);
+}

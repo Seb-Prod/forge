@@ -1,0 +1,7 @@
+Dropdown
+Description :
+Menu déroulant pour choisir des options, peut contenir composants complexes.
+
+À faire :
+	•	Props : trigger, items, placement, disabled
+	•	Demo avec différentes tailles et contenus

@@ -1,0 +1,7 @@
+Spacer
+Description :
+Élément pour créer des espacements fixes ou flexibles.
+
+À faire :
+	•	Props : size, flex
+	•	Demo avec exemple horizontal et vertical

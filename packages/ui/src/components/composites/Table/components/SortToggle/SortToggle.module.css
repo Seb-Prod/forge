@@ -1,0 +1,30 @@
+.sortToggle {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+
+  width: 22px;
+  height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  border-radius: 50% 0 0 0%;
+  background: var(--surface-bg);
+
+  cursor: pointer;
+
+  transition: all 0.0s ease;
+}
+
+.sortToggle:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  ;
+}
+
+.sortToggle svg {
+  font-size: 12px;
+}

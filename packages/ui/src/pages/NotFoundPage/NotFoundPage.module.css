@@ -1,0 +1,81 @@
+/* ==================================================
+   NOT FOUND PAGE
+   ================================================== */
+
+/* ==================================================
+   CONTAINER
+   ================================================== */
+
+.container {
+  /* Layout */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: var(--space-8);
+  box-sizing: border-box;
+
+  /* Appearance */
+  background: var(--color-background-page, var(--color-surface-base));
+}
+
+/* ==================================================
+   HEADER BADGE
+   ================================================== */
+
+.headerBadge {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Typography */
+  font-size: 55px;
+  line-height: 1;
+
+  /* Appearance */
+  color: var(--color-cta-danger);
+}
+
+/* ==================================================
+   FOOTER
+   ================================================== */
+
+.footer {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.footerText {
+  /* Typography */
+  font-size: var(--text-sm);
+  font-style: italic;
+  line-height: 1.4;
+
+  /* Appearance */
+  color: var(---text-primary);
+}
+
+/* ==================================================
+   RESPONSIVE
+   ================================================== */
+
+@media (max-width: 640px) {
+  .container {
+    padding: var(--space-4);
+    align-items: center;
+  }
+}
+
+/* ==================================================
+   REDUCED MOTION
+   ================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .container {
+    transition: none;
+  }
+}

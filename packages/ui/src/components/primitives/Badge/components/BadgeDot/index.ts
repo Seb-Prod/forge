@@ -1,0 +1,1 @@
+export { BadgeDot } from "./BadgeDot";

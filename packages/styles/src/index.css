@@ -1,0 +1,22 @@
+/**
+ * Fichier principal de styles
+ * Point d’entrée du design system
+ */
+
+/* Reset */
+@import "./reset.css";
+
+/* Tokens */
+@import "./tokens/index.css";
+
+/* Themes */
+@import "./themes/index.css";
+
+/* Annimations */
+@import "./animations/animations.css";
+
+/* Sementics */
+@import "./semantics/index.css";
+
+/* Global styles */
+@import "./globals.css";

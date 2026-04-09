@@ -1,0 +1,7 @@
+#Grid / Container
+Description :
+Containers pour gérer colonnes et largeur maximale.
+
+À faire :
+	•	Props : columns, gap, maxWidth
+	•	Demo avec responsive layout

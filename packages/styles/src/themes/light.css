@@ -1,0 +1,165 @@
+/* =====================================================
+   🎨 THEME : SUNSET (warm / premium light)
+   ===================================================== */
+
+[data-theme="app"] {
+
+  /* =====================================================
+     🧱 SURFACES (warm beige)
+     ===================================================== */
+
+  --surface-50: #ffffff;
+  --surface-100: #fdfcf8;
+  --surface-200: #fbf8f1;
+  --surface-300: #f7f2e6;
+  --surface-400: #f2ead8;
+  --surface-500: #eae0c7;
+  --surface-600: #d6cbb3;
+  --surface-700: #b8ad96;
+  --surface-800: #948a76;
+  --surface-900: #6f6657;
+
+  --surface-500-rgb: 234, 224, 199;
+
+  /* Mapping surfaces */
+
+  --surface-base: var(--surface-50);      /* fond page */
+  --surface-raised: var(--surface-100);  /* cards */
+  --surface-overlay: var(--surface-200); /* modales */
+  --surface-muted: var(--surface-300);   /* sections */
+  --surface-inverted: #1a1a1a;
+
+  /* =====================================================
+     🟠 PRIMARY (orange)
+     ===================================================== */
+
+  --color-primary-50: #fff7ed;
+  --color-primary-100: #ffedd5;
+  --color-primary-200: #fed7aa;
+  --color-primary-300: #fdba74;
+  --color-primary-400: #fb923c;
+  --color-primary-500: #f97316;
+  --color-primary-600: #ea580c;
+  --color-primary-700: #c2410c;
+  --color-primary-800: #9a3412;
+  --color-primary-900: #431407;
+
+  --color-primary-500-rgb: 249, 115, 22;
+
+  /* =====================================================
+     🟣 SECONDARY (violet prune)
+     ===================================================== */
+
+  --color-secondary-50: #faf5ff;
+  --color-secondary-100: #f3e8ff;
+  --color-secondary-200: #e9d5ff;
+  --color-secondary-300: #d8b4fe;
+  --color-secondary-400: #c084fc;
+  --color-secondary-500: #a855f7;
+  --color-secondary-600: #9333ea;
+  --color-secondary-700: #7e22ce;
+  --color-secondary-800: #6b21a8;
+  --color-secondary-900: #581c87;
+
+  --color-secondary-500-rgb: 168, 85, 247;
+
+  /* =====================================================
+     🟢 SUCCESS
+     ===================================================== */
+
+  --color-success-50: #edfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-200: #a7f3d0;
+  --color-success-300: #6ee7b7;
+  --color-success-400: #34d399;
+  --color-success-500: #10b981;
+  --color-success-600: #059669;
+  --color-success-700: #047857;
+  --color-success-800: #065f46;
+  --color-success-900: #064e3b;
+
+  /* =====================================================
+     🔴 DANGER
+     ===================================================== */
+
+  --color-danger-50: #fef2f2;
+  --color-danger-100: #fee2e2;
+  --color-danger-200: #fecaca;
+  --color-danger-300: #fca5a5;
+  --color-danger-400: #f87171;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-danger-700: #b91c1c;
+  --color-danger-800: #991b1b;
+  --color-danger-900: #7f1d1d;
+
+  /* =====================================================
+     🟡 WARNING
+     ===================================================== */
+
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
+  --color-warning-300: #fcd34d;
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+  --color-warning-800: #92400e;
+  --color-warning-900: #78350f;
+
+  /* =====================================================
+     🔵 INFO
+     ===================================================== */
+
+  --color-info-50: #f0f9ff;
+  --color-info-100: #e0f2fe;
+  --color-info-200: #bae6fd;
+  --color-info-300: #7dd3fc;
+  --color-info-400: #38bdf8;
+  --color-info-500: #0ea5e9;
+  --color-info-600: #0284c7;
+  --color-info-700: #0369a1;
+  --color-info-800: #075985;
+  --color-info-900: #0c4a6e;
+
+  /* =====================================================
+     ⚪ NEUTRAL
+     ===================================================== */
+
+  --color-neutral-50: var(--surface-50);
+  --color-neutral-100: var(--surface-100);
+  --color-neutral-200: var(--surface-200);
+  --color-neutral-300: var(--surface-300);
+  --color-neutral-400: var(--surface-400);
+  --color-neutral-500: var(--surface-500);
+  --color-neutral-600: var(--surface-600);
+  --color-neutral-700: var(--surface-700);
+  --color-neutral-800: var(--surface-800);
+  --color-neutral-900: var(--surface-900);
+
+  /* =====================================================
+     📝 TEXT
+     ===================================================== */
+
+  --text-base: #3a342b;
+  --text-muted: #6f6657;
+  --text-subtle: #948a76;
+  --text-inverted: #ffffff;
+
+  /* =====================================================
+     🔲 BORDERS
+     ===================================================== */
+
+  --border-color: var(--surface-300);
+  --border-color-light: var(--surface-200);
+  --border-color-strong: var(--surface-400);
+
+  /* =====================================================
+     ✨ STATES
+     ===================================================== */
+
+  --hover-opacity: 0.06;
+  --active-opacity: 0.10;
+  --focus-ring: 0 0 0 2px var(--color-primary-500);
+}

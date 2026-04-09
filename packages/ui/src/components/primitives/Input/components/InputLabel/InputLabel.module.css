@@ -1,0 +1,30 @@
+.floating {
+  display: flex;
+  position: absolute;
+  
+  top: 50%;
+  transform: translateY(-50%);
+  
+  padding: 0 4px;
+  pointer-events: none;
+  transition: 0.2s;
+}
+
+.withLeftIcon{
+left: var(--floating-left);
+}
+
+[data-focused="true"] .floating,
+[data-has-value="true"] .floating {
+  top: -10px;
+  left: 0;
+}
+
+.standart{
+  display: flex;
+}
+
+.required {
+  color: var(--danger-500);
+  font-size: 8px;
+}

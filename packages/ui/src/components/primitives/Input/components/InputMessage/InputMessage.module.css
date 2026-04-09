@@ -1,0 +1,13 @@
+.message{
+    display: flex;
+    align-items: center;
+    gap:4px;
+}
+
+.info {
+    color : var(--info-500);
+}
+
+.error {
+    color : var(--danger-500);
+}

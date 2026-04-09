@@ -1,0 +1,7 @@
+PageLayout / AppLayout
+Description :
+Conteneur global pour structurer pages ou app entière.
+
+À faire :
+	•	Props : header, sidebar, footer, children
+	•	Demo avec layout complet

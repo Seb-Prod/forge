@@ -1,0 +1,25 @@
+/* ===== ICONS ===== */
+.startIcon,
+.endIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+
+.startIcon {
+  margin-inline-start: var(--space-1);
+}
+
+.endIcon {
+  margin-inline-end: var(--space-1);
+}
+
+.marginRight{
+  margin-inline-end: var(--space-1);
+}
+
+.marginLeft{
+  margin-inline-start: var(--space-1);
+}

@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    // --- Modules et Résolution (Modifié pour supporter import.meta) ---
+    "module": "ESNext",              // ← Changé de NodeNext à ESNext
+    "moduleResolution": "Bundler",   // ← Changé de NodeNext à Bundler
+    "target": "ES2022", 
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    // --- React et JSX ---
+    "jsx": "react-jsx",
+
+    // --- Support import.meta ---
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+
+    // --- Vérifications ---
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,        // ← Ajouté
+    "isolatedModules": true           // ← Ajouté pour Vite
+  },
+  "include": [
+    "packages/**/*",
+    "**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

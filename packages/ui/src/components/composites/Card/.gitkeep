@@ -1,0 +1,7 @@
+Card
+Description :
+Conteneur stylisé pour afficher du contenu.
+
+À faire :
+	•	Props : title, footer, children, variant
+	•	Demo avec exemple simple et complexe

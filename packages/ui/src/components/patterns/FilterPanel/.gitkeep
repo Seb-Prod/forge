@@ -1,0 +1,7 @@
+FilterPanel
+Description :
+Panneau de filtres pour listes/tableaux.
+
+À faire :
+	•	Props : filters, onChange
+	•	Demo avec plusieurs filtres

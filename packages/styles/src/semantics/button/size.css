@@ -1,0 +1,20 @@
+[data-role="button"][data-size="sm"] {
+    --height: 32px;
+    --padding: var(--space-1) var(--space-2);
+    --font-size: var(--text-sm);
+    --font-weight: var(--font-semibold);
+}
+
+[data-role="button"][data-size="md"] {
+    --height: 40px;
+    --padding: var(--space-2) var(--space-4);
+    --font-size: var(--text-md);
+    --font-weight: var(--font-semibold);
+}
+
+[data-role="button"][data-size="lg"] {
+    --height: 48px;
+    --padding: var(--space-4) var(--space-8);
+    --font-size: var(--text-lg);
+    --font-weight: var(--font-semibold);
+}

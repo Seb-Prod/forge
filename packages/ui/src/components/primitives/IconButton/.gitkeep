@@ -1,0 +1,11 @@
+IconButton
+Description :
+Bouton compact ne contenant qu’une icône, avec aria-label obligatoire pour l’accessibilité.
+
+À faire :
+	•	Props : icon, variant, size, disabled, aria-label
+	•	Support du focus et hover states
+	•	Demo avec différentes icônes et tailles
+
+Notes / dépendances internes :
+	•	Peut réutiliser Button en mode iconOnly

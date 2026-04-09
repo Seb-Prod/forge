@@ -1,0 +1,57 @@
+/* Cibles de navigation */
+
+.targets {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* Arborescence  */
+
+.list {
+  height: 320px;
+  min-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--space-1);
+}
+
+.empty {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  text-align: center;
+  padding-top: 2rem;
+}
+
+/* Nœud  */
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.itemSelected {
+  background-color: #ffefef;
+  color: #1d4ed8;
+  font-weight: 500;
+}
+
+.icon {
+  font-size: 26px;
+  color: rgb(230, 163, 6);
+}
+
+.iconSelected {
+  font-size: 28px;
+  color: rgb(3, 92, 28);
+}
+
+.arrow{
+  font-size: 20px;
+}

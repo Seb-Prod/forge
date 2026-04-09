@@ -1,0 +1,7 @@
+Pagination
+Description :
+Navigation entre pages de contenu.
+
+À faire :
+	•	Props : currentPage, totalPages, onChange
+	•	Demo avec plusieurs pages

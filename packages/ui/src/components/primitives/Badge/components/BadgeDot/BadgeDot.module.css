@@ -1,0 +1,7 @@
+.dot {
+  margin-left: var(--space-1);
+  width: var(--dot-size);
+  height: var(--dot-size);
+  border-radius: 50%;
+  background-color: currentColor;
+}

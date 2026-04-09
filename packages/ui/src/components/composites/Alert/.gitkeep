@@ -1,0 +1,7 @@
+Alert
+Description :
+Message d’alerte avec variants (info, success, warning, danger).
+
+À faire :
+	•	Props : variant, title, description, closable
+	•	Demo avec tous les variants

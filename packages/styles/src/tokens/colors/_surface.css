@@ -1,0 +1,31 @@
+/* ==================================================
+   SURFACE TOKENS
+   ================================================== */
+
+:root {
+    --surface-page: var(--neutral-50);
+    --surface-base: rgb(255, 255, 255);
+    --surface-elevated: rgb(249, 236, 206);
+
+    --surface-base-50: #ffffff;
+    --surface-base-100: #fdfcf8;
+    --surface-base-200: #fbf8f1;
+    --surface-base-300: #f7f2e6;
+    --surface-base-400: #f2ead8;
+    --surface-base-500: #eae0c7;
+    --surface-base-600: #d6cbb3;
+    --surface-base-700: #b8ad96;
+    --surface-base-800: #948a76;
+    --surface-base-900: #6f6657;
+
+    --surface-elevated-50: #fffaf0;
+    --surface-elevated-100: #fef3dc;
+    --surface-elevated-200: #fde7bf;
+    --surface-elevated-300: #fbd89f;
+    --surface-elevated-400: #f7c87d;
+    --surface-elevated-500: #f2b75c;
+    --surface-elevated-600: #d99f4a;
+    --surface-elevated-700: #b8833c;
+    --surface-elevated-800: #91672f;
+    --surface-elevated-900: #6b4c22;
+}

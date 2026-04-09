@@ -1,0 +1,37 @@
+[data-role="button"][data-tone] {
+    /* Hover states */
+    --bg-hover: var(--tone-700);
+    --border-hover: var(--tone-700);
+    --text-hover: var(--tone-800);
+    --bg-subtle-hover: var(--tone-200);
+
+    /* Active states */
+    --bg-active: var(--tone-800);
+    --border-active: var(--tone-800);
+    --bg-subtle-active: var(--tone-400);
+}
+
+[data-role="button"][data-appearance="filled"] {
+    --bg: var(--tone-500);
+    --color: var(--tone-50);
+    --border: var(--tone-500);
+}
+
+[data-role="button"][data-appearance="outline"] {
+    --bg: transparent;
+    --color: var(--tone-600);
+    --border: var(--tone-500);
+}
+
+[data-role="button"][data-appearance="ghost"] {
+    --bg: transparent;
+    --color: var(--tone-600);
+    --border: transparent;
+}
+
+[data-role="button"][data-appearance="link"] {
+    --bg: transparent;
+    --color: var(--tone-600);
+    --border: transparent;
+    text-decoration: underline;
+}

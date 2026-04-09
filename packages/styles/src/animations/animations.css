@@ -1,0 +1,145 @@
+/* ============================================
+   ANIMATIONS CLIP-PATH RÉUTILISABLES
+   Pattern: data-animation="[direction]"
+   ============================================ */
+
+/* ────────────────────────────────────────────
+   SETUP DE BASE
+   ──────────────────────────────────────────── */
+
+[data-animation]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    
+    background-color: var(--bg-subtle-hover);
+    border-radius: inherit; /* Hérite du parent */
+    z-index: -1;
+    
+    transition: clip-path 0.45s ease;
+}
+
+/* ────────────────────────────────────────────
+   ANIMATIONS DEPUIS LE CENTRE
+   ──────────────────────────────────────────── */
+
+/* Centre (expand) */
+[data-animation="center"]::after {
+    clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%);
+}
+
+[data-animation="center"]:hover:not(:disabled):not([data-loading])::after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* ────────────────────────────────────────────
+   ANIMATIONS DEPUIS LES BORDS
+   ──────────────────────────────────────────── */
+
+/* Gauche → Droite */
+[data-animation="left"]::after {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+}
+
+[data-animation="left"]:hover:not(:disabled):not([data-loading])::after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Droite → Gauche */
+[data-animation="right"]::after {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+}
+
+[data-animation="right"]:hover:not(:disabled):not([data-loading])::after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Haut → Bas */
+[data-animation="top"]::after {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+}
+
+[data-animation="top"]:hover:not(:disabled):not([data-loading])::after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Bas → Haut */
+[data-animation="bottom"]::after {
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+}
+
+[data-animation="bottom"]:hover:not(:disabled):not([data-loading])::after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* ────────────────────────────────────────────
+   ANIMATIONS DEPUIS LES COINS
+   ──────────────────────────────────────────── */
+
+/* Coin haut-gauche → bas-droite */
+[data-animation="topLeft"]::after {
+    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+}
+
+[data-animation="topLeft"]:hover:not(:disabled):not([data-loading])::after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Coin haut-droite → bas-gauche */
+[data-animation="topRight"]::after {
+    clip-path: polygon(100% 0, 100% 0, 100% 0, 100% 0);
+}
+
+[data-animation="topRight"]:hover:not(:disabled):not([data-loading])::after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Coin bas-gauche → haut-droite */
+[data-animation="bottomLeft"]::after {
+    clip-path: polygon(0 100%, 0 100%, 0 100%, 0 100%);
+}
+
+[data-animation="bottomLeft"]:hover:not(:disabled):not([data-loading])::after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Coin bas-droite → haut-gauche */
+[data-animation="bottomRight"]::after {
+    clip-path: polygon(100% 100%, 100% 100%, 100% 100%, 100% 100%);
+}
+
+[data-animation="bottomRight"]:hover:not(:disabled):not([data-loading])::after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* ────────────────────────────────────────────
+   ANIMATIONS SPÉCIALES
+   ──────────────────────────────────────────── */
+
+/* Cercle → Rectangle (approximation) */
+[data-animation="circle"]::after {
+    clip-path: circle(0% at 50% 50%);
+    transition: clip-path 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[data-animation="circle"]:hover:not(:disabled):not([data-loading])::after {
+    clip-path: circle(100% at 50% 50%);
+}
+
+/* Split horizontal (centre → bords) */
+[data-animation="splitH"]::after {
+    clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+}
+
+[data-animation="splitH"]:hover:not(:disabled):not([data-loading])::after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* Split vertical (centre → haut/bas) */
+[data-animation="splitV"]::after {
+    clip-path: polygon(0 50%, 100% 50%, 100% 50%, 0 50%);
+}
+
+[data-animation="splitV"]:hover:not(:disabled):not([data-loading])::after {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}

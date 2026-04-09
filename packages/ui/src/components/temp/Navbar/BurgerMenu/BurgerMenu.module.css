@@ -1,0 +1,135 @@
+/* ==================================================
+   BURGER MENU COMPONENT
+   ================================================== */
+
+/* ==================================================
+   BASE BUTTON
+   ================================================== */
+
+.burgerMenu {
+  /* Layout */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  
+  /* Appearance */
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  
+  /* Interaction */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  
+  /* Accessibility */
+  outline: none;
+}
+
+.burgerMenu:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.burgerMenu:focus-visible {
+  outline: 3px solid var(--color-focus, rgba(191, 61, 214, 0.6));
+  outline-offset: 2px;
+}
+
+/* ==================================================
+   ICON (MIDDLE LINE)
+   ================================================== */
+
+.icon {
+  /* Position */
+  position: relative;
+  
+  /* Size */
+  width: 32px;
+  height: 3px;
+  
+  /* Appearance */
+  background: var(--color-cta-secondary);
+  border-radius: 999px;
+  
+  /* Interaction */
+  transition:
+    background-color 0.25s ease,
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==================================================
+   ICON LINES (TOP & BOTTOM)
+   ================================================== */
+
+.icon::before,
+.icon::after {
+  /* Content */
+  content: "";
+  
+  /* Position */
+  position: absolute;
+  left: 0;
+  
+  /* Size */
+  width: 32px;
+  height: 3px;
+  
+  /* Appearance */
+  background: var(--color-cta-secondary);
+  border-radius: 999px;
+  
+  /* Interaction */
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon::before {
+  top: -10px;
+}
+
+.icon::after {
+  top: 10px;
+}
+
+/* ==================================================
+   OPEN STATE (X ANIMATION)
+   ================================================== */
+
+.open .icon {
+  background-color: transparent;
+}
+
+.open .icon::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.open .icon::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+/* ==================================================
+   REDUCED MOTION
+   ================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .burgerMenu,
+  .icon,
+  .icon::before,
+  .icon::after {
+    transition: none;
+  }
+}
+
+/* ==================================================
+   DARK MODE SUPPORT
+   ================================================== */
+
+@media (prefers-color-scheme: dark) {
+  .burgerMenu:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}

@@ -1,0 +1,1 @@
+export { BadgeRemoveButton } from "./BadgeRemoveButton";

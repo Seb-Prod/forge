@@ -1,0 +1,7 @@
+ThemeSwitcher
+Description :
+Toggle dark/light theme.
+
+À faire :
+	•	Props : value, onChange
+	•	Demo avec changement en temps réel

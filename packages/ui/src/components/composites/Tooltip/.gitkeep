@@ -1,0 +1,7 @@
+Tooltip
+Description :
+Info courte affichée au hover/focus.
+
+À faire :
+	•	Props : content, placement, children
+	•	Demo avec hover et focus states

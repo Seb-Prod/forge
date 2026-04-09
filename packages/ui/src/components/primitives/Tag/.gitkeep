@@ -1,0 +1,7 @@
+Tag
+Description :
+Badge interactif, éventuellement closable.
+
+À faire :
+	•	Props : label, variant, onClose
+	•	Demo avec tag closable et non-closable

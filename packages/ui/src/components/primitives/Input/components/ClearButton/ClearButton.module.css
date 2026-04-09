@@ -1,0 +1,37 @@
+.clear {
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    color:var(--danger-500);
+    right: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.clear svg {
+  width: 1em;
+  height: 1em;
+  font-size: var(--icon-size);
+  display: block;
+}
+
+.clear:hover {
+    color: var(--danger-400);
+    scale:1.2;
+}
+
+.clear:active{
+    scale:1;
+}
+
+.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.clear:focus {
+    box-shadow: 0 0 0 3px rgba(80, 120, 255, 0.15);
+}
+

@@ -1,0 +1,22 @@
+/* ==================================================
+   TEXT TOKENS
+   ================================================== */
+
+:root {
+    --text-neutral-900: var(--gray-900);
+    --text-neutral-700: var(--gray-800);
+    --text-neutral-500: var(--gray-600);
+    --text-neutral-300: var(--gray-400);
+    --text-neutral-100: var(--gray-200);
+
+    /* Textes principaux */
+    --text-primary: var(--text-neutral-900);
+    --text-secondary: var(--text-neutral-500);
+    --text-muted: var(--text-neutral-300);
+    --text-inverse: var(--gray-50);
+
+    /* Textes accentués */
+    --text-accent-700: var(--brand-accent-700);
+    --text-accent-500: var(--brand-accent-500);
+    --text-accent-300: var(--brand-accent-300);
+}

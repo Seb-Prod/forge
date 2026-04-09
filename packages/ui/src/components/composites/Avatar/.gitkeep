@@ -1,0 +1,7 @@
+Avatar
+Description :
+Image ou initiales utilisateur, avec fallback.
+
+À faire :
+	•	Props : src, alt, size, fallback
+	•	Demo avec image et initials

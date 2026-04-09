@@ -1,0 +1,7 @@
+Panel
+Description :
+Conteneur interactif, collapsible et resizable.
+
+À faire :
+	•	Props : title, collapsible, children
+	•	Demo avec collapse / expand

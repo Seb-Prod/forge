@@ -1,0 +1,64 @@
+.actionButton {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  /* Sizing */
+  width: 22px;
+  height: 22px;
+  padding: 0;
+
+  /* Appearance */
+  border: none;
+  border-radius: var(--radius-full);
+  color: var(--tone-text);
+  background-color: var(--tone-bg);
+
+  /* Interaction */
+  cursor: pointer;
+  outline: none;
+}
+
+/* Hover et Active - Commun à toutes les actions */
+.actionButton:hover {
+  scale: 1.2;
+}
+
+.actionButton:active {
+  scale: 0.8;
+}
+
+/* Rotation spécifique par action */
+.actionButton[data-action="close"]:hover,
+.actionButton[data-action="close"]:active {
+  rotate: 12deg;
+}
+
+.actionButton[data-action="expand"]:hover,
+.actionButton[data-action="expand"]:active {
+  rotate: -12deg;
+}
+
+.actionButton[data-action="collapse"]:hover,
+.actionButton[data-action="collapse"]:active {
+  rotate: 0deg;
+}
+
+/* Disabled */
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  scale: 1;
+  rotate: 0deg;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .actionButton:hover,
+  .actionButton:active {
+    scale: 1;
+    rotate: 0deg;
+  }
+}

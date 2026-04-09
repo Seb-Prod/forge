@@ -1,0 +1,23 @@
+[data-role="input"][data-size="sm"] {
+  --height:var(--height-8);
+  --radius:var(--radius-sm);
+  --font-size:var(--text-sm);
+  --icon-size:var(--height-4);
+  --floating-left:var(--height-6);
+}
+
+[data-role="input"][data-size="md"] {
+  --height:var(--height-10);
+  --radius:var(--radius-md);
+  --font-size:var(--text-md);
+  --icon-size:var(--height-5);
+  --floating-left:var(--height-7);
+}
+
+[data-role="input"][data-size="lg"] {
+  --height:var(--height-12);
+  --radius:var(--radius-lg);
+  --font-size:var(--text-lg);
+  --icon-size:var(--height-6);
+  --floating-left:var(--height-8);
+}

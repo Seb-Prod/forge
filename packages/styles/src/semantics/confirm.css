@@ -1,0 +1,35 @@
+/* ---------- Confirm (base) ---------- */
+[data-confirm-tone="base"] {
+    --confirm-title-color: var(--text-primary);
+    --confirm-text-color: var(--text-secondary);
+}
+
+/* ---------- Confirm (elevated) ---------- */
+[data-confirm-tone="elevated"] {
+    --confirm-title-color: var(--text-primary);
+    --confirm-text-color: var(--text-secondary);
+}
+
+/* ---------- Confirm (info) ---------- */
+[data-confirm-tone="info"] {
+    --confirm-title-color: var(--info-600);
+    --confirm-text-color: var(--info-700);
+}
+
+/* ---------- Confirm (warning) ---------- */
+[data-confirm-tone="warning"] {
+    --confirm-title-color: var(--warning-600);
+    --confirm-text-color: var(--warning-700);
+}
+
+/* ---------- Confirm (danger) ---------- */
+[data-confirm-tone="danger"] {
+    --confirm-title-color: var(--danger-600);
+    --confirm-text-color: var(--danger-700);
+}
+
+/* ---------- Confirm (success) ---------- */
+[data-confirm-tone="success"] {
+    --confirm-title-color: var(--success-600);
+    --confirm-text-color: var(--success-700);
+}

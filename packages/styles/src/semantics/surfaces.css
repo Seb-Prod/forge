@@ -1,0 +1,36 @@
+/* ---------- Surface (base) ---------- */
+[data-surface="base"] {
+  --surface-bg: var(--surface-base);
+  --surface-text: var(--text-primary);
+}
+
+/* ---------- Surface (elevated) ---------- */
+[data-surface="elevated"] {
+  --surface-bg: var(--surface-elevated);
+  --surface-text: var(--text-primary);
+}
+
+/* ---------- Surface (info) ---------- */
+[data-surface="info"] {
+  --surface-bg: var(--info-300);
+  --surface-text: var(--info-900);
+}
+
+/* ---------- Surface (warning) ---------- */
+[data-surface="warning"] {
+  --surface-bg: var(--warning-300);
+  --surface-text: var(--warning-900);
+}
+
+/* ---------- Surface (danger) ---------- */
+[data-surface="danger"] {
+  --surface-bg: var(--danger-300);
+  --surface-text: var(--danger-900);
+}
+
+/* ---------- Surface (success) ---------- */
+[data-surface="success"] {
+  --surface-bg: var(--success-300);
+  --surface-text: var(--success-900);
+}
+

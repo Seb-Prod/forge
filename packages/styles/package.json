@@ -1,0 +1,15 @@
+{
+  "name": "@workspace/styles",
+  "version": "1.0.0",
+  "description": "Styles de base CSS",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [],
+  "author": "Seb-Prod",
+  "license": "ISC",
+  "packageManager": "pnpm@10.23.0"
+}

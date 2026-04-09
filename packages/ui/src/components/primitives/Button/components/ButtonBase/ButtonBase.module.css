@@ -1,0 +1,27 @@
+.base{
+  display: flex;
+}
+
+.startIcon,
+.endIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.startIcon svg,
+.endIcon svg {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+
+.startIcon {
+  margin-right: var(--space-2);
+}
+
+.endIcon {
+  margin-left: var(--space-2);
+}

@@ -1,0 +1,7 @@
+EmptyState
+Description :
+Message illustré pour afficher un état vide.
+
+À faire :
+	•	Props : title, description, illustration
+	•	Demo simple

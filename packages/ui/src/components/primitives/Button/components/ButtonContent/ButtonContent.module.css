@@ -1,0 +1,53 @@
+.contentWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+  min-width: 0;
+  flex-wrap: nowrap;
+}
+
+/* Overlay affiché pendant le loading */
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+/* Spinner */
+.spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+/* Texte de chargement */
+.loadingText {
+  font-size: 0.875em;
+  white-space: nowrap;
+}
+
+/* Contenu normal masqué pendant le loading
+   → on garde la place pour éviter les sauts */
+.hiddenContent {
+  visibility: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+}
+
+/* Animation du spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

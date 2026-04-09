@@ -1,0 +1,7 @@
+Stack / Row
+Description :
+Composant de layout pour gérer les espacements verticaux/horizontaux.
+
+À faire :
+	•	Props : direction, spacing, align, children
+	•	Demo avec plusieurs enfants et spacing

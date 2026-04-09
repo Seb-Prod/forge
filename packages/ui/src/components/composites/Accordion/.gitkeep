@@ -1,0 +1,7 @@
+Accordion
+Description :
+Sections repliables avec header cliquable.
+
+À faire :
+	•	Props : items, defaultOpen, onToggle
+	•	Demo avec plusieurs sections ouvertes/fermées

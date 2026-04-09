@@ -1,0 +1,25 @@
+.th {
+  padding: 0;
+  position: relative;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: var(--bg-header);
+  padding: 10px 14px;
+  border-radius: 10px;
+
+  transition: 0.2s;
+}
+
+/* GRID */
+[data-grid="true"] .inner {
+  border: 1px solid var(--grid);
+}
+
+.text {
+  color: var(--text-header);
+}

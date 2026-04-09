@@ -1,0 +1,1 @@
+export { BadgeContent } from "./BadgeContent";

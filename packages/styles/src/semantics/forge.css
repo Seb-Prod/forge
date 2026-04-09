@@ -1,0 +1,4 @@
+[data-surface="forge"] {
+  --surface-bg: var(--surface-forge-500);
+  --surface-text: var(--text-primary);
+}

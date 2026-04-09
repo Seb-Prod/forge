@@ -1,0 +1,18 @@
+[data-role="badge"][data-appearance="filled"] {
+    --bg: var(--tone-500);
+    --color: var(--tone-50);
+    --border: var(--tone-600);
+}
+
+[data-role="badge"][data-appearance="soft"] {
+    --bg: var(--tone-100);
+    --color: var(--tone-500);
+    --border: transparent;
+}
+
+[data-role="badge"][data-appearance="outline"] {
+    --bg: transparent;
+    --color: var(--tone-500);
+    --border: var(--tone-600);
+}
+

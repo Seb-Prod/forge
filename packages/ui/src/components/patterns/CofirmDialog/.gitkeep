@@ -1,0 +1,7 @@
+ConfirmDialog / DeleteConfirm
+Description :
+Fenêtre pour confirmer une action.
+
+À faire :
+	•	Props : title, message, onConfirm, onCancel
+	•	Demo avec action confirmée et annulée

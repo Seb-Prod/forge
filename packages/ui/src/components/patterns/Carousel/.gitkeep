@@ -1,0 +1,7 @@
+Carousel
+Description :
+Slider / carrousel pour images ou composants.
+
+À faire :
+	•	Props : items, autoPlay, loop
+	•	Demo avec plusieurs slides

@@ -1,0 +1,11 @@
+Switch
+Description :
+Toggle on/off avec animation et état contrôlé/non contrôlé.
+
+À faire :
+	•	Props : checked, defaultChecked, onChange, disabled
+	•	Animation fluide
+	•	Demo interactive
+
+Notes / dépendances internes :
+	•	Accessibility : role switch, aria-checked

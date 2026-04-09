@@ -1,0 +1,66 @@
+/* Container principal */
+.root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Container de l'input, labels */
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputInner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 8px;
+}
+
+/* Input */
+.input {
+  width: 100%;
+  height: var(--height);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--color);
+  outline: none;
+  transition: all 0.2s ease;
+  padding: 0 8px;
+  padding-right: 40px;
+  flex: 1;
+  min-width: 0;
+}
+
+.input:disabled{
+  opacity: 0.5;
+}
+
+.withLeftIcon {
+  padding: 0 var(--floating-left);
+}
+
+[data-label-position="top"] {
+  flex-direction: column;
+}
+
+[data-label-position="left"] {
+  flex-direction: row;
+  align-items: center;
+}
+
+
+[data-label-position="floating"] {
+  position: relative;
+  margin: 24px 0;
+}
+
+
+/* focus halo */
+.input:focus {
+  box-shadow: 0px 0px 5px 3px var(--focused);
+}

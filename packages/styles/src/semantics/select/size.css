@@ -1,0 +1,20 @@
+[data-role="select"][data-size="sm"] {
+    --height: var(--height-8);
+    --font-size: var(--text-sm);
+    --padding: 0 var(--space-2-5);
+    --border-radius: var(--radius-sm);
+}
+
+[data-role="select"][data-size="md"] {
+    --height: var(--height-10);
+    --font-size: var(--text-md);
+    --padding: 0 var(--space-3);
+    --border-radius: var(--radius-md);
+}
+
+[data-role="select"][data-size="lg"] {
+    --height: var(--height-12);
+    --font-size: var(--text-lg);
+    --padding: 0 var(--space-4);
+    --border-radius: var(--radius-lg);
+}

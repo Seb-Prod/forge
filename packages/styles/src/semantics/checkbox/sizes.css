@@ -1,0 +1,9 @@
+[data-role="checkbox"][data-size="sm"]{
+    --size:var(--height-4);
+}
+[data-role="checkbox"][data-size="md"]{
+    --size:var(--height-5);
+}
+[data-role="checkbox"][data-size="lg"]{
+    --size:var(--height-6);
+}

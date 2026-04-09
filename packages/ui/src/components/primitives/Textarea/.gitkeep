@@ -1,0 +1,7 @@
+Textarea
+Description :
+Champ texte multi-lignes, redimensionnable ou fixe.
+
+À faire :
+	•	Props : value, defaultValue, onChange, rows, placeholder, disabled
+	•	Demo avec resize et maxLength

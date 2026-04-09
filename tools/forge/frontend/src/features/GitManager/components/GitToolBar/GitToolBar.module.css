@@ -1,0 +1,38 @@
+.toolBar {
+  justify-content: space-between;
+}
+
+.info {
+  align-items: center;
+}
+
+.title {
+  color: #f05032;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Toggle + compteur alignés horizontalement */
+.autoRefreshWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.autoRefreshWrapper .iconToggle {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.autoRefreshWrapper .refreshTimer {
+  font-size: 0.8rem;
+  color: #666;
+  white-space: nowrap;
+}

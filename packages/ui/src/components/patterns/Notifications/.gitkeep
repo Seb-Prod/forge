@@ -1,0 +1,7 @@
+Notifications / Toast
+Description :
+Messages éphémères avec auto-close.
+
+À faire :
+	•	Props : message, type, duration
+	•	Demo avec plusieurs toasts

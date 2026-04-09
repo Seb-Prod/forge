@@ -1,0 +1,173 @@
+/* ==================================================
+   NAVBAR COMPONENT
+   ================================================== */
+
+/* ==================================================
+   BASE NAVBAR (WEB)
+   ================================================== */
+
+.navbar {
+  /* Layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  min-height: 1rem;
+  
+  /* Appearance */
+  background-color: var(--surface-elevated);
+  border-bottom: 1px solid var(--color-border-default);
+  box-shadow: var(--shadow-sm);
+  
+  /* Interaction */
+  transition: height 0.3s ease;
+}
+
+.navbar > button {
+  margin-left: auto;
+  margin-right: var(--space-2);
+}
+
+/* ==================================================
+   NAVBAR MOBILE (PWA)
+   ================================================== */
+
+.navbarMobile {
+  /* Layout */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: var(--space-2);
+  
+  /* Spacing */
+  padding: var(--space-3) var(--space-4);
+  
+  /* Appearance */
+  background-color: var(--surface-elevated);
+  border-top: 1px solid var(--color-border-default);
+}
+
+/* ==================================================
+   ICONS (PWA MOBILE)
+   ================================================== */
+
+.icons {
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  
+  /* Typography */
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  text-align: center;
+}
+
+.icons > svg {
+  width: 22px;
+  height: 22px;
+  font-size: 22px;
+}
+
+/* ==================================================
+   LINKS SECTION
+   ================================================== */
+
+.links {
+  /* Layout */
+  display: flex;
+  gap: var(--space-4);
+  
+  /* Position */
+  margin-left: auto;
+  margin-right: var(--space-2);
+}
+
+.menuLabel {
+  /* Typography */
+  color: var(--text-primary);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  
+  /* Appearance */
+  opacity: 0.6;
+  
+  /* Spacing */
+  margin-bottom: var(--space-4);
+}
+
+/* ==================================================
+   MENU OPEN STATE (MOBILE WEB)
+   ================================================== */
+
+.navbar.menuOpen {
+  /* Position */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  
+  /* Layout */
+  height: 100vh;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  
+  /* Appearance */
+  border-bottom: none;
+}
+
+/* ==================================================
+   RESPONSIVE DESIGN
+   ================================================== */
+
+/* Mobile Web (jusqu'à 768px) */
+@media (max-width: 768px) {
+  .links {
+    /* Position */
+    position: fixed;
+    inset: 0;
+    
+    /* Layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    
+    /* Initial state (hidden) */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-10px);
+    
+    /* Transition */
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease,
+      visibility 0.3s;
+  }
+  
+  /* Menu open state */
+  .navbar.menuOpen .links {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+}
+
+/* ==================================================
+   REDUCED MOTION
+   ================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar,
+  .links {
+    transition: none;
+  }
+}

@@ -1,0 +1,7 @@
+Logo
+Description :
+Affiche le logo de l’app avec texte. Supporte plusieurs variants (compact, full).
+
+À faire :
+	•	Props : src, text, variant, size
+	•	Demo avec tous les variants

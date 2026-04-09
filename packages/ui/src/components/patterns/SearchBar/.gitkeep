@@ -1,0 +1,7 @@
+SearchBar
+Description :
+Champ de recherche avec icône.
+
+À faire :
+	•	Props : value, onChange, placeholder
+	•	Demo avec recherche en temps réel

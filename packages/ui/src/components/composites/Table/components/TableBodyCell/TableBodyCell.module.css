@@ -1,0 +1,23 @@
+.td {
+  padding: 0;
+}
+
+.inner {
+  background: var(--bg-row);
+  padding: 10px 14px;
+  border-radius: 10px;
+
+  transition: 0.2s;
+}
+
+/* Zebra */
+[data-zebra="true"] tr:nth-child(even) .inner {
+  background: var(--bg-row-zebra);
+}
+
+/* GRID */
+[data-grid="true"] .inner {
+  border: 1px solid var(--grid);
+}
+
+

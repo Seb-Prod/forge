@@ -1,0 +1,52 @@
+/* ==================================================
+   BRAND TOKENS
+   ================================================== */
+
+:root {
+
+  /* ==================================================
+     Primary
+     ================================================== */
+  --brand-primary-50: #fff7ed;
+  --brand-primary-100: #ffedd5;
+  --brand-primary-200: #fed7aa;
+  --brand-primary-300: #fdba74;
+  --brand-primary-400: #fb923c;
+  --brand-primary-500: #f97316;
+  --brand-primary-600: #ea580c;
+  --brand-primary-700: #c2410c;
+  --brand-primary-800: #9a3412;
+  --brand-primary-900: #431407;
+  --brand-primary-500-rgb: 249, 115, 22;
+
+  /* ==================================================
+   Secondary - Violet Prune
+   ================================================== */
+  --brand-secondary-50: #faf5ff;
+  --brand-secondary-100: #f3e8ff;
+  --brand-secondary-200: #e9d5ff;
+  --brand-secondary-300: #d8b4fe;
+  --brand-secondary-400: #c084fc;
+  --brand-secondary-500: #a855f7;
+  --brand-secondary-600: #9333ea;
+  --brand-secondary-700: #7e22ce;
+  --brand-secondary-800: #6b21a8;
+  --brand-secondary-900: #581c87;
+  --brand-secondary-500-rgb: 168, 85, 247;
+
+  /* ==================================================
+     Accent
+     ================================================== */
+
+  --brand-accent-50: #f8fafc;
+  --brand-accent-100: #f1f5f9;
+  --brand-accent-200: #e2e8f0;
+  --brand-accent-300: #cbd5e1;
+  --brand-accent-400: #94a3b8;
+  --brand-accent-500: #64748b;
+  --brand-accent-600: #475569;
+  --brand-accent-700: #334155;
+  --brand-accent-800: #1e293b;
+  --brand-accent-900: #0f172a;
+  --brand-accent-500-rgb: 100, 116, 139;
+}

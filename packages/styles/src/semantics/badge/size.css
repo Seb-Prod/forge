@@ -1,0 +1,27 @@
+[data-role="badge"][data-size="sm"] {
+    --height: 22px;
+    --dot-size: 5px;
+    --icon-size: 16px;
+    --font-size: var(--text-sm);
+    --border-radius: var(--radius-sm);
+}
+
+[data-role="badge"][data-size="md"] {
+    --height: 26px;
+    --dot-size: 6px;
+    --icon-size: 18px;
+    --font-size: var(--text-md);
+    --border-radius: var(--radius-md);
+}
+
+[data-role="badge"][data-size="lg"] {
+    --height: 30px;
+    --dot-size: 7px;
+    --icon-size: 20px;
+    --font-size: var(--text-lg);
+    --border-radius: var(--radius-md);
+}
+
+[data-role="badge"][data-variant="pill"] {
+  --border-radius: 999px;
+}

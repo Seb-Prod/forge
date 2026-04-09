@@ -1,0 +1,7 @@
+Sidebar
+Description :
+Barre latérale pour navigation ou outils.
+
+À faire :
+	•	Props : items, collapsible, width
+	•	Demo avec sidebar ouverte / fermée

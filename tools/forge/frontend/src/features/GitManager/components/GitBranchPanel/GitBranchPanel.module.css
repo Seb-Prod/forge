@@ -1,0 +1,10 @@
+.container {
+  position: relative;
+  display: inline-block;
+  flex-direction: column;
+}
+
+.button {
+  margin: 8px;
+  margin-left: auto;
+}

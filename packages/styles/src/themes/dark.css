@@ -1,0 +1,49 @@
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        /* === SURFACE === */
+        /* --surface-page: rgb(42, 36, 28);
+        --surface-base: rgb(58, 52, 44);
+        --surface-elevated: rgb(72, 65, 56); */
+
+        /* === NEUTRAL === */
+        /* --gray-50: rgb(42, 36, 28);
+        --gray-100: rgb(58, 52, 44);
+        --gray-200: rgb(72, 65, 56);
+        --gray-300: rgb(95, 88, 78);
+        --gray-400: rgb(120, 112, 100);
+        --gray-500: rgb(155, 145, 130);
+        --gray-600: rgb(185, 175, 160);
+        --gray-700: rgb(215, 205, 190);
+        --gray-800: rgb(235, 228, 215);
+        --gray-900: rgb(250, 245, 233); */
+
+        /* === BRAND === */
+        /* --brand-primary-50: rgb(35, 38, 30);
+        --brand-primary-100: rgb(50, 54, 40);
+        --brand-primary-200: rgb(75, 80, 55);
+        --brand-primary-300: rgb(163, 173, 109);
+        --brand-primary-400: rgb(185, 195, 135);
+        --brand-primary-500: rgb(132, 141, 76); */
+        /* Couleur Olive de base ajustée */
+        /* --brand-primary-600: rgb(160, 170, 100); */
+        /* Plus clair pour le hover en dark mode */
+        /* --brand-primary-700: rgb(180, 190, 120); */
+
+        /* Accent */
+        /* --brand-accent-50: rgb(45, 35, 36); */
+        /* Très sombre, pour des fonds de cartes */
+        /* --brand-accent-100: rgb(65, 48, 49);
+        --brand-accent-200: rgb(95, 65, 68);
+        --brand-accent-300: rgb(135, 75, 82);
+        --brand-accent-400: rgb(165, 82, 90);
+        --brand-accent-500: rgb(190, 90, 99); */
+        /* Couleur de base (Action) */
+        /* --brand-accent-600: rgb(210, 110, 120); */
+        /* Hover */
+        /* --brand-accent-700: rgb(225, 135, 145);
+        --brand-accent-800: rgb(240, 170, 180);
+        --brand-accent-900: rgb(250, 210, 215); */
+
+        
+    }
+}

@@ -1,0 +1,7 @@
+ScrollArea
+Description :
+Conteneur scrollable stylisé.
+
+À faire :
+	•	Props : children, height, width
+	•	Demo scroll vertical et horizontal

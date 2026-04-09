@@ -1,0 +1,7 @@
+FocusTrap
+Description :
+Gère le focus à l’intérieur d’un composant (ex : modals).
+
+À faire :
+	•	Props : active, children
+	•	Demo avec modal focus trap

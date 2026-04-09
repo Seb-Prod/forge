@@ -1,0 +1,5 @@
+[data-role="status"][data-tone] {
+    --bg: var(--tone-500);
+    --border: var(--tone-600);
+    --hover: var(--tone-100);
+}

@@ -1,0 +1,193 @@
+/* ==================================================
+   SWITCH COMPONENT
+   ================================================== */
+
+/* ==================================================
+   BASE SWITCH
+   ================================================== */
+
+.switch {
+  /* Tokens par défaut */
+  --switch-bg: var(--gray-400);
+  --switch-thumb: var(--gray-200);
+  --switch-border: var(--gray-400);
+
+  --switch-active-bg: var(--tone-bg, var(--color-cta-primary));
+  --switch-active-thumb: var(--tone-text, var(--color-cta-primary-text));
+
+  /* Tokens de taille */
+  --switch-width: 42px;
+  --switch-height: 22px;
+  --switch-thumb-size: 16px;
+  --switch-thumb-offset: 2px;
+  --switch-thumb-translate: 20px;
+
+  /* Internal */
+  --_bg: var(--switch-bg);
+  --_thumb: var(--switch-thumb);
+  --_border: var(--switch-border);
+  --_active-bg: var(--switch-active-bg);
+  --_active-thumb: var(--switch-active-thumb);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.switchLabel {
+  color: var(--text-primary, currentColor);
+}
+
+.hiddenInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.switchSlider {
+  position: relative;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  background-color: var(--_bg);
+  border: solid 1px var(--_border);
+  border-radius: calc(var(--switch-height) / 2);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+/* Le rond du switch */
+.switchSlider::before {
+  position: absolute;
+  content: "";
+  height: var(--switch-thumb-size);
+  width: var(--switch-thumb-size);
+  left: var(--switch-thumb-offset);
+  bottom: var(--switch-thumb-offset);
+  background-color: var(--_thumb);
+  border-radius: 50%;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* ==================================================
+   SIZES
+   ================================================== */
+
+.switch--sm {
+  --switch-width: 32px;
+  --switch-height: 18px;
+  --switch-thumb-size: 12px;
+  --switch-thumb-offset: 2px;
+  --switch-thumb-translate: 14px;
+  gap: var(--space-1);
+  font-size: 0.875rem;
+}
+
+.switch--lg {
+  --switch-width: 52px;
+  --switch-height: 28px;
+  --switch-thumb-size: 22px;
+  --switch-thumb-offset: 2px;
+  --switch-thumb-translate: 24px;
+  gap: var(--space-3);
+  font-size: 1.125rem;
+}
+
+/* ==================================================
+   APPEARANCE — OUTLINE
+   ================================================== */
+
+.switch[data-appearance="outline"] {
+  --_bg: transparent;
+  --_border: var(--switch-border);
+}
+
+/* ==================================================
+   INTERACTION STATES — FILLED (default)
+   ================================================== */
+
+.switch:not([data-appearance]) .hiddenInput:checked+.switchSlider {
+  background: var(--_active-bg);
+  border-color: var(--_active-bg);
+}
+
+.switch:not([data-appearance]) .hiddenInput:checked+.switchSlider::before {
+  transform: translateX(var(--switch-thumb-translate));
+  background: var(--_active-thumb);
+}
+
+.switch:not([data-appearance]):not([data-disabled]):hover .switchSlider {
+  filter: brightness(1.05);
+}
+
+.switch:not([data-appearance]) .hiddenInput:focus-visible+.switchSlider {
+  outline: 2px solid var(--_active-bg);
+  outline-offset: 2px;
+}
+
+/* ==================================================
+   INTERACTION STATES — OUTLINE
+   ================================================== */
+
+/* État actif (pendant le clic/appui) */
+.switch:active:not([data-disabled]) .switchSlider::before {
+  width: calc(var(--switch-thumb-size) + 4px); /* On l'étire */
+}
+
+/* Si coché, on décale la position vers la gauche pour compenser l'étirement */
+.switch:active:not([data-disabled]) .hiddenInput:checked + .switchSlider::before {
+  /* On réduit la translation de la même valeur que l'ajout de largeur (ou une partie) */
+  transform: translateX(calc(var(--switch-thumb-translate) - 4px));
+}
+
+.switch[data-appearance="outline"] .hiddenInput:checked+.switchSlider {
+  background: transparent;
+  border-color: var(--_active-bg);
+}
+
+.switch[data-appearance="outline"] .hiddenInput:checked+.switchSlider::before {
+  transform: translateX(var(--switch-thumb-translate));
+  background: var(--_active-bg);
+}
+
+.switch[data-appearance="outline"]:not([data-disabled]):hover .switchSlider {
+  border-color: var(--_active-bg);
+}
+
+.switch[data-appearance="outline"] .hiddenInput:focus-visible+.switchSlider {
+  outline: 2px solid var(--_active-bg);
+  outline-offset: 2px;
+}
+
+/* ==================================================
+   ACCESSIBILITY
+   ================================================== */
+
+.switch[data-disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.switch[data-disabled] .switchSlider {
+  pointer-events: none;
+}
+
+/* Préférence de mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+
+  .switchSlider,
+  .switchSlider::before {
+    transition: none;
+  }
+}
+
+/* Mode contraste élevé */
+@media (prefers-contrast: more) {
+  .switchSlider {
+    border-width: 2px;
+  }
+}

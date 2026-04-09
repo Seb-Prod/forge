@@ -1,0 +1,7 @@
+Portal
+Description :
+Permet de rendre un composant en dehors du DOM parent pour modals, tooltips.
+
+À faire :
+	•	Props : children, container
+	•	Demo avec modal ou tooltip

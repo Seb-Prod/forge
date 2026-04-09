@@ -1,0 +1,295 @@
+/* ==================================================
+   DEVICE INFO COMPONENT
+   ================================================== */
+
+/* ==================================================
+   HEADER BADGE
+   ================================================== */
+
+.headerBadge {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  
+  /* Spacing */
+  padding: var(--space-2) var(--space-3);
+  
+  /* Appearance */
+  background: linear-gradient(
+    135deg, 
+    var(--color-cta-info), 
+    var(--color-cta-info-hover)
+  );
+  color: var(--color-cta-info-text);
+  border-radius: var(--radius-full, 9999px);
+  
+  /* Typography */
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  
+  /* Shadow */
+  box-shadow: var(--shadow-sm);
+}
+
+/* ==================================================
+   FOOTER
+   ================================================== */
+
+.footer {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.footerText {
+  /* Typography */
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  font-style: italic;
+}
+
+/* ==================================================
+   INFO GRID
+   ================================================== */
+
+.infoGrid {
+  /* Layout */
+  display: grid;
+  gap: var(--space-4);
+  
+  /* Grid columns */
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .infoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .infoGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ==================================================
+   INFO ITEM
+   ================================================== */
+
+.infoItem {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  
+  /* Spacing */
+  padding: var(--space-4);
+  
+  /* Appearance */
+  background-color: var(--color-surface-secondary, rgba(0, 0, 0, 0.02));
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle, var(--color-border-default));
+  
+  /* Interaction */
+  transition: 
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.infoItem:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background-color: var(--color-surface-hover, rgba(0, 0, 0, 0.04));
+}
+
+/* ==================================================
+   ICON WRAPPER
+   ================================================== */
+
+.iconWrapper {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  
+  /* Size */
+  width: 48px;
+  height: 48px;
+  
+  /* Appearance */
+  background: linear-gradient(
+    135deg, 
+    var(--color-cta-info), 
+    var(--color-cta-info-hover)
+  );
+  border-radius: var(--radius-md);
+  color: var(--color-cta-info-text);
+  box-shadow: var(--shadow-sm);
+  
+  /* Icon size */
+  font-size: 24px;
+  
+  /* Animation */
+  transition: transform 0.2s ease;
+}
+
+.infoItem:hover .iconWrapper {
+  transform: scale(1.05);
+}
+
+.orientationLandscape {
+  transform: rotate(90deg);
+  transition: transform 0.2s ease;
+}
+
+/* ==================================================
+   CONTENT
+   ================================================== */
+
+.content {
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+  min-width: 0; /* Allow text truncation */
+}
+
+.label {
+  /* Typography */
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+.value {
+  /* Typography */
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  line-height: 1.2;
+  
+  /* Text overflow */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ==================================================
+   RESPONSIVE DESIGN
+   ================================================== */
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .headerBadge {
+    padding: var(--space-1) var(--space-2);
+    font-size: 0.625rem;
+  }
+  
+  .headerBadge span {
+    display: none;
+  }
+  
+  .iconWrapper {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+  
+  .label {
+    font-size: 0.625rem;
+  }
+  
+  .value {
+    font-size: var(--text-md);
+  }
+  
+  .footerText {
+    font-size: var(--text-xs);
+    text-align: center;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .infoItem {
+    padding: var(--space-4);
+  }
+}
+
+/* Desktop adjustments */
+@media (min-width: 1024px) {
+  .infoItem {
+    padding: var(--space-5);
+  }
+  
+  .iconWrapper {
+    width: 56px;
+    height: 56px;
+    font-size: 28px;
+  }
+}
+
+/* ==================================================
+   DARK MODE SUPPORT
+   ================================================== */
+
+@media (prefers-color-scheme: dark) {
+  .infoItem {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .infoItem:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .iconWrapper {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+/* ==================================================
+   REDUCED MOTION
+   ================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .infoItem,
+  .iconWrapper,
+  .headerBadge {
+    transition: none;
+  }
+  
+  .infoItem:hover {
+    transform: none;
+  }
+  
+  .infoItem:hover .iconWrapper {
+    transform: none;
+  }
+}
+
+/* ==================================================
+   HIGH CONTRAST MODE
+   ================================================== */
+
+@media (prefers-contrast: high) {
+  .infoItem {
+    border-width: 2px;
+  }
+  
+  .headerBadge {
+    border: 2px solid currentColor;
+  }
+}

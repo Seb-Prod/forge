@@ -1,0 +1,7 @@
+Tabs
+Description :
+Onglets pour naviguer entre panels.
+
+À faire :
+	•	Props : tabs, defaultActive, onChange
+	•	Demo avec plusieurs tabs

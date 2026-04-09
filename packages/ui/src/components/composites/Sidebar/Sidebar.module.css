@@ -1,0 +1,16 @@
+.sidebar {
+    width: 100%;
+}
+
+.sidebar ul {
+    padding: 0;
+    width: 100%;
+}
+
+.sidebar li {
+    padding: var(--space-1) var(--space-8);
+}
+
+.link{
+    width: 100%;
+}

@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["vite/client", "react-dom"],
+    "baseUrl": ".",
+    "paths": {
+      "@workspace/ui": ["../../packages/ui/src/index.ts"],
+      "@workspace/ui/*": ["../../packages/ui/src/*"],
+
+      "@workspace/ui/components": ["../../packages/ui/src/components/index.ts"],
+      "@workspace/ui/constants": ["../../packages/ui/src/constants/index.ts"],
+      "@workspace/ui/contexts": ["../../packages/ui/src/contexts/index.ts"],
+      "@workspace/ui/features": ["../../packages/ui/src/features/index.ts"],
+      "@workspace/ui/functions": ["../../packages/ui/src/functions/index.ts"],
+      "@workspace/ui/helpers" : ["../../packages/ui/src/helpers/index.ts"],
+      "@workspace/ui/hooks": ["../../packages/ui/src/hooks/index.ts"],
+      "@workspace/ui/layouts": ["../../packages/ui/src/layouts/index.ts"],
+      "@workspace/ui/pages": ["../../packages/ui/src/pages/index.ts"],
+      "@workspace/ui/types": ["../../packages/ui/src/types/index.ts"],
+      "@workspace/ui/router": ["../../packages/ui/src/router/index.ts"],
+      "@workspace/ui/utils": ["../../packages/ui/src/utils/index.ts"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

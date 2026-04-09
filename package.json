@@ -1,0 +1,31 @@
+{
+  "name": "forge",
+  "version": "1.0.0",
+  "description": "Monorepo pnpm React/Express/MySQL",
+  "scripts": {
+        "forge": "concurrently -k -n \"BACKEND,FRONTEND\" -c \"blue,green\" \"pnpm --filter forge-backend dev\" \"pnpm --filter forge-frontend dev\"",
+
+    "forge1": "node tools/forge/start-all.mjs",
+    "dev": "pnpm --filter @forge/control-page dev",
+    "start-control": "pnpm --filter @forge/control-page dev",
+    "start-backend": "pnpm --filter @forge/backend dev",
+    "start-frontend": "pnpm --filter @forge/frontend dev",
+    "full-dev": "concurrently \"pnpm start-backend\" \"pnpm start-frontend\"",
+    "db:start": "docker compose up -d",
+    "db:stop": "docker compose down",
+    "db:restart": "docker compose restart",
+    "db:logs": "docker compose logs -f mysql",
+    "db:shell": "docker exec -it menu_zen_mysql mysql -uroot -proot menu_zen2",
+    "db:clean": "docker compose down -v"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-spawn": "^7.0.6",
+    "ts-node-dev": "^2.0.0",
+    "vite": "^7.3.1"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "open": "^11.0.0"
+  }
+}

@@ -1,0 +1,3 @@
+.{{nameLower}} {
+    background: red;
+}

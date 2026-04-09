@@ -1,0 +1,7 @@
+ResizablePanel
+Description :
+Panel dont la taille peut être ajustée par l’utilisateur.
+
+À faire :
+	•	Props : minHeight, maxHeight, children
+	•	Demo avec resize vertical

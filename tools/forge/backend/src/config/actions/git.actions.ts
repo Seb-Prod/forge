@@ -1,0 +1,60 @@
+import { Action } from "../../types/action.types";
+
+export const GENERATOR_GIT: Action[] = [
+  {
+    id: "git-status",
+    name: "Git Status",
+    description: "Liste les fichiers modifiés, supprimés et non suivis",
+    category: "git",
+    script: "git/git-status.js",
+    allowMultiple: true,
+  },
+  {
+    id: "git-branch-tree",
+    name: "Git Branch Tree (local et remote)",
+    description: "Récupère l'arborescence des branches et commits locaux et distant",
+    category: "git",
+    script: "git/git-branch-tree.js",
+    allowMultiple: false,
+  },
+  {
+    id: "git-branch-tree-local",
+    name: "Git Branch Tree (local)",
+    description: "Récupère l'arborescence des branches et commits locaux",
+    category: "git",
+    script: "git/git-branch-tree-local.js",
+    allowMultiple: false,
+  },
+  {
+    id: "git-branch-tree-remote",
+    name: "Git Branch Tree (remote)",
+    description: "Synchronise les branches distantes via git fetch",
+    category: "git",
+    script: "git/git-branch-tree-remote.js",
+    allowMultiple: false,
+  },
+  {
+    id: "git-delete-branch",
+    name: "Git Delete",
+    description: "Suppression d'une branche",
+    category: "git",
+    script: "git/git-delete-branch.js",
+    allowMultiple: false,
+  },
+  {
+    id: "git-create-branch",
+    name: "Git Create Branch",
+    description: "Création d'une nouvelle branche",
+    category: "git",
+    script: "git/git-create-branch.js",
+    allowMultiple: false,
+  },
+  {
+    id: "git-commit",
+    name: "Git Commit",
+    description: "Ajoutes les fichiers aux staging et effectue le commit",
+    category: "git",
+    script: "git/git-commit.js",
+    allowMultiple: false,
+  },
+];

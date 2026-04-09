@@ -1,0 +1,58 @@
+[data-background="base"] {
+  --surface-bg: var(--surface-base);
+}
+
+[data-background="raised"] {
+  --surface-bg: var(--surface-elevated);
+}
+
+[data-background="overlay"] {
+  --surface-bg: var(--white);
+}
+
+[data-background="muted"] {
+  --surface-bg: var(--muted-100);
+}
+
+[data-background="inverted"] {
+  --surface-bg: var(--neutral-100);
+}
+
+[data-background="primary"] {
+  --surface-bg: var(--brand-primary-100)
+}
+
+[data-background="secondary"] {
+  --surface-bg: var(--brand-secondary-100)
+}
+
+[data-background="neutral"] {
+  --surface-bg: var(--neutral-100)
+}
+
+[data-background="success"] {
+  --surface-bg: var(--success-100)
+}
+
+[data-background="danger"] {
+  --surface-bg: var(--danger-100)
+}
+
+[data-background="warning"] {
+  --surface-bg: var(--warning-100)
+}
+
+[data-background="info"] {
+  --surface-bg: var(--info-100)
+}
+
+
+
+[data-role="table"] {
+  --bg-header: var(--tone-700);
+  --text-header: var(--tone-100);
+  --grid: var(--tone-400);
+  --bg-row: var(--tone-200);
+  --bg-row-zebra: var(--tone-300);
+  --bg-row-hover: var(--tone-100);
+}

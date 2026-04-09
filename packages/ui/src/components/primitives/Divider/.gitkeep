@@ -1,0 +1,7 @@
+Divider
+Description :
+Ligne séparatrice horizontale ou verticale.
+
+À faire :
+	•	Props : orientation, thickness, color
+	•	Demo avec horizontal et vertical

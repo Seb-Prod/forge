@@ -1,6 +1,7 @@
 export * from "./Box";
 export * from "./IconToggle";
 export * from "./Modal";
+export * from "./Radio";
 export * from "./Text";
 
 export * from "./Badge";

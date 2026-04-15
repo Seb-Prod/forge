@@ -17,26 +17,44 @@ const execGit = require("../core/execGit");
  * stageFiles(cli, "/home/user/my-repo", ["src/index.js", "README.md"]);
  */
 function stageFiles(cli, gitRoot, files) {
-  // Avertissement si la liste est vide — probablement une erreur en amont
   if (files.length === 0) {
-    cli.pushError("No files to stage");
-    return;
+    return {
+      success: false,
+      error: "No files to stage",
+      staged: [],
+      failed: [],
+    };
   }
 
-  // Indexe chaque fichier individuellement pour isoler les erreurs par fichier
+  const staged = [];
+  const failed = [];
+
   files.forEach((file) => {
     try {
       execGit(cli, `git add -- ${file}`, {
         cwd: gitRoot,
         errorMessage: `Failed to stage file: ${file}`,
       });
+
+      staged.push(file);
+
     } catch (err) {
-      // Une erreur sur un fichier n'interrompt pas le staging des suivants
-      cli.pushError(`Could not stage "${file}": ${err.message}`, true);
+      failed.push({
+        file,
+        error: err.message,
+      });
+
+      cli.pushError(`Could not stage "${file}": ${err.message}`);
     }
   });
 
-  cli.log(`📦 ${files.length} file(s) staged`);
+  cli.log(`📦 ${staged.length}/${files.length} file(s) staged`);
+
+  return {
+    success: failed.length === 0,
+    staged,
+    failed,
+  };
 }
 
 module.exports = stageFiles;

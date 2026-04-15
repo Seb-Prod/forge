@@ -40,7 +40,12 @@ function main() {
     throw new Error("Files must be a non-empty array");
   }
 
-  git.stageFiles(gitRoot, filesToStage);
+  const stageResult = git.stageFiles(gitRoot, filesToStage);
+
+  if (!stageResult.success) {
+    // 👉 choix métier
+    throw new Error(`${stageResult.failed.length} file(s) failed to stage`);
+  }
   git.commitChanges(gitRoot, commitMessage);
   git.pushBranch(gitRoot, currentBranch);
 }
@@ -54,7 +59,6 @@ function main() {
       branch: currentBranch,
       result: true,
     });
-
   } catch (error) {
     cli.pushError(error.message);
 

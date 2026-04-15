@@ -1,75 +1,55 @@
 #!/usr/bin/env node
 
-const { execSync } = require('child_process');
-const path = require('path');
-const fs = require('fs');
-const os = require('os');
+/**
+ * @file git-remote-branches.js
+ * Script CLI pour lister les branches Git locales et distantes (avec fetch)
+ */
 
-const args = process.argv.slice(2);
-const silent = args.includes('--silent');
-const targetPath = args.find(arg => !arg.startsWith('--')) || '';
-const resolved = path.resolve(path.join(__dirname, '../../../', targetPath));
+const { createCLIContext } = require("../utils/cli");
+const { clearConsole } = require("../utils/console");
+const { printLogo } = require("../utils/logo");
+const { createGitUtils } = require("./utils");
 
-function log(...args) {
-  if (!silent) console.log(...args);
-}
+// Initialisation du contexte CLI (args, logs, gestion erreurs)
+const cli = createCLIContext(process.argv);
 
-log(`🌐 Fetching REMOTE git branches in: ${resolved}\n`);
+// Initialisation des utilitaires Git liés au CLI
+const git = createGitUtils(cli);
 
-try {
-  // 🔄 Sync remote refs
-  try {
-    execSync('git fetch --prune', {
-      cwd: resolved,
-      encoding: 'utf-8',
-    });
-    log('🔄 Remote refs synced');
-  } catch {
-    log('⚠️ git fetch failed (offline?), continuing...');
-  }
+// Nettoyage console + affichage du logo (optionnel selon flags)
+clearConsole(cli.args);
+printLogo(cli.log, cli.silent);
 
-  // 🌿 Local branches
-  const localBranchesRaw = execSync(
-    'git branch --format="%(refname:short)"',
-    { cwd: resolved, encoding: 'utf-8' }
-  ).trim().split('\n').filter(Boolean);
+// Résolution du répertoire courant (géré par le CLI)
+const cwd = cli.resolveCwd();
 
-  // 🌐 Remote branches
-  const remoteBranchesRaw = execSync(
-    'git branch -r --format="%(refname:short)"',
-    { cwd: resolved, encoding: 'utf-8' }
-  ).trim().split('\n').filter(b => b && !b.includes('HEAD'));
+// Détection de la racine du dépôt Git
+const gitRoot = git.resolveGitRoot(cwd);
 
-  const localSet  = new Set(localBranchesRaw);
-  const remoteSet = new Set(remoteBranchesRaw.map(b => b.replace('origin/', '')));
+// Stop si pas dans un dépôt Git
+if (!gitRoot) cli.exitWithResult({});
 
-  // 🌿 Branches list enrichie local + remote
-  const allNames = new Set([...localSet, ...remoteSet]);
+// Synchronisation des refs distantes (non bloquant si offline)
+git.fetchRemote(gitRoot);
 
-  const branches = Array.from(allNames).map(name => ({
-    name,
-    local:  localSet.has(name),
-    remote: remoteSet.has(name),
-  }));
+// Liste des branches locales et distantes
+const localBranches  = git.getLocalBranches(gitRoot);
+const remoteBranches = git.getRemoteBranches(gitRoot);
 
-  // ===============================
+const localSet  = new Set(localBranches);
+const remoteSet = new Set(remoteBranches.map((b) => b.replace("origin/", "")));
 
-  const result = { branches };
+// Construction de la liste enrichie (local + remote)
+const allNames = new Set([...localSet, ...remoteSet]);
 
-  const outFile = path.join(os.tmpdir(), 'git-tree-remote-' + process.pid + '.json');
-  fs.writeFileSync(outFile, JSON.stringify(result, null, 2));
+const branches = Array.from(allNames).map((name) => ({
+  name,
+  local:  localSet.has(name),
+  remote: remoteSet.has(name),
+}));
 
-  log('🌐 ' + remoteSet.size + ' branches remote détectées');
-  log('🌿 ' + localSet.size + ' branches locales');
-  log('__OUTPUT_FILE__:' + outFile);
+cli.log(`🌐 ${remoteSet.size} branches remote détectées`);
+cli.log(`🌿 ${localSet.size} branches locales`);
 
-  if (silent) console.log('__OUTPUT_FILE__:' + outFile);
-
-  process.exit(0);
-} catch (error) {
-  if (!silent) {
-    console.error('❌ Failed to fetch remote branches');
-    if (error.stderr) console.error(error.stderr.toString());
-  }
-  process.exit(1);
-}
+// Sortie finale standardisée (toujours appelée)
+cli.exitWithResult({ branches });

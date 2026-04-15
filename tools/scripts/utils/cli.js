@@ -1,33 +1,64 @@
+const { createSafeExec } = require("./safeExec");
+
 const path = require("path");
 const os = require("os");
 const fs = require("fs");
 
 /**
- * Crée un contexte CLI encapsulant les arguments du processus et des utilitaires associés.
+ * Crée un contexte CLI (args, logs, erreurs, utilitaires).
  *
- * @param {string[]} processArgs - Tableau d'arguments CLI (ex: process.argv.slice(2))
- * @returns {{ args, silent, getArgValue, log, resolveCwd, writeOutputFile }}
+ * @param {string[]} processArgs - ex: process.argv
  *
  * @example
- * const ctx = createCLIContext(process.argv.slice(2));
- * const env = ctx.getArgValue("--env") ?? "development";
- * ctx.log("Environnement :", env);
+ * const cli = createCLIContext(process.argv);
+ * const env = cli.getArgValue("--env");
+ * if (!env) cli.pushError("Missing --env");
+ * if (cli.hasFatalError) cli.exitWithResult("run", { success: false });
  */
-function createCLIContext(processArgs) {
+function createCLIContext(processArgs, commandName = "unknown-command") {
   const args = processArgs;
   const silent = args.includes("--silent");
 
+  const state = {
+    messages: [],
+    hasFatalError: false,
+  };
+
+  const safeExec = createSafeExec(state);
+
   /**
-   * Retourne la valeur qui suit un flag nommé dans les args.
+   * Enregistre une erreur dans les messages.
    *
-   * @param {string} flag - Le flag à rechercher (ex: "--env")
-   * @returns {string|null} La valeur suivante, ou null si absente ou si c'est un flag
+   * @param {string} message
+   * @param {boolean} [fatal=true] - Si true, bloque la suite du script
+   */
+  function pushError(message, fatal = true) {
+    state.messages.push(message);
+    if (fatal) state.hasFatalError = true;
+  }
+
+  /**
+   * Écrit le fichier de sortie et termine le process.
+   *
+   * @param {object} data - Données à sérialiser
+   */
+  function exitWithResult(data) {
+    log(state.messages)
+    writeOutputFile(commandName, { ...data, messages: state.messages });
+    process.exit(state.hasFatalError ? 1 : 0);
+  }
+
+  /**
+   * Retourne la valeur qui suit un flag dans les args.
+   *
+   * @param {string} flag - ex: "--env"
+   * @returns {string | null}
    *
    * @example
    * // args: ["--env", "prod", "--silent"]
-   * getArgValue("--env"); // → "prod"
-   * getArgValue("--silent"); // → null (pas de valeur après)
-   * getArgValue("--missing"); // → null
+   * getArgValue("--env")    // → "prod"
+   * getArgValue("--silent") // → null
+   * getArgValue("--missing")// → null
    */
   function getArgValue(flag) {
     const index = args.indexOf(flag);
@@ -38,9 +69,9 @@ function createCLIContext(processArgs) {
   }
 
   /**
-   * Écrit un message sur stdout, sauf si le mode silencieux est actif.
+   * Écrit sur stdout, sauf en mode silencieux.
    *
-   * @param {...*} messages - Valeurs à afficher, jointes par un espace
+   * @param {...any} messages
    */
   function log(...messages) {
     if (!silent) process.stdout.write(messages.join(" ") + "\n");
@@ -56,21 +87,14 @@ function createCLIContext(processArgs) {
   }
 
   /**
-   * Sérialise `data` en JSON et l'écrit dans un fichier temporaire.
-   * Émet `__OUTPUT_FILE__:{chemin}` sur stdout pour signaler l'emplacement.
+   * Sérialise `data` en JSON dans un fichier temporaire et émet son chemin sur stdout.
    *
-   * Le nom du fichier inclut le PID du processus pour éviter les collisions
-   * lors d'exécutions parallèles : `{prefix}-{pid}.json`
-   *
-   * @param {string} prefix - Préfixe du nom de fichier (ex: "run", "output")
-   * @param {*} data - Données à sérialiser (doit être compatible JSON)
+   * @param {string} prefix - Préfixe du nom de fichier (ex: "git-commit")
+   * @param {any} data
    * @returns {string} Chemin absolu du fichier créé
    */
   function writeOutputFile(prefix, data) {
-    const outFile = path.join(
-      os.tmpdir(),
-      `${prefix}-${process.pid}.json`
-    );
+    const outFile = path.join(os.tmpdir(), `${prefix}-${process.pid}.json`);
 
     fs.writeFileSync(outFile, JSON.stringify(data, null, 2));
 
@@ -83,15 +107,35 @@ function createCLIContext(processArgs) {
     return outFile;
   }
 
+  /**
+   * Parse une string JSON en valeur JS.
+   * Enregistre une erreur fatale si le parsing échoue.
+   *
+   * @param {string} value - String JSON à parser
+   * @param {string} [errorMessage="Invalid JSON argument"]
+   * @returns {any | null}
+   */
+  function parseJSONArg(value, errorMessage = "Invalid JSON argument") {
+    return safeExec(() => JSON.parse(value), errorMessage);
+  }
+
   return {
-    /** @type {string[]} Référence au tableau d'arguments passé à la factory */
+    /** @type {string[]} */
     args,
-    /** @type {boolean} True si --silent est présent dans les args */
+    /** @type {boolean} */
     silent,
+    /** @type {boolean} */
+    get hasFatalError() { return state.hasFatalError; },
+    /** @type {string[]} */
+    get messages() { return state.messages; },
     getArgValue,
     log,
     resolveCwd,
     writeOutputFile,
+    safeExec,
+    pushError,
+    exitWithResult,
+    parseJSONArg,
   };
 }
 

@@ -1,14 +1,10 @@
 // GitContext.types.ts
 import type { GitStatus } from "../GitManager.types";
-import type { GitBranchTree } from "../types/types";
+import type { Branch, CommitNode, GitBranchTree } from "../types/types";
 
 export type GitContextType = {
   gitData: GitStatus | null;
   gitTree: GitBranchTree | null;
-
-  // localRemaining: number;
-  // remoteRemaining: number;
-  // statusRemaining: number;
 
   localEnabled:     boolean;
   remoteEnabled:    boolean;
@@ -20,6 +16,11 @@ export type GitContextType = {
   handleStatus: () => Promise<void>;
   handleLocalTree: () => Promise<void>;
   handleRemoteTree: () => Promise<void>;
+
+  mergedBranches: Branch[];
+
+  currentBranch: string
+  currentBranchCommits: CommitNode[];
 
   hasModifications: boolean;
 };

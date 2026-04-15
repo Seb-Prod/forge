@@ -1,7 +1,9 @@
 export * from "./Box";
+export * from "./Divider";
 export * from "./IconToggle";
 export * from "./Modal";
 export * from "./Text";
+export * from "./Title";
 
 export * from "./Badge";
 export * from "./Button";

@@ -1,15 +1,7 @@
 import { Text } from "@workspace/ui";
+import { COMMIT_TYPE_LIST, SCOPE_LIST } from "../../constants/commits";
 
-const TYPES = ["feature", "fix", "docs", "refactor"];
 
-const SCOPES = [
-  "appFrontend",
-  "appBackend",
-  "packagesFunction",
-  "packagesStyles",
-  "packagesUi",
-  "ForgeToll",
-];
 
 /**
  * Props du composant `BranchNamingFields`.
@@ -107,8 +99,10 @@ export const BranchNamingFields = ({
           onChange={(e) => onTypeChange(e.target.value)}
           disabled={isLoading}
         >
-          {TYPES.map((t) => (
-            <option key={t} value={t}>{t}</option>
+          {COMMIT_TYPE_LIST.map((t) => (
+            <option key={t} value={t}>
+              {t}
+            </option>
           ))}
         </select>
       </div>
@@ -121,8 +115,10 @@ export const BranchNamingFields = ({
           onChange={(e) => onScopeChange(e.target.value)}
           disabled={isLoading}
         >
-          {SCOPES.map((s) => (
-            <option key={s} value={s}>{s}</option>
+          {SCOPE_LIST.map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
           ))}
         </select>
       </div>

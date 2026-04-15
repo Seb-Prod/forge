@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import type { Branch } from "../../GitBranchPanel";
+
 import { getColor } from "@/features/GitManager/constants/branchColors";
 import styles from "./BranchPaths.module.css";
+import type { Branch } from "@/features/GitManager/types/types";
 
 interface BranchPathsProps {
   branches: Branch[];

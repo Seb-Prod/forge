@@ -2,7 +2,6 @@ import { useMemo, type ReactNode } from "react";
 import { useGitActions } from "../hooks/useGitActions";
 import { useGitRefresh } from "../hooks/useGitRefresh";
 import { GitContext } from "./GitContext";
-// import { useGitCountdown } from "../hooks/useGitCountdown";
 
 export const GitProvider = ({ children }: { children: ReactNode }) => {
   const { gitData, gitTree, handleStatus, handleLocalTree, handleRemoteTree } =
@@ -21,43 +20,63 @@ export const GitProvider = ({ children }: { children: ReactNode }) => {
     handleStatus,
   });
 
-  // const { localRemaining, remoteRemaining, statusRemaining } = useGitCountdown({
-  //   local: localEnabled,
-  //   remote: remoteEnabled,
-  //   status: statusEnabled,
-  // });
-
-  /**
-   * Calcule si le repo a des modifications (modifié ou supprimé)
-   * @type {boolean}
-   */
+  /** True si le repo contient des fichiers modifiés ou supprimés */
   const hasModifications = useMemo(() => {
     if (!gitData) return false;
-
     return Boolean(
       (gitData.modified?.length ?? 0) > 0 || (gitData.deleted?.length ?? 0) > 0,
     );
   }, [gitData]);
 
+  /** Branches enrichies avec les infos local/remote */
+  const mergedBranches = useMemo(() => {
+    if (!gitTree) return [];
+    return gitTree.branchTree.map((branch) => {
+      const info = gitTree.branches.find((b) => b.name === branch.name);
+      return {
+        ...branch,
+        local: info?.local ?? false,
+        remote: info?.remote ?? false,
+      };
+    });
+  }, [gitTree]);
+
   return (
     <GitContext.Provider
-      value={{
-        gitData,
-        gitTree,
-        localEnabled,
-        setLocalEnabled,
-        remoteEnabled,
-        setRemoteEnabled,
-        statusEnabled,
-        setStatusEnabled,
-        handleStatus,
-        handleLocalTree,
-        handleRemoteTree,
-        // localRemaining,
-        // remoteRemaining,
-        // statusRemaining,
-        hasModifications,
-      }}
+      value={useMemo(
+        () => ({
+          gitData,
+          gitTree,
+          localEnabled,
+          setLocalEnabled,
+          remoteEnabled,
+          setRemoteEnabled,
+          statusEnabled,
+          setStatusEnabled,
+          handleStatus,
+          handleLocalTree,
+          handleRemoteTree,
+          hasModifications,
+          mergedBranches,
+          currentBranch: gitTree?.currentBranch ?? "",
+          currentBranchCommits: gitTree?.currentBranchCommits ?? [],
+        }),
+        [
+          gitData,
+          gitTree,
+          localEnabled,
+          setLocalEnabled,
+          remoteEnabled,
+          setRemoteEnabled,
+          statusEnabled,
+          setStatusEnabled,
+          hasModifications,
+          mergedBranches,
+          handleStatus,
+          handleLocalTree,
+          handleRemoteTree,
+        ],
+      )}
     >
       {children}
     </GitContext.Provider>

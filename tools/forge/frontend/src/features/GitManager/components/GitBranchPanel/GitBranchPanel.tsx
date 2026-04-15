@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import styles from "./GitBranchPanel.module.css";
 import { BranchPaths, BranchTree } from "./components";
-import { Box, Button, ConfirmDialog, Text } from "@workspace/ui";
+import { Button, ConfirmDialog, Text } from "@workspace/ui";
 import { LuGitBranchPlus } from "react-icons/lu";
 import { useGit } from "../../context/useGit";
 import { runAction } from "@/services/api";
@@ -11,18 +11,6 @@ type Checkout = {
   messages: string[];
   result: boolean;
 };
-
-export type Branch = {
-  name: string;
-  parent: string | null;
-  local: boolean;
-  remote: boolean;
-};
-
-interface GitBranchPanelProps {
-  branches: Branch[];
-  currentBranch: string;
-}
 
 type ActiveModal = "create" | "result" | null;
 
@@ -37,10 +25,9 @@ type ActiveModal = "create" | "result" | null;
  * - Changement de branche.
  * - Création d'une nouvelle branche depuis la branche active.
  */
-export const GitBranchPanel = ({
-  branches,
-  currentBranch,
-}: GitBranchPanelProps) => {
+export const GitBranchPanel = () => {
+  const { mergedBranches, currentBranch } = useGit();
+
   const containerRef = useRef<HTMLDivElement>(null);
   const { hasModifications } = useGit();
 
@@ -70,12 +57,7 @@ export const GitBranchPanel = ({
   };
 
   return (
-    <Box
-      surface="base"
-      shadow="md"
-      radius="md"
-      border="xs"
-      margin="none"
+    <div
       className={styles.container}
       ref={containerRef}
     >
@@ -90,8 +72,8 @@ export const GitBranchPanel = ({
         >
           Créer une branche
         </Button>
-        <BranchPaths branches={branches} containerRef={containerRef} />
-        <BranchTree branches={branches} currentBranch={currentBranch} />
+        <BranchPaths branches={mergedBranches} containerRef={containerRef} />
+        <BranchTree branches={mergedBranches} currentBranch={currentBranch} />
         {hasModifications && (
           <Text tone="warning" size="xs">
             ⚠️ Impossible de créer ou de changer de branche tant que des
@@ -123,6 +105,6 @@ export const GitBranchPanel = ({
         onConfirm={() => setActiveModal(null)}
         hideCancel
       />
-    </Box>
+    </div>
   );
 };

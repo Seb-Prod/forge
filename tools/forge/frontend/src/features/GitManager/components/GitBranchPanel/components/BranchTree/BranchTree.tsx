@@ -1,11 +1,11 @@
 import type { JSX } from "react";
-import type { Branch } from "../../GitBranchPanel";
 import { BranchNode } from "../BranchNode";
 import { useGit } from "@/features/GitManager/context/useGit";
+import type { Branch } from "@/features/GitManager/types/types";
 
 interface BranchTreeProps {
   branches: Branch[];
-  currentBranch: string;
+  currentBranch: string | undefined;
   parent?: string | null;
   depth?: number;
 }

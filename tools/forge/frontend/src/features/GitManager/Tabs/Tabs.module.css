@@ -1,0 +1,29 @@
+.wrapper {
+  width: 100%; /* 🔥 IMPORTANT */
+  display: flex;
+  flex-direction: column;
+}
+
+.tabs {
+  background: #eeeeee30;
+  display: flex;
+  border-radius: 20px 20px 0px 0px;
+  overflow: hidden;
+}
+
+.tab {
+  padding: 10px;
+  border: none;
+  background: #eeeeee30;
+  cursor: pointer;
+  text-align: center;
+}
+
+.tabActive {
+  background: #333;
+  color: white;
+}
+
+.content {
+  width: 100%; /* 🔥 IMPORTANT */
+}

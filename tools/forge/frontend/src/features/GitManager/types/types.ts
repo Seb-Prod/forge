@@ -22,6 +22,7 @@ export type GitBranchTreeLocal = {
   branches: { name: string; local: boolean; remote: boolean }[];
   nodes: CommitNode[];
   edges: GitEdge[];
+  currentBranchCommits : CommitNode[];
 };
 
 export type GitBranchTreeRemote = {

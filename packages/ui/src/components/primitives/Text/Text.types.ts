@@ -1,33 +1,31 @@
-import { TextAlign, TextDecoration, TextSize, TextTransform, TextWeight, Tone, ToneIntensity } from "@workspace/ui/constants";
+import { TextAlign, TextDecoration, TextLineHeight, TextSize, TextTransform, TextWeight, Tone, ToneIntensity } from "@workspace/ui/constants";
 import { TextTag } from "@workspace/ui/constants/ui/text/textTag";
 import { Color } from "@workspace/ui/types";
 import { ReactNode } from "react";
 
-// ─────────────────────────────────────────────
-// Enums / Constantes
-// ─────────────────────────────────────────────
-
-
-
-
 /**
  * Props du composant Text.
- *
- * @see README.md pour la documentation complète et les exemples
  */
 export interface TextProps {
   // 🎨 Apparence
   tone?:Tone;
   intensity?:ToneIntensity;
   color?: Color;
+
   size?: TextSize;
   weight?: TextWeight;
+  lineHeight?: TextLineHeight;
+
   align?: TextAlign;
   transform?: TextTransform;
   decoration?: TextDecoration;
+
   italic?: boolean;
   truncate?: boolean;
   lineClamp?: number;
+
+  // 🚀 Variante
+  variant?: "body" | "caption" | "label" | "title";
 
   // // 🏷 Sémantique
   as?: TextTag;

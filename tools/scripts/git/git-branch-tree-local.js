@@ -1,199 +1,226 @@
 #!/usr/bin/env node
 
-const { execSync } = require("child_process");
-const path = require("path");
-const fs = require("fs");
-const os = require("os");
+/**
+ * @file git-local-tree.js
+ * Script CLI pour construire l'arbre Git local avec les commits par branche
+ */
 
-const args = process.argv.slice(2);
-const silent = args.includes("--silent");
-const targetPath = args.find((arg) => !arg.startsWith("--")) || "";
-const resolved = path.resolve(path.join(__dirname, "../../../", targetPath));
+const { createCLIContext } = require("../utils/cli");
+const { clearConsole } = require("../utils/console");
+const { printLogo } = require("../utils/logo");
+const { createGitUtils } = require("./utils")
 
-function log(...args) {
-  if (!silent) console.log(...args);
-}
+// CLI init
+const cli = createCLIContext(process.argv);
+const git = createGitUtils(cli);
 
-log(`🌳 Building LOCAL git tree in: ${resolved}\n`);
+// UI
+clearConsole(cli.args);
+printLogo(cli.log, cli.silent);
 
-try {
-  const currentBranch = execSync("git branch --show-current", {
-    cwd: resolved,
-    encoding: "utf-8",
-  }).trim();
+// cwd
+const cwd = cli.resolveCwd();
 
-  // 🌿 Local branches
-  const localBranchesRaw = execSync('git branch --format="%(refname:short)"', {
-    cwd: resolved,
-    encoding: "utf-8",
-  })
-    .trim()
-    .split("\n")
-    .filter(Boolean);
 
-  // 🌐 Remote branches (déjà fetchées par le script remote, on lit juste les refs locales)
-  const remoteBranchesRaw = execSync(
-    'git branch -r --format="%(refname:short)"',
-    { cwd: resolved, encoding: "utf-8" },
-  )
-    .trim()
-    .split("\n")
-    .filter((b) => b && !b.includes("HEAD"));
+// ─────────────────────────────────────────────────────────────
+// PARSE GIT LOG
+// ─────────────────────────────────────────────────────────────
 
-  const localSet = new Set(localBranchesRaw);
-  const remoteSet = new Set(
-    remoteBranchesRaw.map((b) => b.replace("origin/", "")),
-  );
-
-  // 📜 Git log complet (--all pour voir toutes les branches)
-  const raw = execSync('git log --pretty=format:"%H|%P|%d|%s" --all', {
-    cwd: resolved,
-    encoding: "utf-8",
-    maxBuffer: 1024 * 1024 * 10,
-  });
-
+function parseGitLog(raw) {
   const nodes = {};
   const edges = [];
 
   raw.split("\n").forEach((line) => {
-    const [hash, parents, refs, message] = line.split("|");
-    const parentList = parents ? parents.trim().split(" ").filter(Boolean) : [];
+    const [hash, parents, refs, ...messageParts] = line.split("|");
+    if (!hash) return;
+
+    const parentList = parents
+      ? parents.trim().split(" ").filter(Boolean)
+      : [];
+
+    const refList = refs
+      ? refs
+          .replace(/[()]/g, "")
+          .split(",")
+          .map((r) => r.trim())
+          .filter(Boolean)
+      : [];
 
     nodes[hash] = {
       id: hash,
-      message,
-      refs: refs ? refs.replace(/[()]/g, "").split(", ").filter(Boolean) : [],
+      message: messageParts.join("|"),
+      refs: refList,
       parents: parentList,
     };
 
-    parentList.forEach((parent) => {
-      edges.push({ from: hash, to: parent });
-    });
+    parentList.forEach((p) => edges.push({ from: hash, to: p }));
   });
 
-  // 🔥 Branch heads
+  return { nodes, edges };
+}
+
+
+// ─────────────────────────────────────────────────────────────
+// HEAD + BRANCHES EXTRACTION
+// ─────────────────────────────────────────────────────────────
+
+function extractBranchHeads(nodes) {
   const branchHeads = {};
+  const localHeads = new Set();
 
-  Object.values(nodes).forEach((node) => {
-    node.refs.forEach((ref) => {
-      if (!ref || ref.includes("HEAD")) return;
+  for (const node of Object.values(nodes)) {
+    for (const ref of node.refs) {
+      if (!ref) continue;
 
-      const clean = ref.replace("origin/", "").trim();
-      if (!localSet.has(clean) && !remoteSet.has(clean)) return;
-
-      // log("📋 localSet:", [...localSet]);
-      // log("📋 remoteSet:", [...remoteSet]);
-      // log("📋 branchHeads:", branchHeads);
-
-      const isRemote = ref.startsWith("origin/");
-      if (!branchHeads[clean]) {
-        branchHeads[clean] = node.id;
-      } else if (!isRemote) {
-        // Local écrase remote
-        branchHeads[clean] = node.id;
-      }
-    });
-  });
-
-  for (const branch of localSet) {
-    if (!branchHeads[branch]) {
-      try {
-        const hash = execSync(`git rev-parse "refs/heads/${branch}"`, {
-          cwd: resolved,
-          encoding: "utf-8",
-        }).trim();
-        branchHeads[branch] = hash;
-        log(`🔧 Branch head resolved via rev-parse: ${branch} → ${hash}`);
-      } catch {
-        log(`⚠️ Could not resolve head for branch: ${branch}`);
-      }
-    }
-  }
-
-  // 🌿 Branches list
-  const branches = Object.keys(branchHeads).map((name) => ({
-    name,
-    local: localSet.has(name),
-    remote: remoteSet.has(name),
-  }));
-
-  // 🚀 BUILD TREE (BFS)
-  const commitToBranches = {};
-  Object.entries(branchHeads).forEach(([branch, head]) => {
-    if (!commitToBranches[head]) commitToBranches[head] = [];
-    commitToBranches[head].push(branch);
-  });
-
-  const nodeMap = {};
-  Object.values(nodes).forEach((n) => {
-    nodeMap[n.id] = n;
-  });
-
-  function findParentBranch(startCommit, currentBranch) {
-    // 🔥 Branches sœurs = celles qui pointent sur le même commit de départ
-    const siblingBranches = new Set(commitToBranches[startCommit] ?? []);
-
-    const visited = new Set();
-    const queue = [startCommit];
-    let isFirst = true;
-    let i = 0;
-
-    while (i < queue.length) {
-      const commit = queue[i++];
-      if (!commit || visited.has(commit)) continue;
-      visited.add(commit);
-
-      if (!isFirst) {
-        const branchesHere = commitToBranches[commit];
-        if (branchesHere) {
-          // 🔥 Exclure les branches sœurs (même commit de départ)
-          const parent = branchesHere.find(
-            (b) => b !== currentBranch && !siblingBranches.has(b),
-          );
-          if (parent) return parent;
+      // HEAD -> branch
+      if (ref.startsWith("HEAD ->")) {
+        const branch = ref.split("->")[1]?.trim();
+        if (branch) {
+          branchHeads[branch] = node.id;
+          localHeads.add(branch);
         }
       }
 
-      isFirst = false;
+      // local branch
+      if (!ref.startsWith("origin/") && !ref.includes("HEAD")) {
+        branchHeads[ref] = node.id;
+        localHeads.add(ref);
+      }
 
-      const node = nodeMap[commit];
-      if (node?.parents) queue.push(...node.parents);
+      // remote fallback
+      if (ref.startsWith("origin/")) {
+        const clean = ref.replace("origin/", "").trim();
+        if (!localHeads.has(clean) && !branchHeads[clean]) {
+          branchHeads[clean] = node.id;
+        }
+      }
+    }
+  }
+
+  return branchHeads;
+}
+
+
+// ─────────────────────────────────────────────────────────────
+// COMMIT CHAIN (Git-like first parent)
+// ─────────────────────────────────────────────────────────────
+
+function getCommitChain(headId, nodeMap, stopId = null) {
+  const commits = [];
+  const visited = new Set();
+
+  let current = headId;
+
+  while (current && !visited.has(current)) {
+    visited.add(current);
+
+    if (current === stopId) break;
+
+    const node = nodeMap[current];
+    if (!node) break;
+
+    commits.push(node);
+
+    // Git-style traversal
+    current = node.parents?.[0];
+  }
+
+  return commits;
+}
+
+
+// ─────────────────────────────────────────────────────────────
+// BRANCH TREE (simple & stable)
+// ─────────────────────────────────────────────────────────────
+
+function buildBranchTree(branchHeads, nodeMap) {
+  return Object.entries(branchHeads).map(([branch, head]) => {
+    let current = nodeMap[head];
+    let parentBranch = null;
+
+    const visited = new Set();
+
+    while (current && !visited.has(current.id)) {
+      visited.add(current.id);
+
+      for (const ref of current.refs) {
+        if (!ref || ref === branch) continue;
+
+        if (!ref.startsWith("origin/") && !ref.includes("HEAD")) {
+          parentBranch = ref;
+          break;
+        }
+      }
+
+      if (parentBranch) break;
+
+      const parentId = current.parents?.[0];
+      current = nodeMap[parentId];
     }
 
-    return null;
-  }
-
-  const branchTree = Object.keys(branchHeads).map((branch) => ({
-    name: branch,
-    parent: findParentBranch(branchHeads[branch], branch),
-  }));
-
-  const result = {
-    currentBranch,
-    branches,
-    branchTree,
-    nodes: Object.values(nodes),
-    edges,
-  };
-
-  const outFile = path.join(
-    os.tmpdir(),
-    "git-tree-local-" + process.pid + ".json",
-  );
-  fs.writeFileSync(outFile, JSON.stringify(result, null, 2));
-
-  log("✅ " + result.nodes.length + " commits");
-  log("🌿 Branche courante: " + currentBranch);
-  log("🌳 " + branchTree.length + " branches structurées");
-  log("__OUTPUT_FILE__:" + outFile);
-
-  if (silent) console.log("__OUTPUT_FILE__:" + outFile);
-
-  process.exit(0);
-} catch (error) {
-  if (!silent) {
-    console.error("❌ Failed to build local git tree");
-    if (error.stderr) console.error(error.stderr.toString());
-  }
-  process.exit(1);
+    return {
+      name: branch,
+      parent: parentBranch,
+    };
+  });
 }
+
+
+// ─────────────────────────────────────────────────────────────
+// MAIN
+// ─────────────────────────────────────────────────────────────
+
+const gitRoot = git.resolveGitRoot(cwd);
+if (!gitRoot) cli.exitWithResult({});
+
+const currentBranch = git.getCurrentBranch(gitRoot);
+if (!currentBranch) cli.exitWithResult({});
+
+const rawLog = git.getGitLog(gitRoot);
+if (!rawLog) cli.exitWithResult({});
+
+const { nodes, edges } = parseGitLog(rawLog);
+
+const branchHeads = extractBranchHeads(nodes);
+if (!Object.keys(branchHeads).length) {
+  cli.exitWithResult({});
+}
+
+const branchTree = buildBranchTree(branchHeads, nodes);
+
+const commitsByBranch = Object.fromEntries(
+  Object.entries(branchHeads).map(([branch, head]) => {
+    const parent = branchTree.find((b) => b.name === branch)?.parent;
+    const parentHead = parent ? branchHeads[parent] : null;
+
+    return [
+      branch,
+      getCommitChain(head, nodes, parentHead),
+    ];
+  })
+);
+
+const currentBranchCommits = commitsByBranch[currentBranch] ?? [];
+
+
+// ─────────────────────────────────────────────────────────────
+// OUTPUT
+// ─────────────────────────────────────────────────────────────
+
+cli.log(`✅ ${Object.keys(nodes).length} commits`);
+cli.log(`🌿 Current branch: ${currentBranch}`);
+cli.log(`🌳 ${branchTree.length} branches structurées`);
+
+cli.exitWithResult({
+  currentBranch,
+  branches: Object.keys(branchHeads).map((name) => ({
+    name,
+    local: true,
+    remote: false,
+  })),
+  branchTree,
+  nodes: Object.values(nodes),
+  edges,
+  commitsByBranch,
+  currentBranchCommits,
+});

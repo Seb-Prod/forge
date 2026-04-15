@@ -17,7 +17,7 @@
 const { execSync } = require("child_process");
 const { createCLIContext } = require("../utils/cli");
 const { clearConsole } = require("../utils/console");
-const { printLogo } = require("../utils/logo");
+const { printLogo } = require("./utils");
 
 const cli = createCLIContext(process.argv);
 
@@ -81,7 +81,13 @@ if (isClean && messages.length === 0) {
         stdio: "inherit",
       });
 
-      cli.log(`🌿 Branch '${branchName}' created`);
+      // 👉 Push direct avec upstream
+      execSync(`git push -u origin ${branchName}`, {
+        cwd,
+        stdio: "inherit",
+      });
+
+      cli.log(`🚀 Branch '${branchName}' created and linked to origin`);
     }
   } catch (err) {
     messages.push("Branch creation failed: " + err.message);

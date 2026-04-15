@@ -1,20 +1,31 @@
-import { useEffect, useState } from "react";
-import { LOCAL_REFRESH_INTERVAL, REMOTE_REFRESH_INTERVAL, STATUS_REFRESH_INTERVAL } from "./useGitActions";
+import { useEffect, useRef, useState } from "react";
+import {
+  LOCAL_REFRESH_INTERVAL,
+  REMOTE_REFRESH_INTERVAL,
+  STATUS_REFRESH_INTERVAL,
+} from "./useGitActions";
 
 type Handlers = {
-  handleLocalTree:  () => Promise<void>;
+  handleLocalTree: () => Promise<void>;
   handleRemoteTree: () => Promise<void>;
-  handleStatus:     () => Promise<void>;
+  handleStatus: () => Promise<void>;
 };
 
 export const useGitRefresh = ({
-  handleLocalTree, handleRemoteTree, handleStatus,
+  handleLocalTree,
+  handleRemoteTree,
+  handleStatus,
 }: Handlers) => {
-  const [localEnabled,  setLocalEnabled]  = useState(true);
+  const [localEnabled, setLocalEnabled] = useState(true);
   const [remoteEnabled, setRemoteEnabled] = useState(true);
   const [statusEnabled, setStatusEnabled] = useState(true);
 
+  const initializedRef = useRef(false);
+
   useEffect(() => {
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+
     handleLocalTree();
     handleRemoteTree();
     handleStatus();
@@ -39,8 +50,11 @@ export const useGitRefresh = ({
   }, [statusEnabled, handleStatus]);
 
   return {
-    localEnabled,  setLocalEnabled,
-    remoteEnabled, setRemoteEnabled,
-    statusEnabled, setStatusEnabled,
+    localEnabled,
+    setLocalEnabled,
+    remoteEnabled,
+    setRemoteEnabled,
+    statusEnabled,
+    setStatusEnabled,
   };
 };

@@ -40,6 +40,16 @@ export const TEXT_SIZES = {
     label: "3X Large",
     description: "Texte de grande titre.",
   },
+  "4xl": {
+    value: "--text-4xl",
+    label: "4X Large",
+    description: "Texte de très grande titre.",
+  },
+  "5xl": {
+    value: "--text-5xl",
+    label: "4X Large",
+    description: "Texte de très grande titre.",
+  },
 } as const satisfies Record<string, UIConstant<string>>;
 
 /**

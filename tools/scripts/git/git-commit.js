@@ -70,7 +70,7 @@ if (cli.hasFatalError)
   cli.exitWithResult({ branch: currentBranch, result: false });
 
 // Push de la branche courante vers le remote
-git.pushBranch(cli, gitRoot, currentBranch);
+git.pushBranch(gitRoot, currentBranch);
 
 // Sortie finale standardisée (toujours appelée en fin de script)
 cli.exitWithResult({

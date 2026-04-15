@@ -32,7 +32,7 @@ function createCLIContext(processArgs, commandName = "unknown-command") {
    * @param {string} message
    * @param {boolean} [fatal=true] - Si true, bloque la suite du script
    */
-  function pushError(message, fatal = true) {
+  function pushError(message, fatal = false) {
     state.messages.push(message);
     if (fatal) state.hasFatalError = true;
   }
@@ -45,7 +45,7 @@ function createCLIContext(processArgs, commandName = "unknown-command") {
   function exitWithResult(data) {
     log(state.messages)
     writeOutputFile(commandName, { ...data, messages: state.messages });
-    process.exit(state.hasFatalError ? 1 : 0);
+    process.exit(0);
   }
 
   /**

@@ -19,7 +19,7 @@ const execGit = require("../core/execGit");
 function stageFiles(cli, gitRoot, files) {
   // Avertissement si la liste est vide — probablement une erreur en amont
   if (files.length === 0) {
-    cli.pushError("No files to stage", false);
+    cli.pushError("No files to stage");
     return;
   }
 
@@ -32,7 +32,7 @@ function stageFiles(cli, gitRoot, files) {
       });
     } catch (err) {
       // Une erreur sur un fichier n'interrompt pas le staging des suivants
-      cli.pushError(`Could not stage "${file}": ${err.message}`, false);
+      cli.pushError(`Could not stage "${file}": ${err.message}`, true);
     }
   });
 

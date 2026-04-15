@@ -14,8 +14,8 @@ interface ModalDescriptionProps {
  */
 export const ModalDescription = ({ children }: ModalDescriptionProps) => {
   return (
-    <p style={{ marginTop: 8, marginBottom: 0, fontSize: 14, opacity: 0.7 }}>
+    <div>
       {children}
-    </p>
+    </div>
   );
 };

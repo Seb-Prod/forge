@@ -39,7 +39,7 @@ function squashBranch(cli, gitRoot, baseBranch = "origin/main") {
     );
 
     if (!baseCommit) {
-      cli.pushError(`No merge-base found with "${baseBranch}"`, false);
+      cli.pushError(`No merge-base found with "${baseBranch}"`);
       return;
     }
 
@@ -58,7 +58,7 @@ function squashBranch(cli, gitRoot, baseBranch = "origin/main") {
     cli.log(`🧹 Branch squashed onto ${baseCommit} (soft reset) — ready to commit`);
   } catch (err) {
     // Une erreur ici peut laisser le repo dans un état intermédiaire
-    cli.pushError(`Squash failed: ${err.message}`, false);
+    cli.pushError(`Squash failed: ${err.message}`);
   }
 }
 

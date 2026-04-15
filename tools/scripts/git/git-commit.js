@@ -33,8 +33,8 @@ const filesArg = cli.getArgValue("--files");
 const commitMessage = cli.getArgValue("--message");
 
 // Validation des arguments requis
-if (!filesArg) cli.pushError("Missing --files argument");
-if (!commitMessage) cli.pushError("Missing --message argument");
+if (!filesArg) cli.pushError("Missing --files argument", true);
+if (!commitMessage) cli.pushError("Missing --message argument", true);
 
 // Stop immédiat si erreur fatale (arguments manquants)
 if (cli.hasFatalError)
@@ -45,15 +45,13 @@ const filesToStage = cli.parseJSONArg(filesArg, "Invalid JSON for --files");
 
 // Validation métier : doit être un tableau non vide
 if (!Array.isArray(filesToStage) || filesToStage.length === 0) {
-  cli.pushError("Files must be a non-empty array");
+  cli.pushError("Files must be a non-empty array", true);
 }
 
 // Stop si erreur après parsing
 if (cli.hasFatalError)
   cli.exitWithResult({ branch: null, result: false });
 
-console.log("filesToStage =", filesToStage);
-console.log("isArray =", Array.isArray(filesToStage));
 
 // Indexation des fichiers dans le staging area Git
 git.stageFiles(gitRoot, filesToStage);
@@ -71,6 +69,8 @@ if (cli.hasFatalError)
 
 // Push de la branche courante vers le remote
 git.pushBranch(gitRoot, currentBranch);
+
+
 
 // Sortie finale standardisée (toujours appelée en fin de script)
 cli.exitWithResult({

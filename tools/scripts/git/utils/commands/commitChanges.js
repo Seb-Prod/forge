@@ -26,7 +26,7 @@ function commitChanges(cli, gitRoot, message) {
 
   // Interrompt le processus si le staging area est vide
   if (!hasChanges.trim()) {
-    cli.pushError("Nothing to commit");
+    cli.pushError("Nothing to commit", true);
     throw new Error("Nothing to commit");
   }
 

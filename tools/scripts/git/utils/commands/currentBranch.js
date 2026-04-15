@@ -26,7 +26,7 @@ function getCurrentBranch(cli, gitRoot) {
 
   // "HEAD" indique un état detached : aucune branche n'est active
   if (branch === "HEAD") {
-    cli.pushError("Detached HEAD", false);
+    cli.pushError("Detached HEAD");
   }
 
   cli.log(`🌿 Current Branch: ${branch}`);

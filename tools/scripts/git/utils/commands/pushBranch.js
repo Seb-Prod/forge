@@ -65,7 +65,7 @@ function pushBranch(cli, gitRoot, branch, remote = "origin", force = false) {
       cli.log(`🚀 Branch pushed: ${branch} → ${remote}`);
     }
   } catch (err) {
-    cli.pushError(`Push failed: ${err.message}`, false);
+    cli.pushError(`Push failed: ${err.message}`, true);
   }
 }
 

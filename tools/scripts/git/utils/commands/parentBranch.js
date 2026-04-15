@@ -38,7 +38,7 @@ function getParentBranch(cli, gitRoot, currentBranch) {
       .filter((b) => b && b !== currentBranch);
 
     if (branches.length === 0) {
-      cli.pushError("No other branches found to determine parent", false);
+      cli.pushError("No other branches found to determine parent");
       return null;
     }
 
@@ -78,7 +78,7 @@ function getParentBranch(cli, gitRoot, currentBranch) {
     }
 
     if (!bestBranch) {
-      cli.pushError("Parent branch not found via merge-base heuristic", false);
+      cli.pushError("Parent branch not found via merge-base heuristic");
       return null;
     }
 
@@ -86,7 +86,7 @@ function getParentBranch(cli, gitRoot, currentBranch) {
     return bestBranch;
   } catch (err) {
     // Erreur fatale inattendue (ex: échec du listing des branches)
-    cli.pushError(`Failed to resolve parent branch: ${err.message}`, false);
+    cli.pushError(`Failed to resolve parent branch: ${err.message}`);
     return null;
   }
 }

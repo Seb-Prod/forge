@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Title } from "@workspace/ui";
+import { Badge, Box, Button, ConfirmDialog, Title, Text } from "@workspace/ui";
 import { useGit } from "../../context/useGit";
 import { CommitCard } from "./components/CommitCard";
 import { useState } from "react";
@@ -8,6 +8,7 @@ import { SquashCommitsForm } from "./components/SquashCommitsForm";
 type ActiveModal = "form" | "result" | null;
 
 type Form = {
+  branch: string;
   messages: string[];
   result: boolean;
 };
@@ -32,12 +33,14 @@ export const MergePreparation = () => {
         "--message",
         commitDescription,
         "--branch",
-        currentBranch
+        currentBranch,
       ]);
 
       setResult(res);
+      console.log(res)
     } catch {
       setResult({
+        branch: currentBranch,
         result: false,
         messages: ["Une erreur inattendue est survenue."],
       });
@@ -86,6 +89,8 @@ export const MergePreparation = () => {
       {/* Actions */}
       <Box flexDirection="row" gap="md" margin="none" padding="none">
         <Button
+          loading={isLoading}
+          loadingText="Squash en cours"
           tone="primary"
           appearance="outline"
           onClick={() => setActiveModal("form")}
@@ -101,6 +106,33 @@ export const MergePreparation = () => {
         onOpenChange={(open) => setActiveModal(open ? "form" : null)}
         onSubmit={handleSquash}
         isLoading={false}
+      />
+      <ConfirmDialog
+        open={activeModal === "result"}
+        onOpenChange={(open) => setActiveModal(open ? "result" : null)}
+        title={result?.result ? "Succès" : "Erreur"}
+        description={
+          result && (
+            <Box radius={"md"} padding={"none"} gap="md" surface="none">
+              <Badge>{result.branch}</Badge>
+              <Box overflow="y" maxHeight="250px" surface="inverted" radius={"md"}>
+                {result.messages?.length ? (
+                  result.messages.map((msg, index) => (
+                    <Text key={index}>{msg}</Text>
+                  ))
+                ) : result.result ? (
+                  <Text>Squash effectué avec succès</Text>
+                ) : (
+                  <Text>Une erreur est survenue</Text>
+                )}
+              </Box>
+            </Box>
+          )
+        }
+        confirmLabel="OK"
+        tone={result?.result ? "success" : "danger"}
+        onConfirm={() => setActiveModal(null)}
+        hideCancel
       />
     </Box>
   );

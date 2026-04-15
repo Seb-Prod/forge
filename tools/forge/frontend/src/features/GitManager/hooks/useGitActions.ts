@@ -36,7 +36,7 @@ export const useGitActions = () => {
     try {
       const result = await runAction<GitBranchTreeLocal>(
         "git-branch-tree-local",
-        [""],
+        ["--silent"],
       );
       setGitTree((prev) => {
         const next = { ...(prev ?? {}), ...result };
@@ -53,7 +53,7 @@ export const useGitActions = () => {
     try {
       const result = await runAction<GitBranchTreeRemote>(
         "git-branch-tree-remote",
-        [""],
+        ["--silent"],
       );
       setGitTree((prev) => {
         if (!prev) return null;

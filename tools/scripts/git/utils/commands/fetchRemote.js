@@ -24,11 +24,13 @@ function fetchRemote(cli, gitRoot) {
     errorMessage: "git fetch failed (offline?), continuing...",
   });
 
-  // Le fetch peut échouer silencieusement (réseau indisponible) :
-  // on ne confirme la sync que si execGit n'a pas retourné d'erreur
-  if (result !== null && result !== undefined) {
-    cli.log("🔄 Remote refs synced");
+  // Si execGit retourne null/undefined → erreur
+  if (result === null || result === undefined) {
+    cli.pushError("Failed to fetch remote (offline?)", false); // non bloquant
+    return;
   }
+
+  cli.log("🔄 Remote refs synced");
 }
 
 module.exports = fetchRemote;

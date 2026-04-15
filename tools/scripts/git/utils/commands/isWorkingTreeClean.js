@@ -26,7 +26,7 @@ function isWorkingTreeClean(cli, gitRoot) {
 
     // Une sortie non vide indique des fichiers modifiés ou non trackés
     if (status.length > 0) {
-      cli.pushError("Working directory is not clean", false);
+      cli.pushError("Working directory is not clean");
       return false;
     }
 
@@ -34,7 +34,7 @@ function isWorkingTreeClean(cli, gitRoot) {
     return true;
   } catch (err) {
     // Capture les erreurs inattendues d'execGit en préservant le message original
-    cli.pushError(`Failed to check working tree: ${err.message}`, false);
+    cli.pushError(`Failed to check working tree: ${err.message}`);
     return false;
   }
 }

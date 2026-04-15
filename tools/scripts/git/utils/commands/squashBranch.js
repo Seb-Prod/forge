@@ -4,7 +4,6 @@ const execGit = require("../core/execGit");
  * Squash tous les commits d'une branche en un seul
  * basé sur une branche distante (ex: origin/main)
  *
- * ⚠️ Ne fait PAS le commit final (à faire séparément)
  *
  * @param {object} cli
  * @param {string} gitRoot

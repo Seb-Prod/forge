@@ -9,6 +9,9 @@ const execGit = require("../core/execGit");
  * @throws {Error} Si l'ajout échoue
  */
 function stageFiles(cli, gitRoot, files) {
+  console.log("🔥 stageFiles RAW files =", files);
+  console.log("🔥 typeof =", typeof files);
+  console.log("🔥 isArray =", Array.isArray(files));
   files.forEach((file) => {
     execGit(cli, `git add "${file}"`, { cwd: gitRoot });
   });

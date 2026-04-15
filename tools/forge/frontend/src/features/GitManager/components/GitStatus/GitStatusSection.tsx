@@ -103,14 +103,13 @@ export const GitStatusSection = () => {
         commitDescription,
         "--files",
         JSON.stringify(selectedPaths),
-        "--clear",
-        "--branchName",
       ]);
 
       setResult(res);
 
       if (res.result) {
         setChecked({});
+        console.log(result)
       }
     } catch {
       setResult({

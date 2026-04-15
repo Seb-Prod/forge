@@ -43,7 +43,6 @@ function main() {
   const stageResult = git.stageFiles(gitRoot, filesToStage);
 
   if (!stageResult.success) {
-    // 👉 choix métier
     throw new Error(`${stageResult.failed.length} file(s) failed to stage`);
   }
   git.commitChanges(gitRoot, commitMessage);

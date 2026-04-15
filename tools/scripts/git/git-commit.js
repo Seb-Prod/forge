@@ -20,60 +20,47 @@
  *
  * @exits {branch: string|null, result: boolean}
  */
-
 const initCLI = require("./core/initCLI");
 
-const { cli, git, cwd, gitRoot, currentBranch, parentBranch } = initCLI(
+const { cli, git, gitRoot, currentBranch } = initCLI(
   process.argv,
   "git-commit",
 );
 
-// Récupération des arguments CLI
-const filesArg = cli.getArgValue("--files");
-const commitMessage = cli.getArgValue("--message");
+function main() {
+  const filesArg = cli.getArgValue("--files");
+  const commitMessage = cli.getArgValue("--message");
 
-// Validation des arguments requis
-if (!filesArg) cli.pushError("Missing --files argument", true);
-if (!commitMessage) cli.pushError("Missing --message argument", true);
+  if (!filesArg) throw new Error("Missing --files argument");
+  if (!commitMessage) throw new Error("Missing --message argument");
 
-// Stop immédiat si erreur fatale (arguments manquants)
-if (cli.hasFatalError)
-  cli.exitWithResult({ branch: null, result: false });
+  const filesToStage = cli.parseJSONArg(filesArg, "Invalid JSON for --files");
 
-// Parsing JSON des fichiers à stage
-const filesToStage = cli.parseJSONArg(filesArg, "Invalid JSON for --files");
+  if (!Array.isArray(filesToStage) || filesToStage.length === 0) {
+    throw new Error("Files must be a non-empty array");
+  }
 
-// Validation métier : doit être un tableau non vide
-if (!Array.isArray(filesToStage) || filesToStage.length === 0) {
-  cli.pushError("Files must be a non-empty array", true);
+  git.stageFiles(gitRoot, filesToStage);
+  git.commitChanges(gitRoot, commitMessage);
+  git.pushBranch(gitRoot, currentBranch);
 }
 
-// Stop si erreur après parsing
-if (cli.hasFatalError)
-  cli.exitWithResult({ branch: null, result: false });
+// Runner centralisé
+(async () => {
+  try {
+    main();
 
+    cli.exitWithResult({
+      branch: currentBranch,
+      result: true,
+    });
 
-// Indexation des fichiers dans le staging area Git
-git.stageFiles(gitRoot, filesToStage);
+  } catch (error) {
+    cli.pushError(error.message);
 
-// Stop si erreur pendant le staging (ex: fichier introuvable)
-if (cli.hasFatalError)
-  cli.exitWithResult({ branch: currentBranch, result: false });
-
-// Création du commit avec le message fourni
-git.commitChanges(gitRoot, commitMessage);
-
-// Stop si erreur pendant le commit (ex: rien à commiter)
-if (cli.hasFatalError)
-  cli.exitWithResult({ branch: currentBranch, result: false });
-
-// Push de la branche courante vers le remote
-git.pushBranch(gitRoot, currentBranch);
-
-
-
-// Sortie finale standardisée (toujours appelée en fin de script)
-cli.exitWithResult({
-  branch: currentBranch,
-  result: !cli.hasFatalError,
-});
+    cli.exitWithResult({
+      branch: currentBranch || null,
+      result: false,
+    });
+  }
+})();

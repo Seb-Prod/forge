@@ -20,7 +20,7 @@ import { Tabs } from "./Tabs";
 export const GitManager = () => {
   const [showGraph, setShowGraph] = useState(false);
 
-  const { gitData, gitTree } = useGit();
+  const { gitTree } = useGit();
 
   /**
    * Toggle graph
@@ -44,12 +44,12 @@ export const GitManager = () => {
     {
       key: "status",
       label: "Modifications",
-      content: gitData ? <GitStatusSection /> : null,
+      content: <GitStatusSection />,
     },
     {
       key: "merge",
       label: "Merge Preparation",
-      content: gitData ? <MergePreparation /> : null,
+      content: <MergePreparation />,
     },
   ] as const;
 

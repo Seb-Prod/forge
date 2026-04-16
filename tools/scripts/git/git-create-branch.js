@@ -2,102 +2,100 @@
 
 /**
  * @file git-create-branch.js
- * @description Crée une nouvelle branche Git après vérification que le working tree est propre.
+ * @description Point d'entrée CLI pour créer une nouvelle branche Git et la pousser sur le remote.
+ *
+ * Ce script est conçu pour être appelé en ligne de commande par un orchestrateur
+ * ou un pipeline externe. Il effectue dans l'ordre :
+ *   1. Validation des arguments CLI
+ *   2. Synchronisation des refs distantes (fetch --prune)
+ *   3. Vérification que le working tree est propre
+ *   4. Vérification que la branche n'existe pas déjà (local + remote)
+ *   5. Création de la branche et checkout
+ *   6. Push de la nouvelle branche sur le remote
+ *
+ * Toute erreur dans `main()` est capturée par le runner et convertie
+ * en `cli.pushError` avant une sortie standardisée.
  *
  * @usage
- *   node git-create-branch.js --branch <nom-de-branche> [--silent]
+ *   node git-create-branch.js --branch <nom-de-branche>
  *
- * @example
- *   node git-create-branch.js --branch feature/mon-feature
- *   node git-create-branch.js --branch fix/bug-123 --silent
+ * @argument {string} --branch Nom de la nouvelle branche à créer
  *
- * @output Fichier JSON via writeOutputFile("git-create-branch", { branch, isClean, messages })
+ * @exits {branch: string|null, result: boolean}
  */
 
-const { execSync } = require("child_process");
-const { createCLIContext } = require("../utils/cli");
-const { clearConsole } = require("../utils/console");
-const { printLogo } = require("./utils");
+const initCLI = require("./core/initCLI");
 
-const cli = createCLIContext(process.argv);
+const { cli, git, gitRoot, currentBranch } = initCLI(
+  process.argv,
+  "git-create-branch",
+);
 
-clearConsole(cli.args);
-printLogo(cli.log, cli.silent);
+//#region Étapes métier
 
-/** Nom de la branche à créer, fourni via --branch */
-const branchName = cli.getArgValue("--branch");
+function validateArgs() {
+  const { isValid, errors, values } = cli.validateArgs([
+    "--branch",
+  ]);
 
-if (!branchName) {
-  console.error("❌ Missing --branch argument");
-  process.exit(1);
-}
-
-const cwd = cli.resolveCwd();
-
-/** True si le working tree ne contient aucun changement non commité */
-let isClean = false;
-
-/** Accumule les erreurs ou avertissements rencontrés durant l'exécution */
-const messages = [];
-
-// — Étape 1 : vérification du working tree
-try {
-  const output = execSync("git status --porcelain", {
-    cwd,
-    encoding: "utf-8",
-  }).trim();
-
-  isClean = output === "";
-
-  if (isClean) {
-    cli.log("✅ Working tree clean");
-  } else {
-    cli.log("⚠️ Uncommitted changes:");
-    cli.log(output);
-    messages.push("Working tree not clean");
+  if (!isValid) {
+    throw new Error(errors.join(", "));
   }
-} catch (err) {
-  messages.push("Git status failed: " + err.message);
+
+  return values;
 }
 
-// — Étape 2 : vérification + création de la branche
-if (isClean && messages.length === 0) {
+function syncRemote() {
+  const result = git.fetchRemote(gitRoot);
+  if (!result.success) throw new Error(result.error);
+}
+
+function checkWorkingTree() {
+  const result = git.isWorkingTreeClean(gitRoot);
+  if (!result.success || !result.clean) throw new Error(result.error);
+}
+
+function checkBranchExists(branch) {
+  const result = git.branchExists(gitRoot, branch);
+  if (result.exists) throw new Error(`Branch '${branch}' already exists`);
+}
+
+function createBranch(branch) {
+  const result = git.checkoutNewBranch(gitRoot, branch);
+  if (!result.success) throw new Error(result.error);
+}
+
+function push(branch) {
+  const result = git.pushBranch(gitRoot, branch);
+  if (!result.success) throw new Error(result.error);
+}
+
+//#endregion
+
+//#region Orchestration
+
+function main() {
+  const { branch } = validateArgs();
+
+  syncRemote();
+  checkWorkingTree();
+  checkBranchExists(branch);
+  createBranch(branch);
+  push(branch);
+}
+
+//#endregion
+
+//#region Runner
+
+(() => {
   try {
-    // Synchronise les refs remote avant la vérification
-    execSync("git fetch --quiet", { cwd });
-
-    const branchExists =
-      execSync(
-        `git branch --all --list ${branchName} remotes/*/${branchName}`,
-        { cwd, encoding: "utf-8" },
-      ).trim() !== "";
-
-    if (branchExists) {
-      cli.log(`⚠️ Branch '${branchName}' already exists`);
-      messages.push(`Branch '${branchName}' already exists`);
-    } else {
-      execSync(`git checkout -b ${branchName}`, {
-        cwd,
-        stdio: "inherit",
-      });
-
-      // 👉 Push direct avec upstream
-      execSync(`git push -u origin ${branchName}`, {
-        cwd,
-        stdio: "inherit",
-      });
-
-      cli.log(`🚀 Branch '${branchName}' created and linked to origin`);
-    }
-  } catch (err) {
-    messages.push("Branch creation failed: " + err.message);
+    main();
+    cli.exitWithResult({ branch: currentBranch, result: true });
+  } catch (error) {
+    cli.pushError(error.message, true);
+    cli.exitWithResult({ branch: currentBranch || null, result: false });
   }
-}
+})();
 
-cli.writeOutputFile("git-create-branch", {
-  branch: branchName,
-  result: messages.length === 0,
-  messages,
-});
-
-process.exit(0);
+//#endregion

@@ -9,6 +9,8 @@ const squashBranch = require("./commands/squashBranch");
 const getParentBranch = require("./commands/parentBranch");
 const isWorkingTreeClean = require("./commands/isWorkingTreeClean");
 const pushBranch = require("./commands/pushBranch");
+const branchExists = require("./commands/branchExists");
+const checkoutNewBranch = require("./commands/checkoutNewBranch");
 
 const getLocalBranches = require("./branches/local");
 const getRemoteBranches = require("./branches/remote");
@@ -39,6 +41,8 @@ function createGitUtils(cli) {
     getRemoteBranches: (gitRoot) => getRemoteBranches(cli, gitRoot),
 
     validateBranchContext: (options) => validateBranchContext(cli, options),
+    branchExists: (gitRoot, branch) => branchExists(cli, gitRoot, branch),
+    checkoutNewBranch: (gitRoot, branch) => checkoutNewBranch(cli, gitRoot, branch)
   };
 }
 

@@ -1,42 +1,74 @@
 const execGit = require("../core/execGit");
 
 /**
- * Crée un commit Git avec les fichiers actuellement stagés.
+ * Crée un commit Git à partir des fichiers actuellement stagés.
  *
  * Vérifie au préalable qu'il existe bien des changements indexés (staged)
- * avant de lancer le commit. Lève une erreur explicite si ce n'est pas le cas.
+ * avant de lancer le commit. En cas d'erreur, le processus est contrôlé
+ * et retourne un résultat structuré plutôt que de casser brutalement.
  *
- * @param {object} cli         - Instance CLI exposant au minimum une méthode `log(message: string)`
+ * @param {object} cli         - Instance CLI exposant `log`, `pushError`
  * @param {string} gitRoot     - Chemin absolu vers la racine du dépôt Git (utilisé comme `cwd`)
  * @param {string} message     - Message du commit (sera échappé via JSON.stringify)
  *
- * @returns {void}
- *
- * @throws {Error} "Nothing to commit" — si aucun fichier n'est indexé dans le staging area
- * @throws {Error} Toute erreur remontée par `execGit` en cas d'échec de la commande Git
+ * @returns {{
+ *   success: boolean,
+ *   committed: boolean,
+ *   error?: string
+ * }} Résultat du commit :
+ *   - `success`   : `true` si le commit a été créé avec succès
+ *   - `committed` : `true` si un commit a réellement été effectué
+ *   - `error`     : message d'erreur en cas d'échec (ex: rien à commit ou erreur Git)
  *
  * @example
- * commitChanges(cli, "/home/user/my-repo", "feat: add login page");
+ * const result = commitChanges(cli, "/home/user/my-repo", "feat: add login page");
+ * if (!result.success) {
+ *   console.error(result.error);
+ * }
  */
 function commitChanges(cli, gitRoot, message) {
-  // Récupère la liste des fichiers actuellement indexés (staged)
-  const hasChanges = execGit(cli, "git diff --cached --name-only", {
-    cwd: gitRoot,
-  });
+  try {
+    // Vérifie s'il y a des fichiers stagés
+    const stagedFiles = execGit(cli, "git diff --cached --name-only", {
+      cwd: gitRoot,
+    });
 
-  // Interrompt le processus si le staging area est vide
-  if (!hasChanges.trim()) {
-    cli.pushError("Nothing to commit", true);
-    throw new Error("Nothing to commit");
+    if (!stagedFiles.trim()) {
+      const errorMsg = "Nothing to commit";
+      cli.pushError(errorMsg, false);
+
+      return {
+        success: false,
+        committed: false,
+        error: errorMsg,
+      };
+    }
+
+    // Exécute le commit
+    execGit(cli, `git commit -m ${JSON.stringify(message)}`, {
+      cwd: gitRoot,
+      stdio: "inherit",
+      errorMessage: "Failed to create commit",
+    });
+
+    cli.log("✅ Commit created");
+
+    return {
+      success: true,
+      committed: true,
+    };
+  } catch (err) {
+    // Erreur fatale du commit
+    const errorMsg = err.message;
+
+    cli.pushError(`Commit failed: ${errorMsg}`, false);
+
+    return {
+      success: false,
+      committed: false,
+      error: errorMsg,
+    };
   }
-
-  // Lance le commit avec le message fourni, en héritant du stdio pour afficher la sortie Git
-  execGit(cli, `git commit -m ${JSON.stringify(message)}`, {
-    cwd: gitRoot,
-    stdio: "inherit",
-  });
-
-  cli.log("✅ Commit created");
 }
 
 module.exports = commitChanges;

@@ -7,17 +7,26 @@ const execGit = require("../core/execGit");
  * ou contient une ligne par fichier modifié/non tracké dans le cas contraire.
  *
  * Cette vérification est **non bloquante** : les erreurs sont enregistrées
- * via `cli.pushError` avec `fatal = false` et la fonction retourne `false`.
+ * via `cli.pushError` avec `fatal = false` et la fonction retourne un résultat
+ * structuré plutôt que de casser brutalement.
  *
- * @param {object} cli     - Instance CLI exposant `safeExec`, `log` et `pushError`
+ * @param {object} cli     - Instance CLI exposant `log` et `pushError`
  * @param {string} gitRoot - Chemin absolu vers la racine du dépôt Git (utilisé comme `cwd`)
  *
- * @returns {boolean} `true` si le working tree est propre, `false` dans tous les autres cas
- *                    (modifications détectées ou erreur lors de la vérification)
+ * @returns {{
+ *   success: boolean,
+ *   clean: boolean,
+ *   error?: string
+ * }} Résultat de la vérification :
+ *   - `success` : `true` si la vérification s'est déroulée sans erreur technique
+ *   - `clean`   : `true` si le working tree est propre (aucune modification détectée)
+ *   - `error`   : message d'erreur en cas d'échec (ex: modifications détectées ou erreur Git)
  *
  * @example
- * const clean = isWorkingTreeClean(cli, "/home/user/my-repo");
- * if (!clean) process.exit(1);
+ * const result = isWorkingTreeClean(cli, "/home/user/my-repo");
+ * if (!result.clean) {
+ *   console.error(result.error);
+ * }
  */
 function isWorkingTreeClean(cli, gitRoot) {
   try {
@@ -26,16 +35,32 @@ function isWorkingTreeClean(cli, gitRoot) {
 
     // Une sortie non vide indique des fichiers modifiés ou non trackés
     if (status.length > 0) {
-      cli.pushError("Working directory is not clean");
-      return false;
+      const errorMsg = "Working directory is not clean";
+      cli.pushError(errorMsg, false);
+
+      return {
+        success: true,
+        clean: false,
+        error: errorMsg,
+      };
     }
 
     cli.log("✅ Working tree is clean");
-    return true;
+
+    return {
+      success: true,
+      clean: true,
+    };
   } catch (err) {
     // Capture les erreurs inattendues d'execGit en préservant le message original
-    cli.pushError(`Failed to check working tree: ${err.message}`);
-    return false;
+    const errorMsg = `Failed to check working tree: ${err.message}`;
+    cli.pushError(errorMsg, false);
+
+    return {
+      success: false,
+      clean: false,
+      error: errorMsg,
+    };
   }
 }
 

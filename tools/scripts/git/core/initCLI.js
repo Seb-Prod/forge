@@ -1,4 +1,4 @@
-const { createCLIContext } = require("../../utils/cli");
+const { createCLIContext } = require("../../utils/createCLIContext");
 const { clearConsole } = require("../../utils/console");
 const { printLogo } = require("../../utils/logo");
 const { createGitUtils } = require("../utils");

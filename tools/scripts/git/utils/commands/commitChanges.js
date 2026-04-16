@@ -61,7 +61,7 @@ function commitChanges(cli, gitRoot, message) {
     // Erreur fatale du commit
     const errorMsg = err.message;
 
-    cli.pushError(`Commit failed: ${errorMsg}`, false);
+    cli.log(`Commit failed: ${errorMsg}`, false);
 
     return {
       success: false,

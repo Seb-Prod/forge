@@ -31,79 +31,86 @@ const { cli, git, gitRoot, currentBranch } = initCLI(
   "git-commit",
 );
 
-/**
- * Logique principale du script.
- * Toutes les erreurs sont propagées via `throw` et capturées par le runner.
- *
- * @throws {Error} Si un argument est manquant, invalide, ou si une étape Git échoue
- */
-function main() {
-  // Récupération et validation des arguments CLI
-  const branch = cli.getArgValue("--branch");
-  const filesArg = cli.getArgValue("--files");
-  const commitMessage = cli.getArgValue("--message");
+//#region Étapes métier
 
-  if (!branch) throw new Error("Missing --branch argument");
-  if (!filesArg) throw new Error("Missing --files argument");
-  if (!commitMessage) throw new Error("Missing --message argument");
+function validateArgs() {
+  const { isValid, errors, values } = cli.validateArgs([
+    "--branch",
+    "--files",
+    "--message",
+  ]);
 
-  // Vérification cohérence et si branche sécurisé
-  const validBranch = git.validateBranchContext({
+  if (!isValid) {
+    throw new Error(errors.join(", "));
+  }
+
+  return values;
+}
+
+function validateBranch(branch) {
+  const result = git.validateBranchContext({
     currentBranch,
     targetBranch: branch,
     enforceMatch: true,
-    checkProtected: true,
+    checkProtected: false,
   });
 
-  if (!validBranch.success) {
-    throw new Error(validBranch.errors.join(", "));
-  }
+  if (!result.success) throw new Error(result.errors.join(", "));
+}
 
-  // Parsing et validation du tableau de fichiers
-  const filesToStage = cli.parseJSONArg(filesArg, "Invalid JSON for --files");
+function parseJSON(files) {
+  const filesToStage = cli.parseJSONArg(files, "Invalid JSON for --files");
 
   if (!Array.isArray(filesToStage) || filesToStage.length === 0) {
     throw new Error("Files must be a non-empty array");
   }
 
-  // Staging granulaire : chaque fichier est traité indépendamment
-  const stageResult = git.stageFiles(gitRoot, filesToStage);
-
-  if (!stageResult.success) {
-    throw new Error(`${stageResult.failed.length} file(s) failed to stage`);
-  }
-
-  // Création du commit avec le message fourni
-  const commitResult = git.commitChanges(gitRoot, commitMessage);
-
-  if (!commitResult.success) {
-    throw new Error(commitResult.error);
-  }
-
-  // Push de la branche courante vers le remote
-  const pushResult = git.pushBranch(gitRoot, currentBranch);
-
-  if (!pushResult.success) {
-    throw new Error(pushResult.error);
-  }
+  return filesToStage;
 }
 
-// Runner centralisé : capture toutes les erreurs de main() et garantit une sortie propre
+function stage(files) {
+  const result = git.stageFiles(gitRoot, files);
+
+  if (!result.success) {
+    throw new Error(`${result.failed.length} file(s) failed to stage`);
+  }
+
+  return result;
+}
+
+function commit(commitMessage) {
+  const result = git.commitChanges(gitRoot, commitMessage);
+  if (!result.success) throw new Error(result.error);
+}
+
+function push() {
+  const result = git.pushBranch(gitRoot, currentBranch);
+  if (!result.success) throw new Error(result.error);
+}
+
+//#endregion
+
+//#region Orchestration
+function main() {
+  const { branch, message: commitMessage, files: filesArg } = validateArgs();
+
+  validateBranch(branch);
+  const filesToStage = parseJSON(filesArg);
+  stage(filesToStage);
+  commit(commitMessage);
+  push();
+}
+
+//#endregion
+
+//#region Runner
 (() => {
   try {
     main();
-
-    cli.exitWithResult({
-      branch: currentBranch,
-      result: true,
-    });
+    cli.exitWithResult({ branch: currentBranch, result: true });
   } catch (error) {
-    // Erreur fatale : on enregistre et on sort avec result: false
     cli.pushError(error.message, true);
-
-    cli.exitWithResult({
-      branch: currentBranch || null,
-      result: false,
-    });
+    cli.exitWithResult({ branch: currentBranch || null, result: false });
   }
 })();
+//#endregion

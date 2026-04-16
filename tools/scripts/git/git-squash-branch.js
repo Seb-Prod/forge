@@ -26,76 +26,89 @@
 
 const initCLI = require("./core/initCLI");
 
-const { cli, git, cwd, gitRoot, currentBranch, parentBranch, PROTECTED_BRANCHES } = initCLI(
+const { cli, git, gitRoot, currentBranch, parentBranch } = initCLI(
   process.argv,
   "git-squash-branch",
 );
 
-/**
- * Logique principale du script.
- * Toutes les erreurs sont propagées via `throw` et capturées par le runner.
- *
- * @throws {Error} Si un argument est manquant, invalide, ou si une étape Git échoue
- */
-function main() {
-  // Récupération et validation des arguments CLI
-  const branch = cli.getArgValue("--branch");
-  const commitMessage = cli.getArgValue("--message");
+//#region Étapes métier
 
-  if (!branch) throw new Error("Missing --branch argument");
-  if (!commitMessage) throw new Error("Missing --message argument");
+function validateArgs() {
+  const { isValid, errors, values } = cli.validateArgs([
+    "--branch",
+    "--message",
+  ]);
 
-  // Synchronisation des refs distantes (nécessaire pour un merge-base fiable)
-  const fetchResult = git.fetchRemote(gitRoot);
-  if (!fetchResult.success) throw new Error(fetchResult.error);
+  if (!isValid) {
+    throw new Error(errors.join(", "));
+  }
 
-  // Vérification cohérence et si branche sécurisé
-  const validBranch = git.validateBranchContext({
+  return values;
+}
+
+function syncRemote() {
+  const result = git.fetchRemote(gitRoot);
+  if (!result.success) throw new Error(result.error);
+}
+
+function validateBranch(branch) {
+  const result = git.validateBranchContext({
     currentBranch,
     targetBranch: branch,
     enforceMatch: true,
     checkProtected: true,
-    protectedBranches: PROTECTED_BRANCHES,
   });
 
-  if (!validBranch.success) {
-    throw new Error(validBranch.errors.join(", "));
+  if (!result.success) throw new Error(result.errors.join(", "));
+}
+
+function checkWorkingTree() {
+  const result = git.isWorkingTreeClean(gitRoot);
+  if (!result.success || !result.clean) throw new Error(result.error);
+}
+
+function squash() {
+  if (!parentBranch)
+    throw new Error("Could not resolve parent branch — cannot squash");
+
+  const result = git.squashBranch(gitRoot, `origin/${parentBranch}`);
+  if (!result.squashed) throw new Error(result.error);
+}
+
+function commit(commitMessage) {
+  const result = git.commitChanges(gitRoot, commitMessage);
+  if (!result.success) throw new Error(result.error);
+}
+
+function push() {
+  const result = git.pushBranch(gitRoot, currentBranch, "origin", true);
+  if (!result.success) throw new Error(result.error);
+}
+//#endregion
+
+//#region Orchestration
+
+function main() {
+  const { branch, message } = validateArgs();
+
+  syncRemote();
+  validateBranch(branch);
+  checkWorkingTree();
+  squash();
+  commit(message);
+  push();
+}
+//#endregion
+
+//#region Runner
+
+(() => {
+  try {
+    main();
+    cli.exitWithResult({ branch: currentBranch, result: true });
+  } catch (error) {
+    cli.pushError(error.message, true);
+    cli.exitWithResult({ branch: currentBranch || null, result: false });
   }
-
-  
-}
-
-
-
-// Sécurité : le working tree doit être propre avant le squash
-if (!git.isWorkingTreeClean(gitRoot))
-  cli.exitWithResult({ branch: currentBranch, result: false });
-
-// Vérification : parentBranch doit être résolu pour construire la ref origin/<parent>
-if (!parentBranch) {
-  cli.pushError("Could not resolve parent branch — cannot squash");
-  cli.exitWithResult({ branch: currentBranch, result: false });
-}
-
-// Squash de tous les commits de la branche sur origin/<parentBranch>
-git.squashBranch(gitRoot, `origin/${parentBranch}`);
-
-// Stop si le squash a échoué (repo potentiellement en état intermédiaire)
-if (cli.hasFatalError)
-  cli.exitWithResult({ branch: currentBranch, result: false });
-
-// Commit unique avec le message fourni
-git.commitChanges(gitRoot, commitMessage);
-
-// Stop si le commit a échoué
-if (cli.hasFatalError)
-  cli.exitWithResult({ branch: currentBranch, result: false });
-
-// Force push sécurisé (--force-with-lease) requis après réécriture d'historique
-git.pushBranch(gitRoot, currentBranch, "origin", true);
-
-// Sortie finale standardisée (toujours appelée en fin de script)
-cli.exitWithResult({
-  branch: currentBranch,
-  result: !cli.hasFatalError,
-});
+})();
+//#endregion

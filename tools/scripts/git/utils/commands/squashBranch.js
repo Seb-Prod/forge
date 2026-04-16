@@ -12,19 +12,31 @@ const execGit = require("../core/execGit");
  * ⚠️ Cette opération **réécrit l'historique** de la branche courante.
  * Un `push --force-with-lease` sera nécessaire après le squash.
  *
- * @param {object} cli                   - Instance CLI exposant `safeExec` et `log`
- * @param {string} gitRoot               - Chemin absolu vers la racine du dépôt Git (utilisé comme `cwd`)
+ * @param {object} cli                       - Instance CLI exposant `log` et `pushError`
+ * @param {string} gitRoot                   - Chemin absolu vers la racine du dépôt Git (utilisé comme `cwd`)
  * @param {string} [baseBranch="origin/main"] - Branche de référence pour le calcul du merge-base
  *
- * @returns {void}
+ * @returns {{
+ *   success: boolean,
+ *   squashed: boolean,
+ *   baseCommit?: string,
+ *   error?: string
+ * }} Résultat du squash :
+ *   - `success`    : `true` si le squash s'est déroulé sans erreur technique
+ *   - `squashed`   : `true` si le reset --soft a bien été effectué
+ *   - `baseCommit` : hash du commit ancêtre utilisé comme base du reset (si succès)
+ *   - `error`      : message d'erreur en cas d'échec
  *
  * @example
  * // Squash par rapport à origin/main (défaut)
- * squashBranch(cli, "/home/user/my-repo");
+ * const result = squashBranch(cli, "/home/user/my-repo");
+ * if (!result.squashed) {
+ *   console.error(result.error);
+ * }
  *
  * @example
  * // Squash par rapport à une autre branche de référence
- * squashBranch(cli, "/home/user/my-repo", "origin/develop");
+ * const result = squashBranch(cli, "/home/user/my-repo", "origin/develop");
  */
 function squashBranch(cli, gitRoot, baseBranch = "origin/main") {
   try {
@@ -38,9 +50,15 @@ function squashBranch(cli, gitRoot, baseBranch = "origin/main") {
       }
     );
 
-    if (!baseCommit) {
-      cli.pushError(`No merge-base found with "${baseBranch}"`);
-      return;
+    if (!baseCommit?.trim()) {
+      const errorMsg = `No merge-base found with "${baseBranch}"`;
+      cli.pushError(errorMsg, false);
+
+      return {
+        success: true,
+        squashed: false,
+        error: errorMsg,
+      };
     }
 
     cli.log(`🔍 Merge-base found: ${baseCommit}`);
@@ -56,9 +74,22 @@ function squashBranch(cli, gitRoot, baseBranch = "origin/main") {
     );
 
     cli.log(`🧹 Branch squashed onto ${baseCommit} (soft reset) — ready to commit`);
+
+    return {
+      success: true,
+      squashed: true,
+      baseCommit: baseCommit.trim(),
+    };
   } catch (err) {
     // Une erreur ici peut laisser le repo dans un état intermédiaire
-    cli.pushError(`Squash failed: ${err.message}`);
+    const errorMsg = `Squash failed: ${err.message}`;
+    cli.pushError(errorMsg, false);
+
+    return {
+      success: false,
+      squashed: false,
+      error: errorMsg,
+    };
   }
 }
 

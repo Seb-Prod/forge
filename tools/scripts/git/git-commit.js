@@ -87,23 +87,22 @@ function push() {
   const result = git.pushBranch(gitRoot, currentBranch);
   if (!result.success) throw new Error(result.error);
 }
-
 //#endregion
 
 //#region Orchestration
-function main() {
-  const { branch, message: commitMessage, files: filesArg } = validateArgs();
 
+function main() {
+  const { branch, message, files } = validateArgs();
   validateBranch(branch);
-  const filesToStage = parseJSON(filesArg);
+  const filesToStage = parseJSON(files);
   stage(filesToStage);
-  commit(commitMessage);
+  commit(message);
   push();
 }
-
 //#endregion
 
 //#region Runner
+
 (() => {
   try {
     main();

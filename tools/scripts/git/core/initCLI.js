@@ -39,7 +39,7 @@ function initCLI(argv, commandName = "unknown-command") {
   const gitRoot = git.resolveGitRoot(cwd);
 
   // Stop si pas dans un dépôt Git
-  if (!gitRoot) cli.exitWithResult({ branch: null, result: false });
+  if (!gitRoot) cli.exitWithResult({ branch: null, result: true});
 
   // Récupération de la branche courante
   const currentBranch = git.getCurrentBranch(gitRoot);

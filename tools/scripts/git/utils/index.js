@@ -13,6 +13,8 @@ const pushBranch = require("./commands/pushBranch");
 const getLocalBranches = require("./branches/local");
 const getRemoteBranches = require("./branches/remote");
 
+const validateBranchContext = require("./helpers/validateBranchContext");
+
 function createGitUtils(cli) {
   return {
     resolveGitRoot: (cwd) => resolveGitRoot(cli, cwd),
@@ -30,11 +32,13 @@ function createGitUtils(cli) {
       currentBranch, // ← ajout
     ) => getParentBranch(cli, gitRoot, currentBranch),
     isWorkingTreeClean: (gitRoot) => isWorkingTreeClean(cli, gitRoot),
-    pushBranch: (gitRoot, branch, remote) =>
-      pushBranch(cli, gitRoot, branch, remote),
+    pushBranch: (gitRoot, branch, remote, force) =>
+      pushBranch(cli, gitRoot, branch, remote, force),
 
     getLocalBranches: (gitRoot) => getLocalBranches(cli, gitRoot),
     getRemoteBranches: (gitRoot) => getRemoteBranches(cli, gitRoot),
+
+    validateBranchContext: (options) => validateBranchContext(cli, options),
   };
 }
 

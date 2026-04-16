@@ -39,11 +39,25 @@ const { cli, git, gitRoot, currentBranch } = initCLI(
  */
 function main() {
   // Récupération et validation des arguments CLI
+  const branch = cli.getArgValue("--branch");
   const filesArg = cli.getArgValue("--files");
   const commitMessage = cli.getArgValue("--message");
 
+  if (!branch) throw new Error("Missing --branch argument");
   if (!filesArg) throw new Error("Missing --files argument");
   if (!commitMessage) throw new Error("Missing --message argument");
+
+  // Vérification cohérence et si branche sécurisé
+  const validBranch = git.validateBranchContext({
+    currentBranch,
+    targetBranch: branch,
+    enforceMatch: true,
+    checkProtected: true,
+  });
+
+  if (!validBranch.success) {
+    throw new Error(validBranch.errors.join(", "));
+  }
 
   // Parsing et validation du tableau de fichiers
   const filesToStage = cli.parseJSONArg(filesArg, "Invalid JSON for --files");

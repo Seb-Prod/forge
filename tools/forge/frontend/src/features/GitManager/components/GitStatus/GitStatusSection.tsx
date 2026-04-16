@@ -48,7 +48,7 @@ type SelectedFiles = {
  * <GitStatusSection />
  */
 export const GitStatusSection = () => {
-  const { gitData } = useGit();
+  const { gitData, currentBranch } = useGit();
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [activeModal, setActiveModal] = useState<ActiveModal>(null);
   const [result, setResult] = useState<Commit | null>(null);
@@ -99,6 +99,8 @@ export const GitStatusSection = () => {
 
     try {
       const res = await runAction<Commit>("git-commit", [
+        "--branch",
+        currentBranch,
         "--message",
         commitDescription,
         "--files",
@@ -109,7 +111,7 @@ export const GitStatusSection = () => {
 
       if (res.result) {
         setChecked({});
-        console.log(result)
+        console.log(result);
       }
     } catch {
       setResult({

@@ -3,6 +3,7 @@ const { clearConsole } = require("../../utils/console");
 const { printLogo } = require("../../utils/logo");
 const { createGitUtils } = require("../utils");
 
+
 /**
  * Initialise le contexte d'une commande CLI Git : arguments, utilitaires Git,
  * affichage du logo, et fonction de sortie liée à la commande.
@@ -52,7 +53,7 @@ function initCLI(argv, commandName = "unknown-command") {
     cwd,
     gitRoot,
     currentBranch,
-    parentBranch
+    parentBranch,
   };
 }
 

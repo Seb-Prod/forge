@@ -26,44 +26,46 @@
 
 const initCLI = require("./core/initCLI");
 
-const { cli, git, cwd, gitRoot, currentBranch, parentBranch } = initCLI(
+const { cli, git, cwd, gitRoot, currentBranch, parentBranch, PROTECTED_BRANCHES } = initCLI(
   process.argv,
   "git-squash-branch",
 );
 
-// Récupération des arguments CLI
-const branch = cli.getArgValue("--branch");
-const commitMessage = cli.getArgValue("--message");
+/**
+ * Logique principale du script.
+ * Toutes les erreurs sont propagées via `throw` et capturées par le runner.
+ *
+ * @throws {Error} Si un argument est manquant, invalide, ou si une étape Git échoue
+ */
+function main() {
+  // Récupération et validation des arguments CLI
+  const branch = cli.getArgValue("--branch");
+  const commitMessage = cli.getArgValue("--message");
 
-// Validation des arguments requis
-if (!branch) cli.pushError("Missing --branch argument", true);
-if (!commitMessage) cli.pushError("Missing --message argument", true);
+  if (!branch) throw new Error("Missing --branch argument");
+  if (!commitMessage) throw new Error("Missing --message argument");
 
-// Stop immédiat si erreur fatale (arguments manquants)
-if (cli.hasFatalError)
-  cli.exitWithResult({ branch: null, result: false });
+  // Synchronisation des refs distantes (nécessaire pour un merge-base fiable)
+  const fetchResult = git.fetchRemote(gitRoot);
+  if (!fetchResult.success) throw new Error(fetchResult.error);
 
-// Synchronisation des refs distantes (nécessaire pour un merge-base fiable)
-git.fetchRemote(gitRoot);
+  // Vérification cohérence et si branche sécurisé
+  const validBranch = git.validateBranchContext({
+    currentBranch,
+    targetBranch: branch,
+    enforceMatch: true,
+    checkProtected: true,
+    protectedBranches: PROTECTED_BRANCHES,
+  });
 
-// Stop si le fetch a échoué (remote inaccessible en mode fatal)
-if (cli.hasFatalError)
-  cli.exitWithResult({ branch: null, result: false });
+  if (!validBranch.success) {
+    throw new Error(validBranch.errors.join(", "));
+  }
 
-// Sécurité : interdit le squash sur les branches protégées
-const protectedBranches = ["main", "master", "develop", "feature/forge-frontend-merge-preparation"];
-if (protectedBranches.includes(currentBranch)) {
-  cli.pushError(`Cannot squash protected branch: ${currentBranch}`);
+  
 }
 
-// Cohérence : la branche courante doit correspondre à l'argument --branch
-if (currentBranch !== branch) {
-  cli.pushError(`You are on "${currentBranch}", expected "${branch}"`);
-}
 
-// Stop si branche protégée ou incohérence détectée
-if (cli.hasFatalError)
-  cli.exitWithResult({ branch: currentBranch, result: false });
 
 // Sécurité : le working tree doit être propre avant le squash
 if (!git.isWorkingTreeClean(gitRoot))

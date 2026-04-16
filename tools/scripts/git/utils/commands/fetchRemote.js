@@ -6,31 +6,64 @@ const execGit = require("../core/execGit");
  * L'option `--prune` supprime automatiquement les refs locales
  * qui n'existent plus sur le remote (branches supprimées côté serveur).
  *
- * Cette opération est considérée comme **non bloquante** : un échec réseau
- * (mode offline, remote inaccessible) est signalé mais ne stoppe pas le pipeline.
+ * Cette opération est **non bloquante** : en cas d'échec (ex: offline),
+ * une erreur est remontée mais le pipeline peut continuer.
  *
- * @param {object} cli     - Instance CLI exposant `safeExec`, `log` et `pushError`
+ * @param {object} cli     - Instance CLI exposant `log`, `pushError`
  * @param {string} gitRoot - Chemin absolu vers la racine du dépôt Git (utilisé comme `cwd`)
  *
- * @returns {void}
+ * @returns {{
+ *   success: boolean,
+ *   fetched: boolean,
+ *   error?: string
+ * }} Résultat du fetch :
+ *   - `success` : `true` si la commande a réussi
+ *   - `fetched` : `true` si le fetch a été exécuté avec succès
+ *   - `error`   : message d'erreur en cas d'échec (non bloquant)
  *
  * @example
- * fetchRemote(cli, "/home/user/my-repo");
+ * const result = fetchRemote(cli, "/repo");
+ * if (!result.success) {
+ *   console.warn(result.error); // non bloquant
+ * }
  */
 function fetchRemote(cli, gitRoot) {
-  // Synchronise les refs distantes et nettoie les branches supprimées sur le remote
-  const result = execGit(cli, "git fetch --prune", {
-    cwd: gitRoot,
-    errorMessage: "git fetch failed (offline?), continuing...",
-  });
+  try {
+    const result = execGit(cli, "git fetch --prune", {
+      cwd: gitRoot,
+      errorMessage: "git fetch failed (offline?), continuing...",
+    });
 
-  // Si execGit retourne null/undefined → erreur
-  if (result === null || result === undefined) {
-    cli.pushError("Failed to fetch remote (offline?)", false); // non bloquant
-    return;
+    // Sécurité : execGit peut retourner null/undefined selon ton implémentation
+    if (result === null || result === undefined) {
+      const errorMsg = "Failed to fetch remote (offline?)";
+
+      cli.pushError(errorMsg, false);
+
+      return {
+        success: false,
+        fetched: false,
+        error: errorMsg,
+      };
+    }
+
+    cli.log("🔄 Remote refs synced");
+
+    return {
+      success: true,
+      fetched: true,
+    };
+  } catch (err) {
+    const errorMsg = err.message;
+
+    cli.pushError(`Fetch failed: ${errorMsg}`, false); // non bloquant
+
+    return {
+      success: false,
+      fetched: false,
+      error: errorMsg,
+    };
   }
-
-  cli.log("🔄 Remote refs synced");
 }
 
 module.exports = fetchRemote;

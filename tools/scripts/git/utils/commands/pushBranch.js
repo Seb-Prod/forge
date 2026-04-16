@@ -1,3 +1,4 @@
+const { execSync } = require("child_process");
 const execGit = require("../core/execGit");
 
 /**
@@ -40,9 +41,12 @@ function pushBranch(cli, gitRoot, branch, remote = "origin", force = false) {
 
     // Vérifie la présence d'un upstream
     try {
-      execGit(cli, `git rev-parse --abbrev-ref ${branch}@{upstream}`, {
+      execSync(`git rev-parse --abbrev-ref ${branch}@{upstream}`, {
         cwd: gitRoot,
+        encoding: "utf-8",
+        stdio: "pipe",
       });
+      hasUpstream = true;
     } catch {
       hasUpstream = false;
     }

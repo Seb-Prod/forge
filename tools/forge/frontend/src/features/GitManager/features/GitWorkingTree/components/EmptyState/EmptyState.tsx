@@ -15,7 +15,7 @@ export const EmptyState = (): JSX.Element => {
 
   return (
     <div className={styles.emptyState}>
-      <Box>
+      
         <div className={styles.iconContainer}>
           <FaCheck className={styles.icon} />
         </div>
@@ -27,7 +27,7 @@ export const EmptyState = (): JSX.Element => {
         <Text size="xl" tone="secondary" align="center">
           Votre branche est à jour avec le dépôt.
         </Text>
-      </Box>
+      
     </div>
   );
 };

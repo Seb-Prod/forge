@@ -1,0 +1,1 @@
+export { GitTreeView } from "./GitTreeView";

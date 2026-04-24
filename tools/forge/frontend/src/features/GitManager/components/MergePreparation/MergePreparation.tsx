@@ -1,11 +1,11 @@
 import { Badge, Box, Button, ConfirmDialog, Title, Text } from "@workspace/ui";
-import { useGit } from "../../context/useGit";
 import { CommitCard } from "./components/CommitCard";
-import { useState } from "react";
+
 import { runAction } from "@/services/api";
 import { SquashCommitsForm } from "./components/SquashCommitsForm";
+import { useGitModal, useGitRepository } from "../../context";
 
-type ActiveModal = "form" | "result" | null;
+
 
 type Form = {
   branch: string;
@@ -14,10 +14,18 @@ type Form = {
 };
 
 export const MergePreparation = () => {
-  const { currentBranchCommits, currentBranch } = useGit();
-  const [activeModal, setActiveModal] = useState<ActiveModal>(null);
-  const [result, setResult] = useState<Form | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const { currentBranchCommits, currentBranch } = useGitRepository();
+
+  const {
+
+  activeModal,
+  openModal,
+  closeModal,
+  result,
+  setResult,
+  isLoading,
+  setIsLoading,
+} = useGitModal();
 
   const wipCommits = currentBranchCommits.filter((c) =>
     c.message.toLowerCase().includes("wip"),
@@ -37,7 +45,7 @@ export const MergePreparation = () => {
       ]);
 
       setResult(res);
-      console.log(res)
+      console.log(res);
     } catch {
       setResult({
         branch: currentBranch,
@@ -46,7 +54,7 @@ export const MergePreparation = () => {
       });
     } finally {
       setIsLoading(false);
-      setActiveModal("result");
+      openModal("result");
     }
   };
 
@@ -93,7 +101,7 @@ export const MergePreparation = () => {
           loadingText="Squash en cours"
           tone="primary"
           appearance="outline"
-          onClick={() => setActiveModal("form")}
+          onClick={() => openModal("form")}
         >
           Créer un commit unique
         </Button>
@@ -103,19 +111,24 @@ export const MergePreparation = () => {
       {/* Dialog */}
       <SquashCommitsForm
         open={activeModal === "form"}
-        onOpenChange={(open) => setActiveModal(open ? "form" : null)}
+        onOpenChange={(open) => openModal(open ? "form" : null)}
         onSubmit={handleSquash}
         isLoading={false}
       />
       <ConfirmDialog
         open={activeModal === "result"}
-        onOpenChange={(open) => setActiveModal(open ? "result" : null)}
+        onOpenChange={(open) => openModal(open ? "result" : null)}
         title={result?.result ? "Succès" : "Erreur"}
         description={
           result && (
             <Box radius={"md"} padding={"none"} gap="md" surface="none">
               <Badge>{result.branch}</Badge>
-              <Box overflow="y" maxHeight="250px" surface="inverted" radius={"md"}>
+              <Box
+                overflow="y"
+                maxHeight="250px"
+                surface="inverted"
+                radius={"md"}
+              >
                 {result.messages?.length ? (
                   result.messages.map((msg, index) => (
                     <Text key={index}>{msg}</Text>
@@ -131,7 +144,7 @@ export const MergePreparation = () => {
         }
         confirmLabel="OK"
         tone={result?.result ? "success" : "danger"}
-        onConfirm={() => setActiveModal(null)}
+        onConfirm={() => closeModal}
         hideCancel
       />
     </Box>

@@ -1,0 +1,33 @@
+
+
+.graphCol {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.nameCol {
+  flex: 1;
+  min-width: 0; /* autorise le truncate */
+}
+
+.actionsCol {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.branchActions {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.row:hover{
+  background: rgba(255, 255, 255, 0.061) !important;
+}
+
+.row:hover .branchActions {
+  opacity: 1;
+}

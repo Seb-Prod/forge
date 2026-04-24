@@ -1,6 +1,6 @@
 export { GitBranchGraph } from "./GitBranchGraph";
-export { GitBranchPanel } from "./GitBranchPanel";
+export { GitModals } from "./GitModals";
 
-export { GitStatusSection } from "./GitStatus";
+
 export { GitToolBar } from "./GitToolBar";
 export { Loading } from "./Loading";

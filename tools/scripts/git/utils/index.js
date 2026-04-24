@@ -11,6 +11,7 @@ const isWorkingTreeClean = require("./commands/isWorkingTreeClean");
 const pushBranch = require("./commands/pushBranch");
 const branchExists = require("./commands/branchExists");
 const checkoutNewBranch = require("./commands/checkoutNewBranch");
+const deleteLocalBrach = require("./commands/deleteLocalBranch");
 
 const getLocalBranches = require("./branches/local");
 const getRemoteBranches = require("./branches/remote");
@@ -42,7 +43,8 @@ function createGitUtils(cli) {
 
     validateBranchContext: (options) => validateBranchContext(cli, options),
     branchExists: (gitRoot, branch) => branchExists(cli, gitRoot, branch),
-    checkoutNewBranch: (gitRoot, branch) => checkoutNewBranch(cli, gitRoot, branch)
+    checkoutNewBranch: (gitRoot, branch) => checkoutNewBranch(cli, gitRoot, branch),
+    deleteLocalBrach: (gitRoot, branch, force) => deleteLocalBrach(cli, gitRoot, branch, force)
   };
 }
 

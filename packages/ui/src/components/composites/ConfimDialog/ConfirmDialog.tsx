@@ -18,6 +18,8 @@ interface ConfirmDialogProps {
   cancelLabel?: string;
   hideCancel?: boolean;
   tone?: "neutral" | "danger" | "success";
+  loading?: boolean;
+  closeOnOutsideClick?: boolean;
   onConfirm: () => void;
 }
 
@@ -30,10 +32,12 @@ export const ConfirmDialog = ({
   cancelLabel = "Annuler",
   hideCancel = false,
   tone = "neutral",
+  loading = false,
+  closeOnOutsideClick = true,
   onConfirm,
 }: ConfirmDialogProps) => {
   return (
-    <Modal open={open} onOpenChange={onOpenChange}>
+    <Modal open={open} onOpenChange={onOpenChange} closeOnOutsideClick={closeOnOutsideClick}>
       <ModalContent>
         <ModalHeader>
           <ModalTitle>{title}</ModalTitle>
@@ -43,13 +47,13 @@ export const ConfirmDialog = ({
         <ModalFooter>
           {!hideCancel && (
             <ModalClose>
-              <Button tone="neutral" appearance="ghost">
+              <Button tone="neutral" appearance="ghost" disabled={loading}>
                 {cancelLabel}
               </Button>
             </ModalClose>
           )}
 
-          <Button tone={tone} onClick={onConfirm}>
+          <Button tone={tone} onClick={onConfirm} loading={loading}>
             {confirmLabel}
           </Button>
         </ModalFooter>

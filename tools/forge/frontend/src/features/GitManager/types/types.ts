@@ -1,6 +1,14 @@
+export type GitStatus = {
+  modified: string[];
+  deleted: string[];
+  untracked: string[];
+};
+
 export type Branch = {
   name: string;
   parent: string | null;
+  local: boolean;
+  remote: boolean;
 };
 
 export type CommitNode = {
@@ -15,14 +23,13 @@ export type GitEdge = {
   to: string;
 };
 
-
 export type GitBranchTreeLocal = {
   currentBranch: string;
   branchTree: Branch[];
   branches: { name: string; local: boolean; remote: boolean }[];
   nodes: CommitNode[];
   edges: GitEdge[];
-  currentBranchCommits : CommitNode[];
+  currentBranchCommits: CommitNode[];
 };
 
 export type GitBranchTreeRemote = {

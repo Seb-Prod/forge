@@ -1,17 +1,17 @@
 import { useState, useCallback } from "react";
 import {
   GitBranchGraph,
-  GitBranchPanel,
-  GitStatusSection,
+  GitModals,
   GitToolBar,
   Loading,
 } from "./components";
 
 import { Grid } from "@workspace/ui/components";
 import styles from "./GitManager.module.css";
-import { useGit } from "./context/useGit";
 import { MergePreparation } from "./components/MergePreparation/MergePreparation";
 import { Tabs } from "./Tabs";
+import { GitBranchManager, GitWorkingTree } from "./features";
+import { useGitRepository } from "./context";
 
 /**
  * Composant principal GitManager
@@ -20,7 +20,7 @@ import { Tabs } from "./Tabs";
 export const GitManager = () => {
   const [showGraph, setShowGraph] = useState(false);
 
-  const { gitTree } = useGit();
+  const { gitTree } = useGitRepository();
 
   /**
    * Toggle graph
@@ -35,16 +35,14 @@ export const GitManager = () => {
 
   const tabs = [
     {
-      key: "panel",
+      key: "branchManager",
       label: "Branches",
-      content: (
-        <GitBranchPanel/>
-      ),
+      content: <GitBranchManager />,
     },
     {
-      key: "status",
+      key: "WorkingTree",
       label: "Modifications",
-      content: <GitStatusSection />,
+      content: <GitWorkingTree />,
     },
     {
       key: "merge",
@@ -55,14 +53,12 @@ export const GitManager = () => {
 
   return (
     <div>
-      {/* ===== Toolbar ===== */}
       <GitToolBar
         currentBranch={gitTree.currentBranch}
         onShowGraph={handleToggleGraph}
         showGraph={showGraph}
       />
 
-      {/* ===== Graph ===== */}
       {showGraph && (
         <GitBranchGraph
           branches={gitTree.branchTree}
@@ -73,10 +69,11 @@ export const GitManager = () => {
         />
       )}
 
-      {/* Tabs */}
       <Grid mode="flex" wrap="nowrap" className={styles.content}>
         <Tabs tabs={tabs} defaultTab="panel" storageKey="git-active-tab" />
       </Grid>
+
+      <GitModals />
     </div>
   );
 };

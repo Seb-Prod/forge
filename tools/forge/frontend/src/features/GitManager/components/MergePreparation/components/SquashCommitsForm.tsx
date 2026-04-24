@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { FormDialog } from "@workspace/ui";
-import {
-  BranchNamingFields,
-  branchNamingPresets,
-} from "../../BranchNamingFields";
+import { BranchNamingFields, branchNamingPresets } from "../../GitModals/components/BranchNamingFields";
+
 
 const DEFAULT_TYPE = "feature";
 const DEFAULT_SCOPE = "appFrontend";

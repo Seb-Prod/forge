@@ -1,4 +1,6 @@
 export { GitManager } from "./GitManager";
-export { GitProvider } from "./context";
 
-export type { GitStatus } from "./GitManager.types";
+export { GitRepositoryProvider } from "./context";
+export { GitModalProvider } from "./context";
+
+export * from "./types";

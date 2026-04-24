@@ -1,13 +1,18 @@
-import { GitManager } from "@/features/GitManager";
-import { GitProvider } from "@/features/GitManager/context/GitProvider";
+import {
+  GitManager,
+  GitModalProvider,
+  GitRepositoryProvider,
+} from "@/features/GitManager";
 import { PageLayout } from "@workspace/ui";
 
 export const GitPage = () => {
   return (
     <PageLayout>
-      <GitProvider>
-        <GitManager />
-      </GitProvider>
+      <GitRepositoryProvider>
+        <GitModalProvider>
+          <GitManager />
+        </GitModalProvider>
+      </GitRepositoryProvider>
     </PageLayout>
   );
 };

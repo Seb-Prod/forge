@@ -1,122 +1,99 @@
 #!/usr/bin/env node
-process.stdout.write('\x1Bc');
-const { execSync } = require("child_process");
-const path = require("path");
-const fs = require("fs");
-const os = require("os");
 
-const args = process.argv;
-const silent = args.includes("--silent");
+/**
+ * @file git-delete-branch.js
+ * @description Point d'entrée CLI pour supprimer une branche.
+ *
+ * Ce script est conçu pour être appelé en ligne de commande par un orchestrateur
+ * ou un pipeline externe. Il effectue dans l'ordre :
+ *   1. Validation des arguments CLI
+ *   2. Synchronisation des refs distantes (fetch)
+ *   3. Vérifications de sécurité (branche protégée, branche courante)
+ *   4. Suppresion de la branche
+ *
+ * ⚠️ .
+ *
+ * @usage
+ *   node git-squash-branch.js --branch feature/login --message "feat: add login page"
+ *
+ * @argument {string} --branch  Nom de la branche à squasher (doit correspondre à la branche courante)
+ * @argument {string} --message Message du commit unique résultant du squash
+ *
+ * @exits {branch: string|null, result: boolean}
+ */
 
-function getArgValue(flag) {
-  const index = args.indexOf(flag);
-  if (index !== -1 && args[index + 1] && !args[index + 1].startsWith("--")) {
-    return args[index + 1];
+const initCLI = require("./core/initCLI");
+
+const { cli, git, gitRoot, currentBranch, parentBranch } = initCLI(
+  process.argv,
+  "git-delete-branch",
+);
+
+//#region Étapes métier
+
+function validateArgs() {
+  const { isValid, errors, values } = cli.validateArgs(["--branch"]);
+
+  if (!isValid) {
+    throw new Error(errors.join(", "));
   }
-  return null;
+
+  return values;
 }
 
-const branchToDelete = getArgValue("--branch");
-const parentBranch = getArgValue("--parent");
-
-function log(...messages) {
-  if (!silent) process.stdout.write(messages.join(" ") + "\n");
+function syncRemote() {
+  const result = git.fetchRemote(gitRoot);
+  if (!result.success) throw new Error(result.error);
 }
 
-if (!branchToDelete) {
-  console.error("❌ Missing --branch argument");
-  process.exit(1);
+function checkBranchExists(branch) {
+  const result = git.branchExists(gitRoot, branch);
+  if (!result.exists) throw new Error(`Branch '${branch}' does not exist`);
 }
 
-if (!parentBranch) {
-  console.error("❌ Missing --parent argument");
-  process.exit(1);
+function validateBranch(branch) {
+  const result = git.validateBranchContext({
+    currentBranch: branch,
+    targetBranch: branch,
+    enforceMatch: true,
+    checkProtected: true,
+  });
+
+  if (!result.success) throw new Error(result.errors.join(", "));
+
+  if (branch === currentBranch)
+    throw new Error("you can't delete current branch");
 }
 
-const resolved = path.resolve(process.cwd());
-
-/* Branches protégées */
-const mainBranch = "main";
-const developBranch = "develop";
-
-/* Branche actuelle */
-const currentBranch = execSync("git branch --show-current", {
-  cwd: resolved,
-  encoding: "utf-8",
-}).trim();
-
-/* Analyse des risques */
-const risks = [];
-
-// 1. Branche protégée
-const protectedBranches = new Set([mainBranch, developBranch]);
-if (protectedBranches.has(branchToDelete)) {
-  risks.push("Branch is protected (main or develop)");
+function deleteLocalSoft(branch){
+  const result = git.deleteLocalBrach(gitRoot, branch, false)
+  console.log(result)
 }
 
-// 2. Branche courante
-if (branchToDelete === currentBranch) {
-  risks.push("Branch is currently checked out");
+//#endregion
+
+//#region Orchestration
+
+function main() {
+  const { branch } = validateArgs();
+
+  syncRemote();
+  checkBranchExists(branch);
+  validateBranch(branch);
+  cli.log("on va supprimer");
+  deleteLocalSoft(branch)
 }
+//#endregion
 
-// 3. Commits non mergés dans le parent
-try {
-  // ✅ On s'assure que la référence remote est utilisée si la locale n'existe pas
-  const base = execSync(
-    `git rev-parse --verify ${parentBranch} 2>/dev/null || git rev-parse --verify origin/${parentBranch}`,
-    { cwd: resolved, encoding: "utf-8" }
-  ).trim();
+//#region Runner
 
-  const unmergedCommits = execSync(
-    `git log ${base}..${branchToDelete} --oneline`,
-    { cwd: resolved, encoding: "utf-8" }
-  ).trim();
-
-  if (unmergedCommits) {
-    const count = unmergedCommits.split("\n").length;
-    risks.push(`${count} unmerged commit(s) into ${parentBranch}`);
+(() => {
+  try {
+    main();
+    cli.exitWithResult({ branch: currentBranch, result: true });
+  } catch (error) {
+    cli.pushError(error.message, true);
+    cli.exitWithResult({ branch: currentBranch || null, result: false });
   }
-} catch {
-  risks.push(`Could not compare with parent branch "${parentBranch}"`);
-}
-
-// 4. Branche existante sur le remote
-try {
-  const remoteExists = execSync(
-    `git ls-remote --heads origin ${branchToDelete}`,
-    { cwd: resolved, encoding: "utf-8" }
-  ).trim();
-
-  if (remoteExists) {
-    risks.push("Branch still exists on remote (origin)");
-  }
-} catch {
-  // pas bloquant
-}
-
-const isSafe = risks.length === 0;
-
-log("🪵 Branch to delete :", branchToDelete);
-log("🌿 Parent branch    :", parentBranch);
-log("📍 Current branch   :", currentBranch);
-log(isSafe ? "✅ Safe to delete" : "⚠️  Risks detected:");
-if (!isSafe) risks.forEach(r => log("   -", r));
-
-const result = {
-  branch: branchToDelete,
-  parent: parentBranch,
-  currentBranch,
-  isSafe,
-  risks,
-};
-
-const outFile = path.join(os.tmpdir(), "git-delete-branch-" + process.pid + ".json");
-fs.writeFileSync(outFile, JSON.stringify(result, null, 2));
-
-log("__OUTPUT_FILE__:" + outFile);
-
-if (silent) {
-  process.stdout.write("__OUTPUT_FILE__:" + outFile + "\n");
-}
-
-process.exit(0);
+})();
+//#endregion

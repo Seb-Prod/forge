@@ -1,1 +1,0 @@
-export { GitBranchPanel } from "./GitBranchPanel";

@@ -46,7 +46,7 @@ export type TollConfig = {
 
 export type Entry = {
   name: string;
-  type: "file" | "directory";
+  type: "file" | "folder";
   path: string;
   depth: number;
 };

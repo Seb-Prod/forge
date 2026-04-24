@@ -1,0 +1,1 @@
+export { GitBranchManager } from "./GitBranchManager";

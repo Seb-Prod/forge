@@ -1,1 +1,2 @@
-export { GitProvider } from "./GitProvider";
+export * from "./GitRepository";
+export * from "./GitModal";

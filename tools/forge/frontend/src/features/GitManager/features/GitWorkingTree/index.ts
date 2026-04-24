@@ -1,0 +1,1 @@
+export { GitWorkingTree } from "./GitWorkingTree";

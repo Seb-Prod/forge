@@ -1,8 +1,7 @@
 import type { JSX } from "react";
-import { Box, Text } from "@workspace/ui";
+import { Text } from "@workspace/ui";
 import { FaCheck } from "react-icons/fa";
 import styles from "./EmptyState.module.css";
-
 
 /**
  * EmptyState
@@ -12,22 +11,19 @@ import styles from "./EmptyState.module.css";
  * Indique à l'utilisateur que sa branche est synchronisée et affiche.
  */
 export const EmptyState = (): JSX.Element => {
-
   return (
     <div className={styles.emptyState}>
-      
-        <div className={styles.iconContainer}>
-          <FaCheck className={styles.icon} />
-        </div>
+      <div className={styles.iconContainer}>
+        <FaCheck className={styles.icon} />
+      </div>
 
-        <Text size="4xl" weight="medium" align="center">
-          Aucune modification en attente
-        </Text>
+      <Text size="4xl" weight="medium" align="center">
+        Aucune modification en attente
+      </Text>
 
-        <Text size="xl" tone="secondary" align="center">
-          Votre branche est à jour avec le dépôt.
-        </Text>
-      
+      <Text size="xl" tone="secondary" align="center">
+        Votre branche est à jour avec le dépôt.
+      </Text>
     </div>
   );
 };

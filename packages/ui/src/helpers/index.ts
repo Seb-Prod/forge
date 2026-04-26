@@ -1,7 +1,9 @@
 export * from "./shared";
 
 export { getToneColor } from "./getToneColor";
-export { getSize} from "./getSize";
+export { getToneTheme } from "./getToneTheme";
+export { getSize } from "./getSize";
+export * from "./themes";
 
 export * from "./border";
 export * from "./radius";

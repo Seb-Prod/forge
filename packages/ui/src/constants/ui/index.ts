@@ -8,5 +8,6 @@ export * from "./size.constants";
 export * from "./spacing.constants";
 export * from "./surface.constants";
 export * from "./tone.constants";
+export * from "./variant.constants";
 
 export * from "./text";

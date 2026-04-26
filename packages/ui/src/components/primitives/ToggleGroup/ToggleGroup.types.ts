@@ -1,4 +1,5 @@
-import { Size, Tone } from "@workspace/ui/constants";
+import { Size, Tone, Variant } from "@workspace/ui/constants";
+import { UIConstant } from "@workspace/ui/constants/ui/type";
 import { ReactNode } from "react";
 
 type ToggleGroupOption<T extends string> = {
@@ -17,7 +18,7 @@ export interface ToggleGroupProps<T extends string> {
   size?: Size;
 
   // 🎨 Apparence
-  variant?: "default" | "pill" | "card";
+  variant?: Variant;
 
   // 🏷 Contenu
   options: ToggleGroupOption<T>[];
@@ -33,7 +34,7 @@ export interface ToggleGroupProps<T extends string> {
 
 // 🎯 Valeurs par défaut
 export const DEFAULT_PROPS: Partial<ToggleGroupProps<string>> = {
-  tone: "secondary",
+  tone: "primary",
   size: "md",
   variant: "default",
 };

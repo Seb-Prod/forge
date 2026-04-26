@@ -1,66 +1,233 @@
+/* ============================================================
+   ToggleGroup — CSS Module
+   Variants : default | outline | segment | ghost
+   Tone & couleurs injectés via CSS variables (getToggleGroupStyle)
+   ============================================================ */
+
+/* --- Base container --- */
+
 .container {
     display: inline-flex;
-    background: var(--background-subtle, rgba(0, 0, 0, 0.06));
-    border-radius: var(--radius-md);
-    padding: 3px;
-    gap: 2px;
+    align-items: center;
+    position: relative;
 }
+
+/* --- Base button --- */
 
 .button {
     border: none;
+    background: transparent;
     padding: 8px 14px;
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
-    border-radius: var(--radius-sm);
-    transition: all 0.15s ease;
     font-family: inherit;
     font-size: inherit;
     position: relative;
-
-    /* Effet raised 3D */
-    background: var(--background, #fff);
-    color: var(--text, #333);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.8),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.06),
-        0 2px 4px rgba(0, 0, 0, 0.10),
-        0 1px 1px rgba(0, 0, 0, 0.06);
+    white-space: nowrap;
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        background-color 0.15s ease,
+        color 0.15s ease,
+        filter 0.15s ease;
 }
 
-/* Hover : monte légèrement */
-.button:hover {
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.9),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.08),
-        0 3px 6px rgba(0, 0, 0, 0.12),
-        0 1px 2px rgba(0, 0, 0, 0.08);
+.icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.label {
+    line-height: 1;
+}
+
+
+
+/* ============================================================
+   VARIANT : default
+   Effet raised 3D sur les inactifs, enfoncé sur l'actif
+   ============================================================ */
+
+.variant-default.container {
+    background: transparent;
+    border-radius: var(--tg-radius-container);
+    padding: 3px;
+    gap: 3px;
+}
+
+.variant-default .button {
+    border-radius: var(--tg-radius-button);
+    color: var(--tg-color-text-muted);
+
+    background: var(--tg-bg-idle);
+    box-shadow: var(--tg-shadow-idle);
+}
+
+.variant-default .button:hover:not(.active) {
     transform: translateY(-1px);
 }
 
-/* Click : s'enfonce */
-.button:active {
-    transform: translateY(1px);
-    box-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.06),
-        0 0px 0px rgba(0, 0, 0, 0.04);
+.variant-default .button:active:not(.active) {
+    box-shadow: var(--tg-shadow-pressed);
 }
 
-/* État actif : visuellement enfoncé */
-.active {
-    background-color: var(--backgroundActive, #2f6fed);
-    color: white;
+.variant-default .active {
+    background-color: var(--tg-bg);
+    color: var(--tg-color-text);
     transform: translateY(0);
-    box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.25),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: var(--tg-shadow-active)
 }
 
-.active:hover {
+.variant-default .active:hover {
     filter: brightness(1.08);
     transform: translateY(0);
-    box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.25),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+}
+
+
+/* ============================================================
+   VARIANT : outline
+   Boutons avec border individuelle, pas de fond container
+   ============================================================ */
+
+.variant-outline.container {
+    background: transparent;
+    border-radius: var(--tg-radius-container);
+    padding: 0;
+    gap: 0;
+}
+
+.variant-outline .button {
+    color: var(--tg-color-text-muted);
+    background: transparent;
+    border: 1px solid var(--tg-bg);
+    margin-left: -1px;
+    /* chevauche les borders adjacentes */
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease,
+        z-index 0s;
+}
+
+/* Arrondir uniquement les extrémités */
+.variant-outline .button:first-child {
+    border-radius: var(--tg-radius-button) 0 0 var(--tg-radius-button);
+    margin-left: 0;
+}
+
+.variant-outline .button:last-child {
+    border-radius: 0 var(--tg-radius-button) var(--tg-radius-button) 0;
+}
+
+.variant-outline .button:only-child {
+    border-radius: var(--tg-radius-button);
+    margin-left: 0;
+}
+
+.variant-outline .button:hover:not(.active) {
+    background: var(--tg-bg-hover);
+    color: var(--tg-color-text-hover);
+    z-index: 1;
+}
+
+.variant-outline .active {
+    background-color: var(--tg-bg);
+    border-color: var(--tg-bg);
+    color: var(--tg-color-text);
+    z-index: 2;
+}
+
+.variant-outline .active:hover {
+    filter: brightness(1.08);
+}
+
+
+/* ============================================================
+   VARIANT : segment
+   Flat iOS-style — fond uniforme, actif = fond coloré plat
+   ============================================================ */
+
+.variant-segment.container {
+    background: var(--tg-bg-subtle);
+    border-radius: var(--tg-radius-container);
+    padding: 3px;
+    gap: 2px;
+}
+
+.variant-segment .button {
+    border-radius: var(--tg-radius-button);
+    color: var(--tg-color-text-muted);
+    background: transparent;
+}
+
+.variant-segment .button:hover:not(.active) {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--tg-color-text);
+}
+
+.variant-segment .button:active:not(.active) {
+    transform: scale(0.97);
+}
+
+.variant-segment .active {
+    background-color: var(--tg-color-accent);
+    color: var(--tg-color-on-accent);
+}
+
+.variant-segment .active:hover {
+    filter: brightness(1.06);
+}
+
+
+/* ============================================================
+   VARIANT : ghost
+   Transparent, sans fond — actif = underline animé
+   ============================================================ */
+
+.variant-ghost.container {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    gap: 0;
+    border-bottom: 1px solid var(--tg-color-border);
+}
+
+.variant-ghost .button {
+    border-radius: 0;
+    color: var(--tg-color-text-muted);
+    background: transparent;
+    padding-bottom: 10px;
+
+    /* underline animé via pseudo-element */
+}
+
+.variant-ghost .button::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    /* couvre le border du container */
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: var(--tg-color-accent);
+    border-radius: 2px 2px 0 0;
+    transform: translateX(-50%);
+    transition: width 0.2s ease;
+}
+
+.variant-ghost .button:hover:not(.active) {
+    color: var(--tg-color-text);
+    background: var(--tg-bg-subtle);
+}
+
+.variant-ghost .active {
+    color: var(--tg-color-accent);
+    font-weight: 500;
+}
+
+.variant-ghost .active::after {
+    width: 100%;
 }

@@ -2,6 +2,8 @@ export * from "./shared";
 
 export { getToneColor } from "./getToneColor";
 export { getToneTheme } from "./getToneTheme";
+export { getElevationTheme } from "./getElevationTheme";
+
 export { getSize } from "./getSize";
 export * from "./themes";
 

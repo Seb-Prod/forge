@@ -1,233 +1,204 @@
 /* ============================================================
-   ToggleGroup — CSS Module
-   Variants : default | outline | segment | ghost
-   Tone & couleurs injectés via CSS variables (getToggleGroupStyle)
-   ============================================================ */
+   ToggleGroup
+   Variables injectées via getToggleGroupeStyle()
+   Prefix:
+   tg = tone
+   th = elevation
+============================================================ */
 
-/* --- Base container --- */
+/* ============================================================
+   BASE
+============================================================ */
 
 .container {
-    display: inline-flex;
-    align-items: center;
-    position: relative;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
 }
 
-/* --- Base button --- */
-
 .button {
-    border: none;
-    background: transparent;
-    padding: 8px 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-family: inherit;
-    font-size: inherit;
-    position: relative;
-    white-space: nowrap;
-    transition:
-        transform 0.15s ease,
-        box-shadow 0.15s ease,
-        background-color 0.15s ease,
-        color 0.15s ease,
-        filter 0.15s ease;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  position: relative;
+  white-space: nowrap;
+
+  font: inherit;
+  font-size: var(--tg-font-size);
+
+  padding: var(--tg-padding-y) var(--tg-padding-x);
+
+  transition:
+    background-color .15s ease,
+    color .15s ease,
+    box-shadow .15s ease,
+    transform .15s ease,
+    filter .15s ease;
 }
 
 .icon {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .label {
-    line-height: 1;
+  line-height: 1;
 }
 
-
-
 /* ============================================================
-   VARIANT : default
-   Effet raised 3D sur les inactifs, enfoncé sur l'actif
-   ============================================================ */
+   DEFAULT
+============================================================ */
 
 .variant-default.container {
-    background: transparent;
-    border-radius: var(--tg-radius-container);
-    padding: 3px;
-    gap: 3px;
+  padding: 3px;
+  gap: 3px;
+  border-radius: var(--tg-radius-container);
 }
 
 .variant-default .button {
-    border-radius: var(--tg-radius-button);
-    color: var(--tg-color-text-muted);
-
-    background: var(--tg-bg-idle);
-    box-shadow: var(--tg-shadow-idle);
+  border-radius: var(--tg-radius-button);
+  background: var(--tg-bg-default);
+  color: var(--tg-text-muted);
+  box-shadow: var(--th-shadow-default);
 }
 
 .variant-default .button:hover:not(.active) {
-    transform: translateY(-1px);
+  background: var(--tg-bg-hover);
+  transform: translateY(-1px);
 }
 
 .variant-default .button:active:not(.active) {
-    box-shadow: var(--tg-shadow-pressed);
+  background: var(--tg-bg-pressed);
+  box-shadow: var(--th-shadow-active);
 }
 
-.variant-default .active {
-    background-color: var(--tg-bg);
-    color: var(--tg-color-text);
-    transform: translateY(0);
-    box-shadow: var(--tg-shadow-active)
+.variant-default .button.active {
+  background: var(--tg-bg-selected);
+  color: var(--tg-text);
+  box-shadow: var(--th-shadow-selected);
 }
-
-.variant-default .active:hover {
-    filter: brightness(1.08);
-    transform: translateY(0);
-}
-
 
 /* ============================================================
-   VARIANT : outline
-   Boutons avec border individuelle, pas de fond container
-   ============================================================ */
+   OUTLINE
+============================================================ */
 
 .variant-outline.container {
-    background: transparent;
-    border-radius: var(--tg-radius-container);
-    padding: 0;
-    gap: 0;
+  gap: 0;
 }
 
 .variant-outline .button {
-    color: var(--tg-color-text-muted);
-    background: transparent;
-    border: 1px solid var(--tg-bg);
-    margin-left: -1px;
-    /* chevauche les borders adjacentes */
-    transition:
-        background-color 0.15s ease,
-        color 0.15s ease,
-        z-index 0s;
+  margin-left: -1px;
+
+  background: transparent;
+  color: var(--tg-text-muted);
+
+  border: 1px solid var(--tg-bg-selected);
 }
 
-/* Arrondir uniquement les extrémités */
 .variant-outline .button:first-child {
-    border-radius: var(--tg-radius-button) 0 0 var(--tg-radius-button);
-    margin-left: 0;
+  margin-left: 0;
+  border-radius: var(--tg-radius-button) 0 0 var(--tg-radius-button);
 }
 
 .variant-outline .button:last-child {
-    border-radius: 0 var(--tg-radius-button) var(--tg-radius-button) 0;
+  border-radius: 0 var(--tg-radius-button) var(--tg-radius-button) 0;
 }
 
 .variant-outline .button:only-child {
-    border-radius: var(--tg-radius-button);
-    margin-left: 0;
+  border-radius: var(--tg-radius-button);
 }
 
 .variant-outline .button:hover:not(.active) {
-    background: var(--tg-bg-hover);
-    color: var(--tg-color-text-hover);
-    z-index: 1;
+  background: var(--tg-bg-hover);
+  color: var(--tg-text);
+  z-index: 1;
 }
 
-.variant-outline .active {
-    background-color: var(--tg-bg);
-    border-color: var(--tg-bg);
-    color: var(--tg-color-text);
-    z-index: 2;
+.variant-outline .button.active {
+  background: var(--tg-bg-selected);
+  color: var(--tg-text);
+  box-shadow: var(--th-shadow-selected);
+  z-index: 2;
 }
-
-.variant-outline .active:hover {
-    filter: brightness(1.08);
-}
-
 
 /* ============================================================
-   VARIANT : segment
-   Flat iOS-style — fond uniforme, actif = fond coloré plat
-   ============================================================ */
+   SEGMENT
+============================================================ */
 
 .variant-segment.container {
-    background: var(--tg-bg-subtle);
-    border-radius: var(--tg-radius-container);
-    padding: 3px;
-    gap: 2px;
+  padding: 3px;
+  gap: 2px;
+
+  border-radius: var(--tg-radius-container);
+  background: var(--tg-bg-default);
 }
 
 .variant-segment .button {
-    border-radius: var(--tg-radius-button);
-    color: var(--tg-color-text-muted);
-    background: transparent;
+  border-radius: var(--tg-radius-button);
+  color: var(--tg-text-muted);
 }
 
 .variant-segment .button:hover:not(.active) {
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--tg-color-text);
+  background: var(--tg-bg-hover);
+  color: var(--tg-text);
 }
 
 .variant-segment .button:active:not(.active) {
-    transform: scale(0.97);
+  background: var(--tg-bg-pressed);
 }
 
-.variant-segment .active {
-    background-color: var(--tg-color-accent);
-    color: var(--tg-color-on-accent);
+.variant-segment .button.active {
+  background: var(--tg-bg-selected);
+  color: var(--tg-text);
+  box-shadow: var(--th-shadow-selected);
 }
-
-.variant-segment .active:hover {
-    filter: brightness(1.06);
-}
-
 
 /* ============================================================
-   VARIANT : ghost
-   Transparent, sans fond — actif = underline animé
-   ============================================================ */
+   GHOST
+============================================================ */
 
 .variant-ghost.container {
-    background: transparent;
-    border-radius: 0;
-    padding: 0;
-    gap: 0;
-    border-bottom: 1px solid var(--tg-color-border);
+  gap: 0;
+  border-bottom: 1px solid var(--tg-bg-selected);
 }
 
 .variant-ghost .button {
-    border-radius: 0;
-    color: var(--tg-color-text-muted);
-    background: transparent;
-    padding-bottom: 10px;
-
-    /* underline animé via pseudo-element */
-}
-
-.variant-ghost .button::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    /* couvre le border du container */
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background-color: var(--tg-color-accent);
-    border-radius: 2px 2px 0 0;
-    transform: translateX(-50%);
-    transition: width 0.2s ease;
+  border-radius: 0;
+  color: var(--tg-text-muted);
+  padding-bottom: 10px;
 }
 
 .variant-ghost .button:hover:not(.active) {
-    color: var(--tg-color-text);
-    background: var(--tg-bg-subtle);
+  color: var(--tg-text);
+  background: var(--tg-bg-hover);
 }
 
-.variant-ghost .active {
-    color: var(--tg-color-accent);
-    font-weight: 500;
+.variant-ghost .button::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+
+  width: 0;
+  height: 2px;
+
+  transform: translateX(-50%);
+  transition: width .2s ease;
+
+  background: var(--tg-bg-selected);
 }
 
-.variant-ghost .active::after {
-    width: 100%;
+.variant-ghost .button.active {
+  color: var(--tg-text);
+}
+
+.variant-ghost .button.active::after {
+  width: 100%;
 }

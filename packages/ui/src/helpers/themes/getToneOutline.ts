@@ -1,20 +1,20 @@
-import { getToneColor } from "@workspace/ui/helpers";
 import { Tone } from "@workspace/ui/constants";
+import { getToneColor } from "../getToneColor";
 
 export type ComponentTheme = {
-  colorTextMuted:string;
-  colorText:string;
-  bgHover:string;
-  colorTextHover:string;
-  bg: string;
+  bgDefault:  string;
+  bgHover:    string;
+  bgPressed:  string;
+  bgSelected: string;
+  text:       string;
+  textMuted:  string;
 };
 
 export const getToneOutline = (tone: Tone = "primary"): ComponentTheme => ({
-  colorTextMuted: getToneColor(tone, 600),
-
-  bg: getToneColor(tone, 500),
-  colorText: getToneColor(tone,900),
-
-  bgHover: getToneColor(tone,200),
-  colorTextHover:getToneColor(tone,800)
+  bgDefault: "transparent",
+  bgHover: getToneColor(tone, 900),
+  bgPressed: getToneColor(tone, 800),
+  bgSelected: getToneColor(tone, 700),
+  text: getToneColor(tone, 300),
+  textMuted: getToneColor(tone, 200),
 });

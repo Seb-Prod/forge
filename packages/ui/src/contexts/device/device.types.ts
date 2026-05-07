@@ -11,13 +11,7 @@ export type Orientation = "portrait" | "landscape";
 /**
  * Système d’exploitation détecté à partir du user agent.
  */
-export type OS =
-  | "ios"
-  | "android"
-  | "windows"
-  | "macos"
-  | "linux"
-  | "unknown";
+export type OS = "ios" | "android" | "windows" | "macos" | "linux" | "unknown";
 
 /**
  * Breakpoints inspirés de Tailwind CSS.
@@ -32,16 +26,14 @@ export type Breakpoint = "sm" | "md" | "lg" | "xl";
  * - pwaTablet : PWA installée sur tablette
  * - pwaDesktop : PWA installée sur desktop
  */
-export type PwaMode =
-  | false
-  | "pwaMobile"
-  | "pwaTablet"
-  | "pwaDesktop";
+export type PwaMode = false | "pwaMobile" | "pwaTablet" | "pwaDesktop";
+
+export type Theme = "light" | "dark";
 
 /**
  * Valeur exposée par le DeviceContext.
  */
-export interface DeviceContextValue {
+export interface DeviceState {
   /** Type de device */
   device: DeviceType;
 
@@ -60,9 +52,10 @@ export interface DeviceContextValue {
   /** Mode PWA selon le device */
   pwaMode: PwaMode;
 
-  /**
-   * Indique si la détection du device est terminée.
-   * Utile pour éviter les effets de layout au premier render.
-   */
+  theme: Theme;
+}
+
+export interface DeviceContextValue extends DeviceState {
   isReady: boolean;
+  toggleTheme: () => void;
 }

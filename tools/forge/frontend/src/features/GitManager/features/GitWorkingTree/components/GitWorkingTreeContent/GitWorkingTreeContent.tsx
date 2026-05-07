@@ -30,7 +30,7 @@ export const GitWorkingTreeContent = ({
   const { hasModifications } = useGitRepository();
 
   return (
-    <Box overflow="y" maxHeight="200px" minHeight="200px" shadow="md" radius={"xl"} surface="overlay">
+    <Box overflow="y" maxHeight="200px" minHeight="200px"  radius={"md"} surface="overlay">
       {hasModifications ? (
         view === "tree" ? (
           <GitTreeView

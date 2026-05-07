@@ -10,7 +10,7 @@ export default function App() {
     <Routes>
       <Route
         element={
-          <AppLayout routes={APP_ROUTES} logoSrc={logo} theme="forge">
+          <AppLayout routes={APP_ROUTES} logoSrc={logo} theme="app">
             <AppHeader />
           </AppLayout>
         }

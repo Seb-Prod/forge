@@ -1,23 +1,25 @@
-import { Box, Button, Text, Title } from "@workspace/ui";
+import { Box, Button, Text, Title, useTheme } from "@workspace/ui";
 import styles from "./GitWorkingTreeDangerZone.module.css";
 
 export const GitWorkingTreeDangerZone = () => {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <Box
       flexDirection="row"
-      shadow="md"
+      shadow
       radius={"xl"}
-      surface="muted"
       tone="danger"
+      surface="raised"
+      justifyContent="between"
       className={styles.container}
     >
       <div>
-        <Title tone="danger" as="h4">
-          Zone dangereuse
-        </Title>
-        <Text tone="danger">
-          Réinitialise tout — modifications perdues définitivement
-        </Text>
+        <Title as="h4">Zone dangereuse</Title>
+        <Text>Réinitialise tout — modifications perdues définitivement</Text>
+        <button onClick={toggleTheme}>
+          {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+        </button>
       </div>
       <Button tone="danger">Reset --hard</Button>
     </Box>

@@ -1,14 +1,16 @@
 // Components
-export * from './components';
+export * from "./components";
 
 // Constants
-export * from './constants';
+export * from "./constants";
 
 // Contexts
-export * from './contexts';
+export * from "./contexts";
+
+export * from "./defaults";
 
 // Features
-export * from './features';
+export * from "./features";
 
 // Functions
 export * from "./functions";
@@ -17,16 +19,13 @@ export * from "./functions";
 export * from "./helpers";
 
 // Layouts
-export * from './layouts';
+export * from "./layouts";
 
 // Pages
-export * from './pages';
+export * from "./pages";
 
 // Types
 // export * from './types';
 
 // Routes
-export * from './router';
-
-
-
+export * from "./router";

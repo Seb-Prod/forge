@@ -19,7 +19,7 @@ export const GitToolBar = ({
 
   return (
     <Box flexDirection="row" margin={"none"} padding={"none"} className={styles.toolBar}>
-      <Box flexDirection="row" className={styles.info} margin={"none"} padding={"none"} gap={"8px"}>
+      <Box flexDirection="row" className={styles.info} margin={"none"} padding={"none"} gap={"xs"}>
         <FaGitAlt size={40} color="#f05032" />
         <Text as="h3">Branche</Text>
         {currentBranch && <Badge size="lg">{currentBranch}</Badge>}

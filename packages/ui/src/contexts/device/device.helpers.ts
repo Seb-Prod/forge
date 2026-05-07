@@ -40,3 +40,13 @@ export const useIsPortrait = (): boolean => {
   const {orientation, isReady} = useDevice();
   return isReady && orientation === "portrait";
 }
+
+export const useTheme = () => {
+  const { theme, toggleTheme, isReady } = useDevice();
+  return { theme, toggleTheme, isReady };
+};
+
+export const useIsDark = (): boolean => {
+  const { theme, isReady } = useDevice();
+  return isReady && theme === "dark";
+};

@@ -1,4 +1,4 @@
-import { UIConstant } from "@workspace/ui/constants/ui/type";
+import { UIConstant } from "@workspace/ui/constants/ui/types/ui-constant";
 
 /**
  * @function createTokenValueResolver
@@ -12,12 +12,13 @@ import { UIConstant } from "@workspace/ui/constants/ui/type";
  * const getTextDecoration = createTokenValueResolver(TEXT_DECORATIONS, "none");
  * getTextDecoration("lineThrough") // "line-through"
  */
-export const createTokenValueResolver = <T extends Record<string, UIConstant<string>>>(
+export const createTokenValueResolver = <
+  T extends Record<string, UIConstant<string>>,
+>(
   tokens: T,
   defaultKey: keyof T,
 ) => {
-  return (key: keyof T = defaultKey): string =>
-    tokens[key].value;
+  return (key: keyof T = defaultKey): string => tokens[key].value;
 };
 
 /**
@@ -35,11 +36,12 @@ export const createTokenValueResolver = <T extends Record<string, UIConstant<str
  * const getTextSize = createTokenResolver(TEXT_SIZES, "md");
  * getTextSize("lg") // "var(--text-lg)"
  */
-export const createTokenResolver = <T extends Record<string, UIConstant<string>>>(
+export const createTokenResolver = <
+  T extends Record<string, UIConstant<string>>,
+>(
   tokens: T,
   defaultKey: keyof T,
 ) => {
   const resolveValue = createTokenValueResolver(tokens, defaultKey);
-  return (key: keyof T = defaultKey): string =>
-    `var(${resolveValue(key)})`;
+  return (key: keyof T = defaultKey): string => `var(${resolveValue(key)})`;
 };

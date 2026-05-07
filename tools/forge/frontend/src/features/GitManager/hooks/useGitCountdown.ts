@@ -1,37 +1,27 @@
-import { useState, useEffect } from "react";
-import {
-  LOCAL_REFRESH_INTERVAL,
-  REMOTE_REFRESH_INTERVAL,
-  STATUS_REFRESH_INTERVAL,
-} from "./useGitRepositoryData";
+import { useEffect, useState } from "react";
 
-export const useGitCountdown = (enabled: {
-  local: boolean;
-  remote: boolean;
-  status: boolean;
+export const useGitCountdown = ({
+  enabled,
+  intervalMs,
+  lastRun,
+}: {
+  enabled: boolean;
+  intervalMs: number;
+  lastRun: number;
 }) => {
-  const [localRemaining, setLocalRemaining] = useState(LOCAL_REFRESH_INTERVAL);
-  const [remoteRemaining, setRemoteRemaining] = useState(
-    REMOTE_REFRESH_INTERVAL,
-  );
-  const [statusRemaining, setStatusRemaining] = useState(
-    STATUS_REFRESH_INTERVAL,
-  );
+  const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
-    const tick = setInterval(() => {
-      setLocalRemaining((p) =>
-        enabled.local ? (p <= 1 ? LOCAL_REFRESH_INTERVAL : p - 1) : p,
-      );
-      setRemoteRemaining((p) =>
-        enabled.remote ? (p <= 1 ? REMOTE_REFRESH_INTERVAL : p - 1) : p,
-      );
-      setStatusRemaining((p) =>
-        enabled.status ? (p <= 1 ? STATUS_REFRESH_INTERVAL : p - 1) : p,
-      );
-    }, 1000);
-    return () => clearInterval(tick);
-  }, [enabled.local, enabled.remote, enabled.status, statusRemaining]);
+    if (!enabled) return;
 
-  return { localRemaining, remoteRemaining, statusRemaining };
+    const id = setInterval(() => {
+      setNow(Date.now());
+    }, 1000);
+
+    return () => clearInterval(id);
+  }, [enabled]);
+
+  if (!enabled) return null;
+
+  return Math.max(0, lastRun + intervalMs - now);
 };

@@ -1,30 +1,35 @@
-import { useGitRepository } from "@/features/GitManager/context/GitRepository";
-import { AutoRefreshIndicator, Button, Text } from "@workspace/ui";
-import styles from "./GitWorkingTreeHeader.module.css";
+import { useGitRepository } from "@/features/GitManager/context";
+import { AutoRefreshIndicator, BoxRow, Button, Text } from "@workspace/ui";
+import { useNow } from "./useNow";
 
-/**
- * GitWorkingTreeHeader
- *
- * En-tête du panneau de sélection des fichiers Git modifiés.
- *
- * - Affiche le titre de la section.
- * - Indique le temps restant avant le prochain rafraîchissement automatique via `AutoRefreshIndicator`.
- * - Expose un bouton de rafraîchissement manuel, passant en état de chargement
- *   quand le rafraîchissement automatique est imminent (moins d'une seconde).
- */
 export const GitWorkingTreeHeader = () => {
-  const { statusRemaining, triggerStatusRefresh, isRefreshingStatus} = useGitRepository();
-  const isLoading = statusRemaining !== null && statusRemaining < 1000;
+  const { lastLocalRun, handleLocalTree } = useGitRepository();
+
+  const now = useNow();
+
+  const remaining =
+    lastLocalRun == null ? null : Math.max(0, lastLocalRun + 30000 - now);
 
   return (
-    <div className={styles.container}>
+    <BoxRow
+      alignItems="center"
+      justifyContent="between"
+    >
       <Text size="xl">Sélectionner les fichiers :</Text>
-      <div className={styles.actions}>
-        <AutoRefreshIndicator ms={statusRemaining} />
-        <Button size="xs" loading={isRefreshingStatus || isLoading} loadingText="Mise à jour" appearance="outline" onClick={triggerStatusRefresh}>
+
+      <BoxRow gap="sm" width={"auto"}>
+        <AutoRefreshIndicator ms={remaining} />
+
+        <Button
+          size="xs"
+          loading={false}
+          loadingText="Mise à jour"
+          appearance="outline"
+          onClick={handleLocalTree}
+        >
           Rafraîchir
         </Button>
-      </div>
-    </div>
+      </BoxRow>
+    </BoxRow>
   );
 };

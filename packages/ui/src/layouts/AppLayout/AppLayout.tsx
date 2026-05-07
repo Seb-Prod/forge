@@ -4,6 +4,7 @@ import styles from "./AppLayout.module.css";
 import { Navbar } from "../../components";
 import {  ReactNode, useEffect, useState } from "react";
 import { AppRoute } from "@workspace/ui/router";
+import { useSurfaceColors } from "@workspace/ui/helpers";
 
 /**
  * Propriétés du composant AppLayout.
@@ -49,6 +50,9 @@ export function AppLayout({ routes, logoSrc, children, theme="forge" }: AppLayou
   const showNavbar = !currentRoute?.hideNavbar;
   const sidebar = currentRoute?.sidebar;
 
+  const { getSurfaceBackground } =
+      useSurfaceColors();
+
   const isPortrait = useIsPortrait();
 
   // if(!isPwaMobile && !isPortrait){
@@ -58,7 +62,7 @@ export function AppLayout({ routes, logoSrc, children, theme="forge" }: AppLayou
   // }
 
   return (
-    <div className={styles.page} data-theme={theme}>
+    <div className={styles.page} data-theme={theme} style={{ background: getSurfaceBackground("base", "neutral") }}>
       {showNavbar && !isPwaMobile && (
         <header className={styles.header}>
           <Navbar routes={routes} logoSrc={logoSrc}>

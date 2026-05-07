@@ -3,6 +3,7 @@ import { classNames } from "@workspace/ui/functions";
 import styles from "./ToggleGroup.module.css";
 import { DEFAULT_PROPS, ToggleGroupProps } from "./ToggleGroup.types";
 import { getToggleGroupeStyle } from "./helpers/getToggleGroupStyle";
+import { useBoxContext } from "../Box/Box.context";
 
 /**
  * Composant ToggleGroup qui affiche un groupe de boutons bascule.
@@ -53,6 +54,8 @@ const ToggleGroupBase = <T extends string>(
     ],
   );
 
+  const box = useBoxContext();
+
   return (
     <div
       ref={ref}
@@ -74,18 +77,14 @@ const ToggleGroupBase = <T extends string>(
             aria-pressed={isActive}
             aria-label={option.ariaLabel ?? option.label}
             onClick={() => mergedProps.onChange(option.value)}
-            className={classNames(
-              styles.button,
-              isActive && styles.active,
-            )}
+            className={classNames(styles.button, isActive && styles.active)}
           >
-            {option.icon && (
-              <span className={styles.icon}>{option.icon}</span>
-            )}
+            {option.icon && <span className={styles.icon}>{option.icon}</span>}
 
             {option.label && (
               <span className={styles.label}>{option.label}</span>
             )}
+            <span>Surface actuelle : {box?.surface || "none"}</span>
           </button>
         );
       })}
@@ -104,5 +103,5 @@ ToggleGroupForwardRef.displayName = "ToggleGroup";
 export const ToggleGroup = ToggleGroupForwardRef as <T extends string>(
   props: ToggleGroupProps<T> & {
     ref?: React.Ref<HTMLDivElement>;
-  }
+  },
 ) => React.ReactElement;

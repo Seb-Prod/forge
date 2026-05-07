@@ -17,6 +17,7 @@ export * from "./Modal";
 export * from "./ScrollText"
 export * from "./Select";
 
+export * from "./Tabs";
 export * from "./Text";
 export * from "./Title";
 export * from "./ToggleGroup";

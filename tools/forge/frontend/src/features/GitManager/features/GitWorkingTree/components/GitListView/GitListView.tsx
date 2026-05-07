@@ -35,7 +35,7 @@ export const GitListView = ({
   const files = flattenTree(tree);
 
   return (
-    <Box gap="xs" padding="0" surface="none">
+    <Box gap="xs" padding="none" surface="none">
       {files.map((file) => (
         <TreeFileItem
           key={file.path}

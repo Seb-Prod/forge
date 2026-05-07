@@ -6,12 +6,13 @@ import {
   Loading,
 } from "./components";
 
-import { Grid } from "@workspace/ui/components";
+import { Grid, Tabs } from "@workspace/ui/components";
 import styles from "./GitManager.module.css";
 import { MergePreparation } from "./components/MergePreparation/MergePreparation";
-import { Tabs } from "./Tabs";
+
 import { GitBranchManager, GitWorkingTree } from "./features";
 import { useGitRepository } from "./context";
+
 
 /**
  * Composant principal GitManager
@@ -37,17 +38,17 @@ export const GitManager = () => {
     {
       key: "branchManager",
       label: "Branches",
-      content: <GitBranchManager />,
+      Component: GitBranchManager ,
     },
     {
       key: "WorkingTree",
       label: "Modifications",
-      content: <GitWorkingTree />,
+      Component: GitWorkingTree,
     },
     {
       key: "merge",
       label: "Merge Preparation",
-      content: <MergePreparation />,
+      Component: MergePreparation ,
     },
   ] as const;
 

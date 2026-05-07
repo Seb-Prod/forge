@@ -49,8 +49,8 @@ export const TreeFolderItem = ({
   children,
 }: TreeFolderItemProps) => {
   return (
-    <Box gap="xs" padding="0" surface="none">
-      <Box flexDirection="row" gap="xs" padding="0" surface="none">
+    <Box gap="xs"  surface="none">
+      <Box flexDirection="row" gap="xs" surface="none">
         {node.status === "untracked" && (
           <Checkbox
             checked={!!checked[folderKey(node.path)]}

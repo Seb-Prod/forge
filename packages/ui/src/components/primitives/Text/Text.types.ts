@@ -1,5 +1,14 @@
-import { TextAlign, TextDecoration, TextLineHeight, TextSize, TextTransform, TextWeight, Tone, ToneIntensity } from "@workspace/ui/constants";
-import { TextTag } from "@workspace/ui/constants/ui/text/textTag";
+import {
+  TextAlign,
+  TextDecoration,
+  TextLineHeight,
+  TextSize,
+  TextTransform,
+  TextWeight,
+  Tone,
+  ToneIntensity,
+} from "@workspace/ui/constants";
+import { TextTag } from "@workspace/ui/constants/ui/typography/textTag";
 import { Color } from "@workspace/ui/types";
 import { ReactNode } from "react";
 
@@ -8,8 +17,8 @@ import { ReactNode } from "react";
  */
 export interface TextProps {
   // 🎨 Apparence
-  tone?:Tone;
-  intensity?:ToneIntensity;
+  tone?: Tone;
+  intensity?: ToneIntensity;
   color?: Color;
 
   size?: TextSize;
@@ -30,7 +39,7 @@ export interface TextProps {
   // // 🏷 Sémantique
   as?: TextTag;
   htmlFor?: string;
-  
+
   // 🏷 Contenu
   children?: ReactNode;
 
@@ -44,9 +53,9 @@ export interface TextProps {
 // ─────────────────────────────────────────────
 
 export const DEFAULT_PROPS = {
-  as:"span",
+  as: "span",
   size: "lg",
   weight: "regular",
   align: "left",
-  transform:"none",
+  transform: "none",
 } as const satisfies Partial<TextProps>;

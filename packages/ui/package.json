@@ -10,6 +10,7 @@
     "./components/*": "./src/components/*/index.ts",
     "./constants": "./src/constants/index.ts",
     "./contexts": "./src/contexts/index.ts",
+    "./defaults": "./src/defaults/index.ts",
     "./functions": "./src/functions/index.ts",
     "./features": "./src/features/index.ts",
     "./helpers": "./src/helpers/index.ts",

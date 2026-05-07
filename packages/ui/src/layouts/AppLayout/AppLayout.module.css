@@ -18,7 +18,7 @@
   box-sizing: border-box;
 
   /* Appearance */
-  background-color: var( --surface-400);
+  
 }
 
 /* Safe box sizing */
@@ -99,6 +99,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  padding: 8px;
 }
 
 .toggle {

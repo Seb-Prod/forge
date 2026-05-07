@@ -1,14 +1,17 @@
+import { forwardRef, useMemo } from "react";
 import { BoxProps, DEFAULT_PROPS } from "./Box.types";
-import { getBoxStyle } from "./helpers/getBoxStyles";
-import { useMemo, forwardRef } from "react";
+import { useBoxStyle } from "./hooks/useBoxStyles";
+import { BoxContext, useBoxContext } from "./Box.context";
 
 /**
  * Conteneur générique du design system.
  *
+ * * @version 1.0.0
+ *
  * Rend un `<div>` natif dont l'apparence est entièrement pilotée par les tokens
  * du design system (surface, tone, espacement, dimensions, bordure, ombre, rayon, overflow).
  *
- * Les styles sont calculés par `getBoxStyle()` et mémoïsés : un recalcul n'a lieu
+ * Les styles sont calculés par `useBoxStyle()` et mémoïsés : un recalcul n'a lieu
  * que si une prop de style change. `className` et `children` n'en déclenchent pas.
  *
  * @example
@@ -32,34 +35,25 @@ import { useMemo, forwardRef } from "react";
 export const Box = forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
   const mergedProps = { ...DEFAULT_PROPS, ...props };
 
-  const boxStyle = useMemo(
-    () => getBoxStyle(mergedProps),
-    [
-      mergedProps.surface,
-      mergedProps.tone,
-      mergedProps.padding,
-      mergedProps.margin,
-      mergedProps.gap,
-      mergedProps.width,
-      mergedProps.height,
-      mergedProps.minHeight,
-      mergedProps.maxHeight,
-      mergedProps.minWidth,
-      mergedProps.maxWidth,
-      mergedProps.radius,
-      mergedProps.shadow,
-      mergedProps.overflow,
-      mergedProps.style,
-    ],
+  const boxStyle = useBoxStyle(mergedProps);
+
+  const parent = useBoxContext();
+
+  const contextValue = useMemo(
+    () => ({
+      surface: props.surface !== undefined ? props.surface : parent?.surface,
+      tone: props.tone !== undefined ? props.tone : parent?.tone,
+    }),
+    [mergedProps.surface, mergedProps.tone, parent],
   );
 
   return (
-    <div
-      ref={ref}
-      className={mergedProps.className}
-      style={boxStyle}
-    >
-      {mergedProps.children}
-    </div>
+    <BoxContext.Provider value={contextValue}>
+      <div ref={ref} className={mergedProps.className} style={boxStyle}>
+        {mergedProps.children}
+      </div>
+    </BoxContext.Provider>
   );
 });
+
+Box.displayName = "Box";

@@ -15,65 +15,75 @@ export const useGitRepositoryData = () => {
   const [gitData, setGitData] = useState<GitStatus | null>(null);
   const [gitTree, setGitTree] = useState<GitBranchTree | null>(null);
 
-  const isCheckingLocalRef = useRef(false);
-  const isCheckingRemoteRef = useRef(false);
-  const isCheckingStatusRef = useRef(false);
+  const [lastLocalRun, setLastLocalRun] = useState(Date.now());
+  const [lastRemoteRun, setLastRemoteRun] = useState(Date.now());
+  const [lastStatusRun, setLastStatusRun] = useState(Date.now());
+
+  // guards anti double call
+  const isFetching = useRef({
+    local: false,
+    remote: false,
+    status: false,
+  });
 
   const handleStatus = useCallback(async () => {
-    if (isCheckingStatusRef.current) return;
-    isCheckingStatusRef.current = true;
+    if (isFetching.current.status) return;
+    isFetching.current.status = true;
+
     try {
       const result = await runAction<GitStatus>("git-status", ["--silent"]);
       setGitData(result);
+      setLastStatusRun(Date.now());
     } finally {
-      isCheckingStatusRef.current = false;
+      isFetching.current.status = false;
     }
   }, []);
 
   const handleLocalTree = useCallback(async () => {
-    if (isCheckingLocalRef.current) return;
-    isCheckingLocalRef.current = true;
+    if (isFetching.current.local) return;
+    isFetching.current.local = true;
+
     try {
       const result = await runAction<GitBranchTreeLocal>(
         "git-branch-tree-local",
         ["--silent"],
       );
-      setGitTree((prev) => {
-        const next = { ...(prev ?? {}), ...result };
-        return JSON.stringify(prev) === JSON.stringify(next) ? prev : next;
-      });
+
+      setGitTree(result as GitBranchTree);
+      setLastLocalRun(Date.now());
     } finally {
-      isCheckingLocalRef.current = false;
+      isFetching.current.local = false;
     }
   }, []);
 
   const handleRemoteTree = useCallback(async () => {
-    if (isCheckingRemoteRef.current) return;
-    isCheckingRemoteRef.current = true;
+    if (isFetching.current.remote) return;
+    isFetching.current.remote = true;
+
     try {
       const result = await runAction<GitBranchTreeRemote>(
         "git-branch-tree-remote",
         ["--silent"],
       );
+
       setGitTree((prev) => {
-        if (!prev) return null;
-        const nextBranches = result.branches;
-        if (JSON.stringify(prev.branches) === JSON.stringify(nextBranches))
-          return prev;
-        return { ...prev, branches: nextBranches };
+        if (!prev) return prev;
+        return { ...prev, branches: result.branches };
       });
+      setLastRemoteRun(Date.now());
     } finally {
-      isCheckingRemoteRef.current = false;
+      isFetching.current.remote = false;
     }
   }, []);
 
   return {
     gitData,
-    setGitData,
     gitTree,
-    setGitTree,
     handleStatus,
     handleLocalTree,
     handleRemoteTree,
+    lastLocalRun,
+    lastRemoteRun,
+    lastStatusRun,
   };
 };

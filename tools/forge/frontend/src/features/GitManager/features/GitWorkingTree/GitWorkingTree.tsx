@@ -10,7 +10,7 @@ import {
 } from "./components";
 import { VIEW_OPTIONS, type View } from "./types";
 import { useLocalStorage } from "@workspace/ui/hooks";
-import { Text } from "@workspace/ui";
+import { Box, Text } from "@workspace/ui";
 import styles from "./GitWorkingTree.module.css";
 
 /**
@@ -43,7 +43,7 @@ export const GitWorkingTree = () => {
   } = useFileSelection(gitData);
 
   return (
-    <div className={styles.container}>
+    <Box gap="md">
       <GitWorkingTreeHeader />
       <GitWorkingTreeActions
         view={view}
@@ -72,6 +72,6 @@ export const GitWorkingTree = () => {
         onToggleAllByStatus={toggleAllByStatus}
       />
       <GitWorkingTreeDangerZone />
-    </div>
+    </Box>
   );
 };

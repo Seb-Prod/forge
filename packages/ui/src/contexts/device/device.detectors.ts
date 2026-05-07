@@ -4,6 +4,7 @@ import {
   OS,
   Breakpoint,
   PwaMode,
+  Theme,
 } from "./device.types";
 import { BREAKPOINTS } from "./device.constants";
 
@@ -88,4 +89,25 @@ export const getPwaMode = (device: DeviceType): PwaMode => {
     default:
       return "pwaDesktop";
   }
+};
+
+/**
+ * Retourne la préférence système (prefers-color-scheme).
+ */
+export const getSystemTheme = (): Theme => {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
+/**
+ * Résout le thème initial :
+ * 1. Valeur persistée en localStorage
+ * 2. Préférence système
+ * 3. Fallback "light"
+ */
+export const getInitialTheme = (): Theme => {
+  const stored = localStorage.getItem("theme");
+  if (stored === "light" || stored === "dark") return stored;
+  return getSystemTheme();
 };

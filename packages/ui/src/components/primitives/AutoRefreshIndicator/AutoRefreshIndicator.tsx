@@ -16,7 +16,7 @@ export const AutoRefreshIndicator = ({ ms }: Props) => {
 
   return (
     <div className={styles.container}>
-      <Text size="sm" intensity={300} tone="neutral">
+      <Text size="sm" >
         Prochaine mise à jour dans
       </Text>
       <Badge tone="secondary" appearance="soft" className={styles.badge}>

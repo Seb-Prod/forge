@@ -1,5 +1,5 @@
 import { useGitRepository } from "@/features/GitManager/context";
-import { AutoRefreshIndicator, BoxRow, Button, Text } from "@workspace/ui";
+import { AutoRefreshIndicator, BoxRow, NewButton, Text } from "@workspace/ui";
 import { useNow } from "./useNow";
 
 export const GitWorkingTreeHeader = () => {
@@ -20,15 +20,11 @@ export const GitWorkingTreeHeader = () => {
       <BoxRow gap="sm" width={"auto"}>
         <AutoRefreshIndicator ms={remaining} />
 
-        <Button
-          size="xs"
-          loading={false}
-          loadingText="Mise à jour"
-          appearance="outline"
+        <NewButton
           onClick={handleLocalTree}
         >
           Rafraîchir
-        </Button>
+        </NewButton>
       </BoxRow>
     </BoxRow>
   );

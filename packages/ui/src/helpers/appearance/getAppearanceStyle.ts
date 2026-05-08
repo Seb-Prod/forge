@@ -4,7 +4,6 @@ import { SurfaceColors } from "./surfaceColor/useSurfaceColors";
 import { getBorderSize } from "./getBorderSize";
 import { getBorderRadius } from "./getBorderRadius";
 import { getOpacity } from "./getOpacity";
-import { getOverflow } from "../layout/getOverflow";
 
 /**
  * Génère un objet `CSSProperties` à partir des props d'apparence.

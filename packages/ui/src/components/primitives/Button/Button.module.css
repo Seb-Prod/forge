@@ -1,111 +1,36 @@
-.button {
-    /* Layout */
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    /* align-items: center;
-    justify-content: center; */
-    gap: var(--space-2);
+.uiButton {
+  background: var(--component-bg);
+  color: var(--component-text);
+  border: 1px solid var(--component-border);
+  box-shadow: var(--component-shadow);
 
-
-    align-self: center;
-    /* width: fit-content;
-    flex-shrink: 0; */
-
-    /* box-sizing: border-box; */
-
-    /* Typography */
-
-    user-select: none;
-    /* white-space: nowrap; */
-
-    /* Appearance */
-    background-color: var(--bg);
-    color: var(--color);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--_shadow);
-
-    height: var(--height);
-    padding: var(--padding);
-    font-size: var(--font-size);
-    font-weight: var(--font-weight);
-
-
-    /* overflow: hidden; */
-
-    /* Interaction */
-    cursor: pointer;
-    outline: none;
-
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        transform 0.1s ease;
+  transition:
+    background .2s,
+    border-color .2s,
+    color .2s,
+    box-shadow .2s;
 }
 
-/* Filled */
-.button[data-appearance="filled"]:hover:not(:disabled):not([data-loading]) {
-    background-color: var(--bg-hover);
-    border-color: var(--border-hover);
-    scale: 1.05;
+.uiButton:hover {
+  background: var(--component-bg-hover);
+  color: var(--component-text-hover);
+  border-color: var(--component-border-hover);
+  box-shadow: var(--component-shadow-hover);
 }
 
-.button[data-appearance="filled"]:active:not(:disabled):not([data-loading]) {
-    background-color: var(--bg-active);
-    border-color: var(--border-active);
-    scale: 1;
+.uiButton:active {
+  background: var(--component-bg-active);
+  color: var(--component-text-active);
+  border-color: var(--component-border-active);
+  box-shadow: var(--component-shadow-active);
 }
 
-/* Outline */
-.button[data-appearance="outline"]:hover:not(:disabled):not([data-loading]) {
-    border-color: var(--border-hover);
-    color: var(--text-hover);
-    scale: 1.05;
-}
+.uiButton:disabled {
+  background: var(--component-bg-disabled);
+  color: var(--component-text-disabled);
+  border-color: var(--component-border-disabled);
+  box-shadow: var(--component-shadow-disabled);
 
-.button[data-appearance="outline"]:active:not(:disabled):not([data-loading]) {
-    border-color: var(--border-active);
-    scale: 1;
-}
-
-/* Ghost */
-.button[data-appearance="ghost"]:hover:not(:disabled):not([data-loading]) {
-    color: var(--text-hover);
-    scale: 1.05;
-}
-
-.button[data-appearance="ghost"]:active:not(:disabled):not([data-loading]) {
-    scale: 1;
-}
-
-/* Link */
-.button[data-appearance="link"] {
-    padding-inline: 0;
-}
-
-.button[data-appearance="link"]:hover:not(:disabled):not([data-loading]) {
-    color: var(--text-hover);
-    scale: 1.05;
-}
-
-.button[data-appearance="link"]:active:not(:disabled):not([data-loading]) {
-    scale: 1;
-}
-
-.button[data-full-width] {
-    width: 100%;
-}
-
-.button[data-icon-only] {
-    padding: var(--space-3);
-    aspect-ratio: 1;
-}
-
-.button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
+  cursor: not-allowed;
+  opacity: .7;
 }

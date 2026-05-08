@@ -3,6 +3,7 @@ export * from "./AutoRefreshIndicator";
 export * from "./Badge";
 export * from "./Box";
 export * from "./Button";
+export * from "./ButtonHold";
 
 export * from "./Checkbox";
 

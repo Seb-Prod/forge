@@ -1,54 +1,40 @@
-import { Size, Tone, Animation, Appearance, APPEARANCES } from "@workspace/ui/constants";
-import { pickConstants } from "@workspace/ui/utils";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import {
+  Tone,
+  Size,
+  AxisSpacing,
+  Spacing,
+  Variant,
+} from "@workspace/ui/constants";
+import { BaseProps } from "@workspace/ui/types";
 
-// 🎨 Constantes d'apparence
-export const BUTTON_APPEARANCES = pickConstants(APPEARANCES, [
-  "filled",
-  "outline",
-  "ghost",
-  "link"
-]);
+export const BUTTON_SIZES = {
+  sm: {
+    height: 32,
+    paddingX: 12,
+    fontSize: 14,
+    radius: "md",
+  },
 
-// 🧠 Types
-export type ButtonAppearance = keyof typeof BUTTON_APPEARANCES;
+  md: {
+    height: 40,
+    paddingX: 16,
+    fontSize: 16,
+    radius: "lg",
+  },
 
-// ⚙️ Props du composant
-export interface ButtonProps extends Omit<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  "children"
-> {
-  // 🎨 UI
-  tone?: Tone;
-  appearance?: ButtonAppearance;
-  size?: Size;
-  animation?: Animation;
-
-  // 🏷 Contenu
-  children?: ReactNode;
-
-  // ✨ Icônes
-  icon?: ReactNode;
-  startIcon?: ReactNode;
-  endIcon?: ReactNode;
-  iconOnly?: boolean;
-
-  // ⚙️ États
-  fullWidth?: boolean;
+  lg: {
+    height: 48,
+    paddingX: 20,
+    fontSize: 18,
+    radius: "xl",
+  },
+};
+export interface ButtonProps extends BaseProps {
   loading?: boolean;
-  loadingText?: string;
-
-  // 🛠 Customisation
-  className?: string;
+  tone?: Tone;
+  variant?: Variant;
+  size?: Size;
+  paddingX?: AxisSpacing<Spacing>;
 }
 
-// 🎯 Valeurs par défaut du Button
-export const DEFAULT_PROPS = {
-  tone: "primary",
-  appearance: "filled",
-  size: "md",
-  animation: "none",
-  children: "Button",
-  loading: false,
-  iconOnly: false,
-} as const;
+export const DEFAULT_PROPS: Partial<ButtonProps> = { tone: "secondary", variant:"outline" };

@@ -1,4 +1,4 @@
-import { ANIMATIONS, APPEARANCES, SIZES, TONES } from "@workspace/ui/constants";
+import { ANIMATIONS, APPEARANCES,  TONES } from "@workspace/ui/constants";
 import { DocsConfig } from "@workspace/ui/features";
 import { BUTTON_APPEARANCES, DEFAULT_PROPS } from "./Button.types";
 
@@ -10,7 +10,6 @@ export const buttonDocs: DocsConfig = {
   constants: {
     tone: TONES,
     appearance: BUTTON_APPEARANCES,
-    size: SIZES,
     animation: ANIMATIONS,
   },
 

@@ -1,14 +1,10 @@
 import {
-  getAppearanceStyle,
-  getDimensionStyle,
-  getInteractiveStyle,
-  getLayoutStyle,
-  getSpacingStyle,
-  useSurfaceColors,
+  useComponentColors,
 } from "@workspace/ui/helpers";
 import { ButtonProps } from "../Button.types";
 import { useIsDark } from "@workspace/ui/contexts";
 import { useMemo } from "react";
+import { useButtonSize } from "./useButtonSize";
 
 /**
  * Calcule les styles CSS du composant `Box` à partir de ses props.
@@ -17,22 +13,23 @@ import { useMemo } from "react";
  * @param props - Props du composant Box
  * @returns Objet de styles CSS fusionné
  */
-export const useBoxStyle = (props: ButtonProps): React.CSSProperties => {
+export const useButtonStyle = (props: ButtonProps): React.CSSProperties => {
   const isDark = useIsDark();
-  const surfaceColors = useSurfaceColors();
+
+  const colorVars = useComponentColors({
+    tone: props.tone,
+    variant: props.variant,
+  });
+
+  const sizeVars = useButtonSize({ size: props.size });
 
   return useMemo(
     () => ({
-      ...getAppearanceStyle(props, surfaceColors),
-      
+      ...colorVars,
+      ...sizeVars,
 
       ...props.style,
     }),
-    [
-      isDark,
-      surfaceColors,
-      props.tone,
-      props.style,
-    ],
+    [isDark, props.variant, props.tone, props.style, props.size],
   );
 };

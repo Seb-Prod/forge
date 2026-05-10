@@ -1,4 +1,4 @@
-import { APPEARANCES, SIZES, TONES } from "@workspace/ui/constants";
+import { APPEARANCES, TONES } from "@workspace/ui/constants";
 import { createDocs, DocsConfig } from "@workspace/ui/features";
 import {
   CHECKBOX_APPEARANCES,
@@ -9,7 +9,6 @@ import {
 export const CheckboxDocs = createDocs<CheckboxProps>()({
   constants: {
     tone: TONES,
-    size: SIZES,
     appearance: CHECKBOX_APPEARANCES,
   },
 

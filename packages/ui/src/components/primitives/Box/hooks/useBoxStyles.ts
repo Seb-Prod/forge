@@ -1,5 +1,5 @@
 import {
-  getAppearanceStyle,
+  getSurfaceAppearanceStyle,
   getDimensionStyle,
   getInteractiveStyle,
   getLayoutStyle,
@@ -23,7 +23,7 @@ export const useBoxStyle = (props: BoxProps): React.CSSProperties => {
 
   return useMemo(
     () => ({
-      ...getAppearanceStyle(props, surfaceColors),
+      ...getSurfaceAppearanceStyle(props, surfaceColors),
       ...getSpacingStyle(props),
       ...getDimensionStyle(props),
       ...getLayoutStyle(props),

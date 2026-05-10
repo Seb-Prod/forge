@@ -1,40 +1,27 @@
 import {
-  Tone,
-  Size,
-  AxisSpacing,
-  Spacing,
-  Variant,
+  ComponentSize,
 } from "@workspace/ui/constants";
-import { BaseProps } from "@workspace/ui/types";
+import { BaseProps, ComponentAppearanceProps } from "@workspace/ui/types";
+import { lgTokens, mdTokens, smTokens } from "./tokens";
+import { ComponentSizeTokens } from "@workspace/ui/helpers/types";
 
-export const BUTTON_SIZES = {
-  sm: {
-    height: 32,
-    paddingX: 12,
-    fontSize: 14,
-    radius: "md",
-  },
+export type ButtonSize = Exclude<
+  ComponentSize,
+  "xxs" | "xs" | "xl" | "2xl" | "3xl"
+>;
 
-  md: {
-    height: 40,
-    paddingX: 16,
-    fontSize: 16,
-    radius: "lg",
-  },
-
-  lg: {
-    height: 48,
-    paddingX: 20,
-    fontSize: 18,
-    radius: "xl",
-  },
+export const BUTTON_SIZES: Record<ButtonSize, ComponentSizeTokens> = {
+  sm: smTokens,
+  md: mdTokens,
+  lg: lgTokens,
 };
-export interface ButtonProps extends BaseProps {
+
+export interface ButtonProps extends BaseProps, ComponentAppearanceProps {
   loading?: boolean;
-  tone?: Tone;
-  variant?: Variant;
-  size?: Size;
-  paddingX?: AxisSpacing<Spacing>;
 }
 
-export const DEFAULT_PROPS: Partial<ButtonProps> = { tone: "secondary", variant:"outline" };
+export const DEFAULT_PROPS: Partial<ButtonProps> = {
+  tone: "secondary",
+  variant: "solid",
+  size: "sm",
+};

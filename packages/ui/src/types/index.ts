@@ -1,4 +1,7 @@
-export type { AppearanceProps } from "./appearance";
+export type {
+  SurfaceAppearanceProps,
+  ComponentAppearanceProps,
+} from "./appearance";
 export type { BaseProps } from "./base";
 export type { DimensionProps } from "./dimension";
 export type { InteractiveProps } from "./interaction";

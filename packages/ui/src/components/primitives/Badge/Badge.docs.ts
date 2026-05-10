@@ -1,4 +1,4 @@
-import { SIZES, TONES } from "@workspace/ui/constants";
+
 import { DocsConfig } from "@workspace/ui/features";
 import {
   BADGE_APPEARANCES,
@@ -13,9 +13,8 @@ import {
 export const badgeDocs: DocsConfig = {
   // 🎨 Constantes disponibles
   constants: {
-    tone: TONES,
     appearance: BADGE_APPEARANCES,
-    size: SIZES,
+    
     variant: BADGE_VARIANTS,
   },
 

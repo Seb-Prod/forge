@@ -1,6 +1,5 @@
 import {
   TONES,
-  TEXT_SIZES,
   SHADOWS,
 } from "@workspace/ui/constants";
 import { DocsConfig } from "@workspace/ui/features";
@@ -9,7 +8,6 @@ import { DEFAULT_PROPS } from "../IconToggle.types";
 export const IconToggleDocs: DocsConfig = {
   constants: {
     tone: TONES,
-    size: TEXT_SIZES,
     shadow: SHADOWS,
   },
 

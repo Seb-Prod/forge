@@ -1,13 +1,13 @@
 import { UIConstant } from "../types/ui-constant";
 
 /**
- * @constant SIZES
+ * @constant COMPONENT_SIZES
  * @description Échelle de tailles pour les composants interactifs
  * (boutons, inputs, avatars, badges…).
  *
  * Basée sur une grille de 8px.
  */
-export const SIZES = {
+export const COMPONENT_SIZES = {
   xxs: {
     value: "16px",
     label: "XXS",
@@ -58,10 +58,10 @@ export const SIZES = {
 } as const satisfies Record<string, UIConstant<string>>;
 
 /**
- * @type Size
- * @description Token de taille dérivé de {@link SIZES}.
+ * @type ComponentSize
+ * @description Token de taille dérivé de {@link COMPONENT_SIZES}.
  *
- * Utilisé pour la prop `size`
+ * Utilisé pour la prop `Componentsize`
  * des composants interactifs.
  */
-export type Size = keyof typeof SIZES;
+export type ComponentSize = keyof typeof COMPONENT_SIZES;

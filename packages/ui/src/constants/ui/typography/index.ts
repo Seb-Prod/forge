@@ -5,3 +5,5 @@ export * from "./textSize";
 export * from "./textTag";
 export * from "./textTransform";
 export * from "./textWeight";
+
+export * from "./textSize.contants";

@@ -3,6 +3,10 @@
   color: var(--component-text);
   border: 1px solid var(--component-border);
   box-shadow: var(--component-shadow);
+  
+  height: var(--component-height);
+  border-radius: var(--component-radius);
+  padding: 0 var(--component-padding);
 
   transition:
     background .2s,

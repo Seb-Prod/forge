@@ -1,7 +1,6 @@
 import {
   TONES,
   TONE_INTENSITIES,
-  TEXT_SIZES,
   TEXT_WEIGHTS,
   TEXT_ALIGNS,
   TEXT_TRANSFORMS,
@@ -15,7 +14,6 @@ export const TextDocs: DocsConfig = {
   constants: {
     tone: TONES,
     intensity: TONE_INTENSITIES,
-    size: TEXT_SIZES,
     weight: TEXT_WEIGHTS,
     align: TEXT_ALIGNS,
     transform: TEXT_TRANSFORMS,

@@ -1,4 +1,4 @@
-import { AppearanceProps } from "@workspace/ui/types";
+import { SurfaceAppearanceProps } from "@workspace/ui/types";
 import { CSSProperties } from "react";
 import { SurfaceColors } from "./surfaceColor/useSurfaceColors";
 import { getBorderSize } from "./getBorderSize";
@@ -13,8 +13,8 @@ import { getOpacity } from "./getOpacity";
  * @param surfaceColors - Helpers de couleur issus de `useSurfaceColors`
  * @returns Objet de styles CSS partiel
  */
-export const getAppearanceStyle = (
-  props: AppearanceProps,
+export const getSurfaceAppearanceStyle = (
+  props: SurfaceAppearanceProps,
   surfaceColors: SurfaceColors,
 ): CSSProperties => {
   const {

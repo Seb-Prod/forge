@@ -1,4 +1,4 @@
-import { SIZES, SURFACES, TONES } from "@workspace/ui/constants";
+import {  SURFACES, TONES } from "@workspace/ui/constants";
 import { createDocs } from "@workspace/ui/features";
 import { DEFAULT_PROPS, TableProps } from "./Table.types";
 
@@ -17,7 +17,6 @@ export const TableDocs = createDocs<TableProps>()({
   // ─────────────────────────────────────────────
   constants: {
     tone: TONES,
-    size: SIZES,
     surface: SURFACES,
   },
 

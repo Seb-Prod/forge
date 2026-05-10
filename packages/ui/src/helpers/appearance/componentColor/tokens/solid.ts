@@ -5,21 +5,21 @@ export const solidTokens: Record<"light" | "dark", ComponentStateMap> = {
     default: {
       bg: 500,
       text: 50,
-      border: 500,
+      border: 600,
       shadow: 1,
     },
 
     hover: {
       bg: 600,
       text: 50,
-      border: 600,
+      border: 700,
       shadow: 2,
     },
 
     active: {
       bg: 700,
       text: 50,
-      border: 700,
+      border: 800,
       shadow: 1,
     },
 

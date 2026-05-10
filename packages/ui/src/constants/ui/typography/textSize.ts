@@ -4,7 +4,7 @@ import { UIConstant } from "../types/ui-constant";
  * @constant TEXT_SIZES
  * @description Taille des textes.
  */
-export const TEXT_SIZES = {
+export const TEXT_SIZES_HOLD = {
   xs: {
     value: "--text-xs",
     label: "Extra Small",
@@ -57,4 +57,4 @@ export const TEXT_SIZES = {
  * @description Token de taille de texte dérivé de {@link TEXT_SIZES}.
  * Utilisé pour la prop `size` des composants UI.
  */
-export type TextSize = keyof typeof TEXT_SIZES;
+export type TextSizeHold = keyof typeof TEXT_SIZES_HOLD;

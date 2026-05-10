@@ -2,6 +2,7 @@ import { ButtonHTMLAttributes, forwardRef, MouseEvent } from "react";
 import { ButtonProps, DEFAULT_PROPS } from "./Button.types";
 import { useComponentColors } from "@workspace/ui/helpers";
 import styles from "./Button.module.css";
+import { useButtonStyle } from "./hooks/useButtonStyles";
 
 export const Button = forwardRef<
   HTMLButtonElement,
@@ -9,10 +10,7 @@ export const Button = forwardRef<
 >((props, ref) => {
   const mergedProps = { ...DEFAULT_PROPS, ...props };
 
-  const vars = useComponentColors({
-    tone: mergedProps.tone,
-    variant:mergedProps.variant,
-  });
+  const buttonStyle = useButtonStyle(mergedProps);
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (mergedProps.disabled || mergedProps.loading) {
@@ -23,7 +21,7 @@ export const Button = forwardRef<
   };
 
   return (
-    <button ref={ref} onClick={handleClick} style={vars} className={styles.uiButton}>
+    <button ref={ref} onClick={handleClick} style={buttonStyle} className={styles.uiButton}>
       {mergedProps.children}
     </button>
   );

@@ -6,14 +6,13 @@ import {
   INPUT_TYPES,
   InputProps,
 } from "./Input.types";
-import { APPEARANCES, SIZES } from "@workspace/ui/constants";
+import { APPEARANCES,} from "@workspace/ui/constants";
 
 export const InputDocs = createDocs<InputProps>()({
   constants: {
     type: INPUT_TYPES,
     tone: INPUT_TONES,
     appearance: APPEARANCES,
-    size: SIZES,
     labelPosition: INPUT_LABEL_POSITION,
   },
 

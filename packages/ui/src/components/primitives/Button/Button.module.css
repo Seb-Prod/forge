@@ -1,12 +1,20 @@
 .uiButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+
   background: var(--component-bg);
   color: var(--component-text);
-  border: 1px solid var(--component-border);
+  border: var(--component-borderSize) solid var(--component-border);
   box-shadow: var(--component-shadow);
   
   height: var(--component-height);
   border-radius: var(--component-radius);
   padding: 0 var(--component-padding);
+  font-size: var(--component-fontSize);
+
+  
 
   transition:
     background .2s,

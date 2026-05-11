@@ -5,5 +5,6 @@ export * from "./layout";
 export * from "./motion";
 export * from "./tokens";
 export * from "./typography";
+export * from "./utils";
 export * from "./variants";
 export * from "./types";

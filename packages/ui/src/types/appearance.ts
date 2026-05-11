@@ -21,14 +21,4 @@ export interface SurfaceAppearanceProps {
   opacity?: number;
 }
 
-export interface ComponentAppearanceProps {
-  tone?: Tone;
-  variant?: Variant;
-  size?: ComponentSize;
 
-  /** Pour surcharger size */
-  height: ComponentSize;
-  paddingX: Spacing;
-  fontSize: TextSize;
-  radius: Radius;
-}

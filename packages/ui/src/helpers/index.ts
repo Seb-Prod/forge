@@ -16,3 +16,5 @@ export * from "./dimension";
 export * from "./layout";
 export * from "./spacing";
 export * from "./Interactive";
+
+export { getComponentStyle } from "./getComponentStyle";

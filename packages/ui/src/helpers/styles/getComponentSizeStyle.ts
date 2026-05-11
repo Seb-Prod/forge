@@ -2,7 +2,6 @@ import { ComponentSizeTokens } from "@workspace/ui/types";
 import { CSSProperties } from "react";
 import { getRadius } from "../radius.helpers";
 import { getMargin } from "../spacing";
-import { getComponentSize } from "../dimension";
 import { BORDER_SIZES, COMPONENT_SIZES, getConstantValue, TEXT_SIZES } from "@workspace/ui/constants";
 
 type SizeMap<T extends string = string> = Record<T, ComponentSizeTokens>;

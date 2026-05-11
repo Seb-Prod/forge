@@ -1,23 +1,27 @@
 import { CSSProperties } from "react";
-import { ComponentAppearanceProps, ComponentSizeTokens } from "../types";
-import { useComponentColors } from "./appearance";
+import {
+  ComponentAppearanceProps,
+  ComponentSizeTokens,
+  VariantStateMap,
+} from "../types";
 import { getComponentSizeStyle } from "./styles/getComponentSizeStyle";
-import { ButtonProps, ButtonSize } from "../components/primitives/Button/Button.types";
+import { getComponentVariantStyle } from "./styles/getComponentVariantStyle";
 
 type GetComponentStyleParams<T extends string> = ComponentAppearanceProps & {
   size?: T;
   sizes?: Record<T, ComponentSizeTokens>;
+  mode?: "light" | "dark";
+  appearances: Record<"light" | "dark", VariantStateMap>;
 };
 
 export const getComponentStyle = <T extends string>(
-
   props: GetComponentStyleParams<T>,
-
 ): CSSProperties => {
-
-  const colorVars = useComponentColors({
+  const colorVars = getComponentVariantStyle({
     tone: props.tone,
     variant: props.variant,
+    mode: "light",
+    appearances: props.appearances,
   });
 
   const sizeVars =
@@ -27,10 +31,9 @@ export const getComponentStyle = <T extends string>(
           sizes: props.sizes,
         })
       : {};
-      
+
   return {
     ...colorVars,
     ...sizeVars,
   };
-
 };

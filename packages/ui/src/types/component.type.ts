@@ -112,3 +112,5 @@ export type VariantStateMap = Record<
   Variant,
   Record<ComponentState, ComponentStateTokens>
 >;
+
+export type VariantTokens = Record<Variant, VariantStateMap>;

@@ -1,8 +1,0 @@
-import { ComponentSizeTokens } from "@workspace/ui/types";
-
-export const smTokens: ComponentSizeTokens = {
-  height: "sm",
-  paddingX: "md",
-  fontSize: "sm",
-  radius: "sm",
-};

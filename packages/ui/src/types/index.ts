@@ -12,5 +12,6 @@ export type {
   ComponentState,
   ComponentStateTokens,
   ComponentStateMap,
-  VariantStateMap
+  VariantStateMap,
+  VariantTokens
 } from "./component.type";

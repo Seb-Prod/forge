@@ -3,75 +3,55 @@ import { ComponentStateMap } from "@workspace/ui/types";
 export const outlineTokensDefault: Record<"light" | "dark", ComponentStateMap> = {
   light: {
     default: {
-      bg: 50,
       text: 700,
-      border: 400,
-      shadow: 50,
+      border: 700,
     },
 
     hover: {
-      bg: 100,
       text: 800,
-      border: 500,
-      shadow: 50,
+      border: 800,
     },
 
     active: {
-      bg: 200,
       text: 900,
-      border: 600,
-      shadow: 50,
+      border: 900,
     },
 
     disabled: {
-      bg: 50,
       text: 300,
-      border: 200,
-      shadow: 50,
+      border: 300,
     },
 
     focus: {
-      bg: 50,
       text: 800,
       border: 600,
-      shadow: 50,
     },
   },
 
   dark: {
     default: {
-      bg: 950,
-      text: 200,
+      text: 600,
       border: 600,
-      shadow: 50,
     },
 
     hover: {
-      bg: 900,
-      text: 100,
+      text: 500,
       border: 500,
-      shadow: 50,
     },
 
     active: {
-      bg: 800,
-      text: 50,
-      border: 400,
-      shadow: 50,
+      text: 300,
+      border: 300,
     },
 
     disabled: {
-      bg: 950,
       text: 700,
-      border: 800,
-      shadow: 50,
+      border: 700,
     },
 
     focus: {
-      bg: 950,
       text: 100,
-      border: 400,
-      shadow: 50,
+      border: 100,
     },
   },
 } as const;

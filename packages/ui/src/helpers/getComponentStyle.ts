@@ -6,6 +6,7 @@ import {
 } from "../types";
 import { getComponentSizeStyle } from "./styles/getComponentSizeStyle";
 import { getComponentVariantStyle } from "./styles/getComponentVariantStyle";
+import { getComponentShadowStyle } from "./styles/getComponentShadowStyle";
 
 type GetComponentStyleParams<T extends string> = ComponentAppearanceProps & {
   size?: T;
@@ -20,7 +21,7 @@ export const getComponentStyle = <T extends string>(
   const colorVars = getComponentVariantStyle({
     tone: props.tone,
     variant: props.variant,
-    mode: "light",
+    mode: props.mode,
     appearances: props.appearances,
   });
 
@@ -32,8 +33,14 @@ export const getComponentStyle = <T extends string>(
         })
       : {};
 
+  const shadowVars = getComponentShadowStyle({
+    variant: props.variant,
+    size: props.size,
+  });
+
   return {
     ...colorVars,
     ...sizeVars,
+    ...shadowVars,
   };
 };

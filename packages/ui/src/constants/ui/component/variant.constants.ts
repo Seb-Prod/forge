@@ -33,11 +33,11 @@ export const VARIANTS = {
     description: "Variant avec bordure visible.",
   },
 
-  // elevated: {
-  //   value: "elevated",
-  //   label: "Elevated",
-  //   description: "Variant avec ombre permanente.",
-  // },
+  elevated: {
+    value: "elevated",
+    label: "Elevated",
+    description: "Variant avec ombre permanente.",
+  },
 
   // flat: {
   //   value: "flat",

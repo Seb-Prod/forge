@@ -1,11 +1,15 @@
 import { ComponentStateMap } from "@workspace/ui/types";
 
-export const softTokensDefault: Record<"light" | "dark", ComponentStateMap> = {
+export const elevatedTokensDefault: Record<
+  "light" | "dark",
+  ComponentStateMap
+> = {
   light: {
     default: {
       bg: 100,
       text: 700,
-      border: 100
+      border: 100,
+      shadow: 900,
     },
 
     hover: {
@@ -38,6 +42,7 @@ export const softTokensDefault: Record<"light" | "dark", ComponentStateMap> = {
       bg: 800,
       text: 100,
       border: 800,
+      shadow: 200,
     },
 
     hover: {

@@ -64,6 +64,7 @@ export interface ComponentSizeTokens {
  * non listées ne sont pas autorisées.
  */
 export type ScaleStep =
+  | 0
   | 50
   | 100
   | 200
@@ -93,10 +94,10 @@ export type ComponentState =
  * référençant la valeur à utiliser pour cet état dans la palette courante.
  */
 export interface ComponentStateTokens {
-  bg: ScaleStep;
+  bg?: ScaleStep;
   text: ScaleStep;
-  border: ScaleStep;
-  shadow: ScaleStep;
+  border?: ScaleStep;
+  shadow?: ScaleStep;
 }
 
 /**

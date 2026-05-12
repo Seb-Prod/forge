@@ -9,6 +9,6 @@ export interface ButtonProps extends BaseProps, ComponentAppearanceProps {
 
 export const DEFAULT_PROPS: Partial<ButtonProps> = {
   tone: "primary",
-  variant: "outline",
+  variant: "elevated",
   size: "md",
 };

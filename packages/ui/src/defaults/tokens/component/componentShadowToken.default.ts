@@ -7,5 +7,5 @@ import { ShadowTokenMap } from "@workspace/ui/constants/ui/types/ui-constant";
 
 export const COMPONENT_SHADOW_TOKENS_DEFAULT = {
   elevated: ELEVATION_SHADOWS,
-  solid: THREE_D_SHADOWS,
+  "3d": THREE_D_SHADOWS,
 } satisfies Partial<Record<Variant, ShadowTokenMap>>;

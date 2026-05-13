@@ -23,8 +23,8 @@ export interface ComponentAppearanceProps<TVariant extends string = VariantKey> 
   variant?: TVariant;
 
   /**
-   * Taille globale du composant. Applique automatiquement les tokens
-   * de hauteur, padding, police et rayon correspondants.
+   * Taille globale du composant.
+   * Applique automatiquement les tokens de hauteur, padding, police et rayon.
    *
    * Peut être surchargée champ par champ via `height`, `paddingX`,
    * `fontSize` et `radius`.
@@ -35,8 +35,20 @@ export interface ComponentAppearanceProps<TVariant extends string = VariantKey> 
    * Surcharge de la hauteur définie par `size`.
    */
   height?: ComponentSize;
+
+  /**
+   * Surcharge du padding horizontal du composant définie par `size`.
+   */
   paddingX?: Spacing;
+
+  /**
+   * Surcharge de la taille de police du composant définie par `size`.
+   */
   fontSize?: TextSize;
+
+  /**
+   * Surcharge du rayon des coins du composant définie par `size`.
+   */
   radius?: Radius;
 }
 
@@ -44,10 +56,10 @@ export interface ComponentAppearanceProps<TVariant extends string = VariantKey> 
  * Ensemble de tokens dimensionnels associés à une taille de composant prédéfinie.
  *
  * Utilisé pour définir des presets de taille réutilisables (ex. `sm`, `md`, `lg`)
- * qui sont ensuite appliqués via `ComponentAppearanceProps.size`.
+ * appliqués automatiquement via `ComponentAppearanceProps.size`.
  *
- * Tous les champs sont optionnels pour permettre des presets partiels
- * (seuls les tokens pertinents sont renseignés).
+ * Tous les champs sont optionnels afin de permettre des presets partiels
+ * (seuls les tokens pertinents sont définis).
  */
 export interface ComponentSizeTokens {
   height?: ComponentSize;
@@ -58,11 +70,10 @@ export interface ComponentSizeTokens {
 }
 
 /**
- * Pas valides de l'échelle de design (de 50 à 950).
+ * Échelle de valeurs utilisées dans le design system.
  *
- * Correspond aux stops de la palette de couleurs ou d'opacité
- * définis dans le système de tokens. Les valeurs intermédiaires
- * non listées ne sont pas autorisées.
+ * Correspond aux steps de la palette (couleur, opacité, intensité…).
+ * Ces valeurs garantissent une cohérence visuelle globale.
  */
 export type ScaleStep =
   | 0
@@ -79,7 +90,7 @@ export type ScaleStep =
   | 950;
 
 /**
- * États interactifs d'un composant UI.
+ * États interactifs d’un composant UI.
  */
 export type ComponentState =
   | "default"
@@ -89,10 +100,10 @@ export type ComponentState =
   | "focus";
 
 /**
- * Tokens visuels associés à un état donné d'un composant.
+ * Tokens visuels associés à un état d’un composant.
  *
- * Chaque propriété est un pas de l'échelle de design (`ScaleStep`)
- * référençant la valeur à utiliser pour cet état dans la palette courante.
+ * Chaque propriété correspond à une valeur de `ScaleStep`
+ * utilisée pour définir l’apparence du composant dans un état donné.
  */
 export interface ComponentStateTokens {
   bg?: ScaleStep;
@@ -103,17 +114,28 @@ export interface ComponentStateTokens {
 }
 
 /**
- * Table de correspondance entre chaque état interactif et ses tokens visuels.
+ * Mapping des états vers leurs tokens visuels.
  *
- * Permet de centraliser la définition des styles pour tous les états
- * d'un composant en un seul objet.
+ * Permet de définir l’ensemble des styles d’un composant
+ * selon ses états interactifs.
  */
 export type ComponentStateMap = Record<ComponentState, ComponentStateTokens>;
 
-/** Association surface → tokens, hors cas `"none"`. */
+/**
+ * Mapping complet des variants vers leurs états visuels.
+ *
+ * Associe chaque variant (solid, outline, ghost, etc.)
+ * à ses styles pour chaque état interactif.
+ */
 export type VariantStateMap = Record<
   Variant,
   Record<ComponentState, ComponentStateTokens>
 >;
 
+/**
+ * Ensemble complet des tokens de variants pour un thème donné.
+ *
+ * Généralement utilisé pour distinguer les thèmes (light / dark)
+ * ou les contextes visuels globaux.
+ */
 export type VariantTokens = Record<Variant, VariantStateMap>;

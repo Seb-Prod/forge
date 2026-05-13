@@ -13,26 +13,32 @@ import {
 } from "../constants/ui/types/ui-constant";
 import { Variant } from "../constants";
 
-type ShadowSizeMap = Record<string, UIConstant<ComponentShadowStates>>;
 
-type GetComponentStyleParams<T extends string> = ComponentAppearanceProps & {
-  size?: T;
-  sizes?: Record<T, ComponentSizeTokens>;
-  mode?: "light" | "dark";
-  appearances: Record<"light" | "dark", VariantStateMap>;
-  shadows?: Partial<Record<Variant, ShadowSizeMap>>;
-};
+type Mode = "light" | "dark";
 
-export const getComponentStyle = <T extends string>(
-  props: GetComponentStyleParams<T>,
+type GetComponentStyleParams<TSize extends string> =
+  ComponentAppearanceProps & {
+    size?: TSize;
+    sizes?: Record<TSize, ComponentSizeTokens>;
+    mode?: Mode;
+    appearances?: Record<Mode, Partial<VariantStateMap>>;
+    shadows?: Partial<
+      Record<Variant, Record<TSize, UIConstant<ComponentShadowStates>>>
+    >;
+  };
+
+export const getComponentStyle = <TSize extends string>(
+  props: GetComponentStyleParams<TSize>,
 ): CSSProperties => {
-  console.log("je recharge")
-  const colorVars = getComponentVariantStyle({
-    tone: props.tone,
-    variant: props.variant,
-    mode: props.mode,
-    appearances: props.appearances,
-  });
+  const colorVars =
+    props.variant && props.appearances
+      ? getComponentVariantStyle({
+          tone: props.tone,
+          variant: props.variant,
+          mode: props.mode,
+          appearances: props.appearances,
+        })
+      : {};
 
   const sizeVars =
     props.size && props.sizes

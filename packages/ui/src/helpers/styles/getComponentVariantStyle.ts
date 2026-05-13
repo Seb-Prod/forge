@@ -9,7 +9,7 @@ type GetComponentVariantStyleParams = {
   tone?: Tone;
   variant?: Variant;
   mode?: "light" | "dark";
-  appearances: Record<"light" | "dark", VariantStateMap>;
+  appearances: Record<"light" | "dark", Partial<VariantStateMap>>;
 };
 
 const STATES = ["default", "hover", "active", "disabled"] as const;
@@ -62,7 +62,7 @@ export const getComponentVariantStyle = ({
   mode = "light",
   appearances,
 }: GetComponentVariantStyleParams): ComponentCSSVars => {
-  const levels = appearances[mode][variant];
+  const levels = appearances[mode][variant] ?? appearances[mode].solid!;
 
   return Object.fromEntries(
     STATES.flatMap((state) =>

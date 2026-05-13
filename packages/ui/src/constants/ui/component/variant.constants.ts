@@ -92,7 +92,7 @@ export type VariantKey = keyof typeof VARIANTS;
  */
 
 export const COMPONENT_VARIANTS = {
-  button: ["solid", "outline", "ghost"] as const,
+  button: ["solid", "outline", "ghost", "3d"] as const,
   badge: ["solid", "soft", "outline"] as const,
   card: ["solid", "elevated"] as const,
 } as const satisfies Record<string, readonly VariantKey[]>;

@@ -7,31 +7,25 @@ export const solidTokensDefault: Record<"light" | "dark", ComponentStateMap> = {
       text: 50,
       border: 600,
       shadow: 900,
-      highlight: 100,
+      highlight: 700,
     },
 
     hover: {
       bg: 600,
       text: 50,
       border: 700,
-      shadow: 950,
-      highlight: 50,
     },
 
     active: {
       bg: 700,
       text: 50,
       border: 800,
-      shadow: 950,
-      highlight: 200,
     },
 
     disabled: {
       bg: 200,
       text: 400,
       border: 200,
-      shadow: 300,
-      highlight: 100,
     },
 
     focus: {
@@ -54,8 +48,6 @@ export const solidTokensDefault: Record<"light" | "dark", ComponentStateMap> = {
       bg: 400,
       text: 50,
       border: 400,
-      shadow: 50,
-      highlight: 950,
     },
 
     active: {

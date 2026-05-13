@@ -33,10 +33,10 @@ export interface ComponentAppearanceProps {
   /**
    * Surcharge de la hauteur définie par `size`.
    */
-  height: ComponentSize;
-  paddingX: Spacing;
-  fontSize: TextSize;
-  radius: Radius;
+  height?: ComponentSize;
+  paddingX?: Spacing;
+  fontSize?: TextSize;
+  radius?: Radius;
 }
 
 /**

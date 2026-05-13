@@ -1,7 +1,7 @@
 import { HomeShowcasePage } from "@/pages";
 import {
   BadgeDemo,
-  ButtonDemo,
+  ButtonDoc,
   CheckboxDemo,
   IconToggleDemo,
   InputDemo,
@@ -15,7 +15,7 @@ import {
 export const showcaseRoutes: AppRoute[] = [
   { index: true, to: "", element: <HomeShowcasePage /> },
   { to: "badge", label: "<Badge>", element: <BadgeDemo /> },
-  { to: "button", label: "<Button>", element: <ButtonDemo /> },
+  { to: "button", label: "<Button>", element: <ButtonDoc /> },
   { to: "checkbox", label: "<Checkbox>", element: <CheckboxDemo /> },
   { to: "inconToggle", label: "<IconToggle", element: <IconToggleDemo /> },
   { to: "input", label: "<Input>", element: <InputDemo /> },

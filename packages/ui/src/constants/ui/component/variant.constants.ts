@@ -2,11 +2,17 @@ import { UIConstant } from "../types/ui-constant";
 
 /**
  * @constant VARIANTS
- * @description Variants visuels des composants interactifs
- * (buttons, badges, cards, inputs, alerts…).
+ * @status stable
+ * @description
+ * Source de vérité globale des variants visuels disponibles dans le design system.
  *
- * Chaque variant définit un comportement visuel :
- * background, border, shadow, transparence, relief…
+ * Ces variants définissent le comportement visuel des composants :
+ * - background
+ * - border
+ * - shadow
+ * - niveau de contraste
+ *
+ * Ils peuvent être filtrés par composant via `COMPONENT_VARIANTS`.
  */
 export const VARIANTS = {
   solid: {
@@ -39,36 +45,54 @@ export const VARIANTS = {
     description: "Variant avec ombre permanente.",
   },
 
-  // flat: {
-  //   value: "flat",
-  //   label: "Flat",
-  //   description: "Variant sans ombre ni relief.",
-  // },
+  "3d": {
+    value: "3d",
+    label: "3D",
+    description: "Variant avec effet de profondeur.",
+  },
 
-  // glass: {
-  //   value: "glass",
-  //   label: "Glass",
-  //   description: "Variant avec effet glassmorphism.",
-  // },
-
-  // "3d": {
-  //   value: "3d",
-  //   label: "3D",
-  //   description: "Variant avec effet de profondeur.",
-  // },
-
-  // link: {
-  //   value: "link",
-  //   label: "Link",
-  //   description: "Variant ressemblant à un lien texte.",
-  // },
+  link: {
+    value: "link",
+    label: "Link",
+    description: "Variant ressemblant à un lien texte.",
+  },
 } as const satisfies Record<string, UIConstant<string>>;
 
 /**
  * @type Variant
- * @description Token de variant dérivé de {@link VARIANTS}.
+ * @description
+ * Union type représentant tous les variants disponibles globalement.
  *
- * Utilisé pour la prop `variant`
- * des composants interactifs.
+ * Exemple :
+ * "solid" | "soft" | "ghost" | "outline" | "elevated"
  */
 export type Variant = keyof typeof VARIANTS;
+
+/**
+ * @type VariantKey
+ * @description
+ * Alias technique de `Variant`.
+ *
+ * Utilisé dans les systèmes génériques et design tokens.
+ */
+export type VariantKey = keyof typeof VARIANTS;
+
+/**
+ * @constant COMPONENT_VARIANTS
+ * @description
+ * Mapping des variants autorisés par composant.
+ *
+ * Permet de restreindre les variants disponibles selon le composant
+ * afin d’éviter les incohérences UX/UI.
+ *
+ * Exemple :
+ * - Button → solid, outline, ghost
+ * - Badge → solid, soft, outline
+ * - Card → solid, elevated
+ */
+
+export const COMPONENT_VARIANTS = {
+  button: ["solid", "outline", "ghost"] as const,
+  badge: ["solid", "soft", "outline"] as const,
+  card: ["solid", "elevated"] as const,
+} as const;

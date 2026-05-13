@@ -21,6 +21,7 @@ export const GitWorkingTreeHeader = () => {
         <AutoRefreshIndicator ms={remaining} />
 
         <NewButton
+          variant="elevated"
           onClick={handleLocalTree}
         >
           Rafraîchir

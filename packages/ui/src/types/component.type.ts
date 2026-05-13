@@ -6,6 +6,7 @@ import {
   TextSize,
   Tone,
   Variant,
+  VariantKey,
 } from "@workspace/ui/constants";
 
 /**
@@ -14,12 +15,12 @@ import {
  * Combine les tokens sémantiques (tone, variant, size) avec des overrides
  * individuels permettant de surcharger la taille prédéfinie champ par champ.
  */
-export interface ComponentAppearanceProps {
+export interface ComponentAppearanceProps<TVariant extends string = VariantKey> {
   /** Couleur sémantique du composant (ex. `"primary"`, `"danger"`, `"neutral"`). */
   tone?: Tone;
 
   /** Style visuel du composant (ex. `"solid"`, `"outline"`, `"ghost"`). */
-  variant?: Variant;
+  variant?: TVariant;
 
   /**
    * Taille globale du composant. Applique automatiquement les tokens

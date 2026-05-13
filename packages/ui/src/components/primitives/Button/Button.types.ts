@@ -3,7 +3,15 @@ import {
   ComponentAppearanceProps,
 } from "@workspace/ui/types";
 
-export interface ButtonProps extends BaseProps, ComponentAppearanceProps {
+export const BUTTON_VARIANTS = [
+  "solid",
+  "outline",
+  "ghost",
+] as const;
+
+export type ButtonVariant = (typeof BUTTON_VARIANTS)[number];
+
+export interface ButtonProps extends BaseProps, ComponentAppearanceProps<ButtonVariant> {
   loading?: boolean;
 }
 

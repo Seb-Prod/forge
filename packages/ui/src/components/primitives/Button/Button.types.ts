@@ -1,15 +1,11 @@
+import { COMPONENT_VARIANTS } from "@workspace/ui/constants";
 import {
   BaseProps,
   ComponentAppearanceProps,
 } from "@workspace/ui/types";
 
-export const BUTTON_VARIANTS = [
-  "solid",
-  "outline",
-  "ghost",
-] as const;
 
-export type ButtonVariant = (typeof BUTTON_VARIANTS)[number];
+export type ButtonVariant = (typeof COMPONENT_VARIANTS.button)[number];
 
 export interface ButtonProps extends BaseProps, ComponentAppearanceProps<ButtonVariant> {
   loading?: boolean;

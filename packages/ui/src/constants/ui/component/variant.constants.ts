@@ -95,4 +95,4 @@ export const COMPONENT_VARIANTS = {
   button: ["solid", "outline", "ghost"] as const,
   badge: ["solid", "soft", "outline"] as const,
   card: ["solid", "elevated"] as const,
-} as const;
+} as const satisfies Record<string, readonly VariantKey[]>;

@@ -98,6 +98,7 @@ export interface ComponentStateTokens {
   text: ScaleStep;
   border?: ScaleStep;
   shadow?: ScaleStep;
+  highlight?: ScaleStep;
 }
 
 /**

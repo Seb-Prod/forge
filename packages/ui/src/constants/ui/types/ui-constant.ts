@@ -17,3 +17,7 @@ export type ComponentShadowStates = {
   disabled?: string;
 };
 
+export type ShadowTokenMap = Record<
+  string,
+  UIConstant<ComponentShadowStates>
+>;

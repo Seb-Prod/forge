@@ -3,7 +3,6 @@
   align-items: center;
   justify-content: center;
 
-
   background: var(--component-bg);
   color: var(--component-text);
   border: var(--component-borderSize) solid var(--component-border);
@@ -14,34 +13,42 @@
   padding: 0 var(--component-padding);
   font-size: var(--component-fontSize);
 
+  transform: translateY(0);
 
   transition:
     background .2s,
     border-color .2s,
     color .2s,
-    box-shadow .2s;
+    box-shadow .2s,
+    transform .2s;
 }
 
 .uiButton:hover {
   background: var(--component-bg-hover);
   color: var(--component-text-hover);
   border-color: var(--component-border-hover);
-  box-shadow: var(--component-shadow-hover);
+  box-shadow: var(--component-shadow-box-hover);
+
+  transform: translateY(-2px);
 }
 
 .uiButton:active {
   background: var(--component-bg-active);
   color: var(--component-text-active);
   border-color: var(--component-border-active);
-  box-shadow: var(--component-shadow-active);
+  box-shadow: var(--component-shadow-box-active);
+
+  transform: translateY(1px);
 }
 
 .uiButton:disabled {
   background: var(--component-bg-disabled);
   color: var(--component-text-disabled);
   border-color: var(--component-border-disabled);
-  box-shadow: var(--component-shadow-disabled);
+  box-shadow: var(--component-shadow-box-disabled);
 
   cursor: not-allowed;
   opacity: .7;
+
+  transform: translateY(0);
 }

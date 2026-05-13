@@ -13,7 +13,7 @@ type GetComponentVariantStyleParams = {
 };
 
 const STATES = ["default", "hover", "active", "disabled"] as const;
-const PROPS = ["bg", "text", "border", "shadow"] as const;
+const PROPS = ["bg", "text", "border", "shadow", "highlight"] as const;
 
 type State = (typeof STATES)[number];
 

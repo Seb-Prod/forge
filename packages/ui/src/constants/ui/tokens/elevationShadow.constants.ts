@@ -1,7 +1,7 @@
 import { ComponentShadowStates, UIConstant } from "../types/ui-constant";
 
 /**
- * @constant COMPONENT_SHADOWS_ELEVATED
+ * @constant ELEVATION_SHADOWS
  * @description Shadows des composants "elevated"
  * selon leur taille.
  *
@@ -12,7 +12,7 @@ import { ComponentShadowStates, UIConstant } from "../types/ui-constant";
  * La couleur provient de :
  * `--component-shadow`
  */
-export const COMPONENT_SHADOWS_ELEVATED = {
+export const ELEVATION_SHADOWS = {
   xxs: {
     value: {
       default: `
@@ -156,9 +156,9 @@ export const COMPONENT_SHADOWS_ELEVATED = {
 >;
 
 /**
- * @type ComponentShadowElevatedSize
+ * @type EvelationShadow
  * @description Token de shadow dérivé de
- * {@link COMPONENT_SHADOWS_ELEVATED}.
+ * {@link ELEVATION_SHADOWS}.
  */
-export type ComponentShadowElevatedSize =
-  keyof typeof COMPONENT_SHADOWS_ELEVATED;
+export type EvelationShadow =
+  keyof typeof ELEVATION_SHADOWS;

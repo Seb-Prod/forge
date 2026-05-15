@@ -19,6 +19,7 @@
     "./pages": "./src/pages/index.ts",
     "./types": "./src/types/index.ts",
     "./router": "./src/router/index.ts",
+    "./styles": "./src/styles/index.ts",
     "./utils": "./src/utils/index.ts"
   },
   "scripts": {

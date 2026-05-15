@@ -2,7 +2,8 @@ import { useIsDark } from "@workspace/ui/contexts";
 import { ButtonProps } from "../Button.types";
 import { useMemo } from "react";
 import { getComponentStyle } from "@workspace/ui/helpers";
-import { COMPONENT_SHADOW_TOKENS_DEFAULT, COMPONENT_SIZES_TOKENS_DEFAULT, COMPONENT_VARIANT_TOKENS_DEFAULT } from "@workspace/ui/defaults";
+import { COMPONENT_SHADOW_TOKENS_DEFAULT, COMPONENT_SIZES_TOKENS_DEFAULT} from "@workspace/ui/defaults";
+import { COMPONENT_VARIANT_TOKENS_DEFAULT } from "@workspace/ui/styles";
 
 export const useButtonStyle = (
   props: ButtonProps,

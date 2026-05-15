@@ -10,70 +10,129 @@ import {
 } from "@workspace/ui/constants";
 
 /**
- * Propriétés d'apparence d'un composant UI.
- *
- * Combine les tokens sémantiques (tone, variant, size) avec des overrides
- * individuels permettant de surcharger la taille prédéfinie champ par champ.
+ * ============================================================================
+ * COMPONENT APPEARANCE
+ * ============================================================================
  */
-export interface ComponentAppearanceProps<TVariant extends string = VariantKey> {
-  /** Couleur sémantique du composant (ex. `"primary"`, `"danger"`, `"neutral"`). */
+
+/**
+ * Propriétés d’apparence génériques d’un composant UI.
+ *
+ * Combine :
+ * - les tokens sémantiques (`tone`, `variant`, `size`)
+ * - les overrides individuels de layout
+ * - les presets de design system
+ */
+export interface ComponentAppearanceProps<
+  TVariant extends string = VariantKey,
+> {
+  /**
+   * Couleur sémantique du composant.
+   *
+   * Exemple :
+   * - `"primary"`
+   * - `"danger"`
+   * - `"neutral"`
+   */
   tone?: Tone;
 
-  /** Style visuel du composant (ex. `"solid"`, `"outline"`, `"ghost"`). */
+  /**
+   * Variant visuel du composant.
+   *
+   * Exemple :
+   * - `"solid"`
+   * - `"outline"`
+   * - `"ghost"`
+   */
   variant?: TVariant;
 
   /**
    * Taille globale du composant.
-   * Applique automatiquement les tokens de hauteur, padding, police et rayon.
    *
-   * Peut être surchargée champ par champ via `height`, `paddingX`,
-   * `fontSize` et `radius`.
+   * Applique automatiquement :
+   * - la hauteur
+   * - le padding
+   * - le radius
+   * - la taille de texte
    */
   size?: ComponentSize;
 
   /**
-   * Surcharge de la hauteur définie par `size`.
+   * Override manuel de la hauteur.
    */
   height?: ComponentSize;
 
   /**
-   * Surcharge du padding horizontal du composant définie par `size`.
+   * Override manuel du padding horizontal.
    */
   paddingX?: Spacing;
 
   /**
-   * Surcharge de la taille de police du composant définie par `size`.
+   * Override manuel de la taille du texte.
    */
   fontSize?: TextSize;
 
   /**
-   * Surcharge du rayon des coins du composant définie par `size`.
+   * Override manuel du rayon des coins.
    */
   radius?: Radius;
 }
 
 /**
- * Ensemble de tokens dimensionnels associés à une taille de composant prédéfinie.
+ * ============================================================================
+ * SIZE TOKENS
+ * ============================================================================
+ */
+
+/**
+ * Ensemble des tokens dimensionnels associés à une taille.
  *
- * Utilisé pour définir des presets de taille réutilisables (ex. `sm`, `md`, `lg`)
- * appliqués automatiquement via `ComponentAppearanceProps.size`.
- *
- * Tous les champs sont optionnels afin de permettre des presets partiels
- * (seuls les tokens pertinents sont définis).
+ * Utilisé pour définir des presets :
+ * - `sm`
+ * - `md`
+ * - `lg`
  */
 export interface ComponentSizeTokens {
+  /**
+   * Hauteur du composant.
+   */
   height?: ComponentSize;
+
+  /**
+   * Padding horizontal.
+   */
   paddingX?: Spacing;
+
+  /**
+   * Taille du texte.
+   */
   fontSize?: TextSize;
+
+  /**
+   * Rayon des coins.
+   */
   radius?: Radius;
+
+  /**
+   * Taille de bordure.
+   */
   borderSize?: BorderSize;
 }
 
 /**
- * Échelle de valeurs utilisées dans le design system.
+ * ============================================================================
+ * COLOR SCALE
+ * ============================================================================
+ */
+
+/**
+ * Échelle normalisée utilisée dans le design system.
  *
- * Correspond aux steps de la palette (couleur, opacité, intensité…).
- * Ces valeurs garantissent une cohérence visuelle globale.
+ * Utilisée pour :
+ * - les couleurs
+ * - les ombres
+ * - les highlights
+ * - les intensités visuelles
  */
 export type ScaleStep =
   | 0
@@ -90,7 +149,13 @@ export type ScaleStep =
   | 950;
 
 /**
- * États interactifs d’un composant UI.
+ * ============================================================================
+ * COMPONENT STATES
+ * ============================================================================
+ */
+
+/**
+ * États interactifs standards d’un composant UI.
  */
 export type ComponentState =
   | "default"
@@ -100,42 +165,141 @@ export type ComponentState =
   | "focus";
 
 /**
- * Tokens visuels associés à un état d’un composant.
+ * ============================================================================
+ * VISUAL TOKENS
+ * ============================================================================
+ */
+
+/**
+ * Tokens visuels associés à un état interactif.
  *
- * Chaque propriété correspond à une valeur de `ScaleStep`
- * utilisée pour définir l’apparence du composant dans un état donné.
+ * Chaque propriété représente une intensité issue du design system.
  */
 export interface ComponentStateTokens {
+  /**
+   * Couleur de fond.
+   */
   bg?: ScaleStep;
+
+  /**
+   * Couleur du texte.
+   */
   text: ScaleStep;
+
+  /**
+   * Couleur de bordure.
+   */
   border?: ScaleStep;
+
+  /**
+   * Intensité de shadow.
+   */
   shadow?: ScaleStep;
+
+  /**
+   * Couleur ou intensité de highlight.
+   */
   highlight?: ScaleStep;
 }
 
 /**
- * Mapping des états vers leurs tokens visuels.
- *
- * Permet de définir l’ensemble des styles d’un composant
- * selon ses états interactifs.
+ * Mapping des états interactifs vers leurs tokens visuels.
  */
-export type ComponentStateMap = Record<ComponentState, ComponentStateTokens>;
+export type ComponentStateMap = Record<
+  ComponentState,
+  ComponentStateTokens
+>;
 
 /**
  * Mapping complet des variants vers leurs états visuels.
  *
- * Associe chaque variant (solid, outline, ghost, etc.)
- * à ses styles pour chaque état interactif.
+ * Exemple :
+ * - solid
+ * - outline
+ * - ghost
  */
 export type VariantStateMap = Record<
   Variant,
-  Record<ComponentState, ComponentStateTokens>
+  ComponentStateMap
 >;
 
 /**
- * Ensemble complet des tokens de variants pour un thème donné.
- *
- * Généralement utilisé pour distinguer les thèmes (light / dark)
- * ou les contextes visuels globaux.
+ * ============================================================================
+ * MOTION TOKENS
+ * ============================================================================
  */
-export type VariantTokens = Record<Variant, VariantStateMap>;
+
+/**
+ * Tokens d’animation/interactions associés à un état.
+ *
+ * Permet de gérer :
+ * - transform
+ * - transition
+ * - effets interactifs
+ */
+export interface ComponentMotionStateTokens {
+  /**
+   * Transformation CSS appliquée à l’état.
+   *
+   * Exemple :
+   * - `translateY(-2px)`
+   * - `scale(.98)`
+   */
+  transform?: string;
+
+  /**
+   * Transition CSS appliquée à l’état.
+   *
+   * Exemple :
+   * - `160ms ease`
+   * - `200ms cubic-bezier(...)`
+   */
+  transition?: string;
+}
+
+/**
+ * Mapping des états interactifs vers leurs tokens de motion.
+ */
+export type ComponentMotionMap = Record<
+  ComponentState,
+  ComponentMotionStateTokens
+>;
+
+/**
+ * Mapping complet des variants vers leurs comportements interactifs.
+ *
+ * Exemple :
+ * - solid → lift effect
+ * - ghost → subtle scale
+ * - 3d → depth press effect
+ */
+export type VariantMotionMap = Record<
+  Variant,
+  ComponentMotionMap
+>;
+
+/**
+ * ============================================================================
+ * THEME TOKENS
+ * ============================================================================
+ */
+
+/**
+ * Tokens visuels complets pour un thème.
+ *
+ * Exemple :
+ * - light
+ * - dark
+ */
+export type ThemeVariantTokens = Record<
+  "light" | "dark",
+  VariantStateMap
+>;
+
+/**
+ * Tokens de motion complets pour un thème.
+ */
+export type ThemeMotionTokens = Record<
+  "light" | "dark",
+  VariantMotionMap
+>;

@@ -29,3 +29,6 @@ export * from "./pages";
 
 // Routes
 export * from "./router";
+
+// Styles
+export * from "./styles";

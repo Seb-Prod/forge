@@ -18,6 +18,7 @@
       "@workspace/ui/pages": ["../../packages/ui/src/pages/index.ts"],
       "@workspace/ui/types": ["../../packages/ui/src/types/index.ts"],
       "@workspace/ui/router": ["../../packages/ui/src/router/index.ts"],
+      "@workspace/ui/styles": ["../../packages/ui/src/styles/index.ts"],
       "@workspace/ui/utils": ["../../packages/ui/src/utils/index.ts"]
     }
   },

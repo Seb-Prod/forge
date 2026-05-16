@@ -13,14 +13,15 @@
   padding: 0 var(--component-padding);
   font-size: var(--component-fontSize);
 
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 
   transition:
     background .2s,
     border-color .2s,
     color .2s,
     box-shadow .2s,
-    transform .2s;
+    transform .2s,
+    opacity .2s;
 }
 
 .uiButton:hover {
@@ -29,7 +30,8 @@
   border-color: var(--component-border-hover);
   box-shadow: var(--component-shadow-box-hover);
 
-  transform: translateY(-2px);
+  transform: translateY(var(--motion-hover-translate-y)) scale(var(--motion-hover-scale));
+  opacity: var(--motion-hover-opacity);
 }
 
 .uiButton:active {
@@ -38,7 +40,8 @@
   border-color: var(--component-border-active);
   box-shadow: var(--component-shadow-box-active);
 
-  transform: translateY(1px);
+  transform: translateY(var(--motion-active-translate-y)) scale(var(--motion-active-scale));
+  opacity: var(--motion-active-opacity);
 }
 
 .uiButton:disabled {
@@ -48,7 +51,7 @@
   box-shadow: var(--component-shadow-box-disabled);
 
   cursor: not-allowed;
-  opacity: .7;
 
-  transform: translateY(0);
+  transform: translateY(var(--motion-disabled-translate-y)) scale(var(--motion-disabled-scale));
+  opacity: var(--motion-disabled-opacity);
 }

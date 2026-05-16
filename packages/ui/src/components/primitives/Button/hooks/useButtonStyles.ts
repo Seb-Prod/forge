@@ -3,7 +3,7 @@ import { ButtonProps } from "../Button.types";
 import { useMemo } from "react";
 import { getComponentStyle } from "@workspace/ui/helpers";
 import { COMPONENT_SHADOW_TOKENS_DEFAULT, COMPONENT_SIZES_TOKENS_DEFAULT} from "@workspace/ui/defaults";
-import { COMPONENT_VARIANT_TOKENS_DEFAULT } from "@workspace/ui/styles";
+import { COMPONENT_MOTION_TOKENS_DEFAULT, COMPONENT_VARIANT_TOKENS_DEFAULT } from "@workspace/ui/styles";
 
 export const useButtonStyle = (
   props: ButtonProps,
@@ -18,6 +18,7 @@ export const useButtonStyle = (
         sizes: COMPONENT_SIZES_TOKENS_DEFAULT,
         appearances: COMPONENT_VARIANT_TOKENS_DEFAULT,
         shadows: COMPONENT_SHADOW_TOKENS_DEFAULT,
+        motions: COMPONENT_MOTION_TOKENS_DEFAULT,
       }),
       ...props.style,
     };

@@ -2,6 +2,7 @@ import { CSSProperties } from "react";
 import {
   ComponentAppearanceProps,
   ComponentSizeTokens,
+  VariantMotionMap,
   VariantStateMap,
 } from "../types";
 import { getComponentSizeStyle } from "./styles/getComponentSizeStyle";
@@ -11,8 +12,8 @@ import {
   ComponentShadowStates,
   UIConstant,
 } from "../constants/ui/types/ui-constant";
-import { Variant } from "../constants";
-
+import { ComponentSize, Variant } from "../constants";
+import { getComponentMotionStyle } from "./styles/getComponentMotionStyle";
 
 type Mode = "light" | "dark";
 
@@ -25,6 +26,7 @@ type GetComponentStyleParams<TSize extends string> =
     shadows?: Partial<
       Record<Variant, Record<TSize, UIConstant<ComponentShadowStates>>>
     >;
+    motions?: VariantMotionMap;
   };
 
 export const getComponentStyle = <TSize extends string>(
@@ -57,9 +59,19 @@ export const getComponentStyle = <TSize extends string>(
         })
       : {};
 
+  const motionVars =
+    props.variant && props.size && props.motions
+      ? getComponentMotionStyle({
+          variant: props.variant,
+          size: props.size as ComponentSize,
+          motions: props.motions,
+        })
+      : {};
+
   return {
     ...colorVars,
     ...sizeVars,
     ...shadowVars,
+    ...motionVars,
   };
 };

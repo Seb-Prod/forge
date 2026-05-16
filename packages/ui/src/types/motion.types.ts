@@ -42,4 +42,6 @@ export type VariantMotionMap = {
   outline?: VariantMotionTokens;
   elevated?: VariantMotionTokens;
   "3d"?: VariantMotionTokens;
+  soft?: VariantMotionTokens;
+  link?: VariantMotionTokens;
 };

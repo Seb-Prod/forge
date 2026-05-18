@@ -5,7 +5,6 @@ export type { InteractiveProps } from "./interaction";
 export type { LayoutProps } from "./layout";
 export type { SpacingProps } from "./spacing";
 
-
 export type {
   MotionIntent,
   MotionStateIntent,
@@ -16,8 +15,18 @@ export type {
   VariantMotionMap,
 } from "./motion.types";
 
-export type { PaletteBase} from "./palette.types"
+export type {
+  ShadowIntent,
+  ShadowStateIntent,
+  VariantShadowTokens,
+  VariantShadowMap,
+  ShadowAmplitudeValue,
+  ShadowAmplitude,
+  ResolvedShadowState,
+  ResolvedVariantShadow,
+} from "./shadow.types";
 
+export type { PaletteBase } from "./palette.types";
 
 export type {
   ComponentAppearanceProps,

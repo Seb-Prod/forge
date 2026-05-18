@@ -13,17 +13,20 @@ const resolveMotionState = (
   amplitude: MotionAmplitude,
 ): ResolvedMotionState => ({
   translateY:
-    intent.translateY === "up"   ? -amplitude.up
-    : intent.translateY === "down" ? amplitude.down
-    : 0,
+    intent.translateY === "up"
+      ? -amplitude.up
+      : intent.translateY === "down"
+        ? amplitude.down
+        : 0,
 
   scale:
-    intent.scale === "grow"   ? amplitude.grow
-    : intent.scale === "shrink" ? amplitude.shrink
-    : 1,
+    intent.scale === "grow"
+      ? amplitude.grow
+      : intent.scale === "shrink"
+        ? amplitude.shrink
+        : 1,
 
-  opacity:
-    intent.opacity === "fade" ? amplitude.fade : 1,
+  opacity: intent.opacity === "fade" ? amplitude.fade : 1,
 });
 
 export const resolveVariantMotion = (
@@ -33,9 +36,17 @@ export const resolveVariantMotion = (
   const amplitude = MOTION_AMPLITUDE_BY_SIZE[size];
 
   return {
-    hover:    variantMotion.hover    ? resolveMotionState(variantMotion.hover,    amplitude) : undefined,
-    active:   variantMotion.active   ? resolveMotionState(variantMotion.active,   amplitude) : undefined,
-    focus:    variantMotion.focus    ? resolveMotionState(variantMotion.focus,     amplitude) : undefined,
-    disabled: variantMotion.disabled ? resolveMotionState(variantMotion.disabled, amplitude) : undefined,
+    hover: variantMotion.hover
+      ? resolveMotionState(variantMotion.hover, amplitude)
+      : undefined,
+    active: variantMotion.active
+      ? resolveMotionState(variantMotion.active, amplitude)
+      : undefined,
+    focus: variantMotion.focus
+      ? resolveMotionState(variantMotion.focus, amplitude)
+      : undefined,
+    disabled: variantMotion.disabled
+      ? resolveMotionState(variantMotion.disabled, amplitude)
+      : undefined,
   };
 };

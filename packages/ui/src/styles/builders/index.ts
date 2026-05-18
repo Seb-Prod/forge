@@ -1,3 +1,2 @@
-export * from "./buildVariantTokens";
-export * from "./createVariantTokens";
-export * from "./resolverVariantMotion"
+export { buildColorTokens } from "./resolverVariantColor";
+export { resolveVariantMotion } from "./resolverVariantMotion";

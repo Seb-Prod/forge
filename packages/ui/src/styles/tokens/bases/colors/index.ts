@@ -1,6 +1,6 @@
-export { tokensElevatedDefault } from "./elevated.base";
-export { tokensGhostDefault } from "./ghost.base";
-export { tokensOutlineDefault } from "./outline.base";
-export { tokensSoftDefault } from "./soft.base";
-export { tokensSolidDefault } from "./solid.base";
-export { tokens3DDefault } from "./threeD.base";
+export { tokensElevatedDefault } from "./elevated.color";
+export { tokensGhostDefault } from "./ghost.color";
+export { tokensOutlineDefault } from "./outline.color";
+export { tokensSoftDefault } from "./soft.color";
+export { tokensSolidDefault } from "./solid.color";
+export { tokens3DDefault } from "./3D.color";

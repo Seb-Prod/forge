@@ -4,6 +4,8 @@ export type { DimensionProps } from "./dimension";
 export type { InteractiveProps } from "./interaction";
 export type { LayoutProps } from "./layout";
 export type { SpacingProps } from "./spacing";
+
+
 export type {
   MotionIntent,
   MotionStateIntent,
@@ -13,6 +15,10 @@ export type {
   ResolvedVariantMotion,
   VariantMotionMap,
 } from "./motion.types";
+
+export type { PaletteBase} from "./palette.types"
+
+
 export type {
   ComponentAppearanceProps,
   ComponentSizeTokens,

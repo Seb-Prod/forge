@@ -7,7 +7,7 @@ import {
   tokensSolidDefault,
 } from "./bases/colors";
 
-const variantTokens = {
+const colorTokens = {
   solid: tokensSolidDefault,
   ghost: tokensGhostDefault,
   outline: tokensOutlineDefault,
@@ -15,12 +15,12 @@ const variantTokens = {
   "3d": tokens3DDefault,
 } as const;
 
-export const COMPONENT_VARIANT_TOKENS_DEFAULT = {
+export const COMPONENT_COLOR_TOKENS_DEFAULT = {
   light: Object.fromEntries(
-    Object.entries(variantTokens).map(([key, value]) => [key, value.light]),
+    Object.entries(colorTokens).map(([key, value]) => [key, value.light]),
   ),
 
   dark: Object.fromEntries(
-    Object.entries(variantTokens).map(([key, value]) => [key, value.dark]),
+    Object.entries(colorTokens).map(([key, value]) => [key, value.dark]),
   ),
 } as const satisfies Record<"light" | "dark", Partial<VariantStateMap>>;

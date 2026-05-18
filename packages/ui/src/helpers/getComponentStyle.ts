@@ -22,7 +22,7 @@ type GetComponentStyleParams<TSize extends string> =
     size?: TSize;
     sizes?: Record<TSize, ComponentSizeTokens>;
     mode?: Mode;
-    appearances?: Record<Mode, Partial<VariantStateMap>>;
+    colors?: Record<Mode, Partial<VariantStateMap>>;
     shadows?: Partial<
       Record<Variant, Record<TSize, UIConstant<ComponentShadowStates>>>
     >;
@@ -33,12 +33,12 @@ export const getComponentStyle = <TSize extends string>(
   props: GetComponentStyleParams<TSize>,
 ): CSSProperties => {
   const colorVars =
-    props.variant && props.appearances
+    props.variant && props.colors
       ? getComponentVariantStyle({
           tone: props.tone,
           variant: props.variant,
           mode: props.mode,
-          appearances: props.appearances,
+          appearances: props.colors,
         })
       : {};
 

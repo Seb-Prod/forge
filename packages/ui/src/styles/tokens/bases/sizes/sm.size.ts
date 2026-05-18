@@ -5,5 +5,5 @@ export const smTokensDefault: ComponentSizeTokens = {
   paddingX: "md",
   fontSize: "sm",
   radius: "sm",
-  borderSize:"sm"
+  borderSize:"xs"
 };

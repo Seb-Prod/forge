@@ -5,5 +5,5 @@ export const mdTokensDefault: ComponentSizeTokens = {
   paddingX: "md",
   fontSize: "md",
   radius: "md",
-  borderSize:"md"
+  borderSize:"xs"
 };

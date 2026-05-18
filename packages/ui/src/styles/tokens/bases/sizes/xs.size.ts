@@ -5,4 +5,5 @@ export const xsTokensDefault: ComponentSizeTokens = {
   paddingX: "sm",
   fontSize: "xs",
   radius: "sm",
+  borderSize: "xs",
 };

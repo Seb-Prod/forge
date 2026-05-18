@@ -5,4 +5,5 @@ export const xxxlTokensDefault: ComponentSizeTokens = {
   paddingX: "3xl",
   fontSize: "3xl",
   radius: "md",
+  borderSize: "md",
 };

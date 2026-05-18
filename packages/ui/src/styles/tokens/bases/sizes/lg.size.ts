@@ -5,4 +5,5 @@ export const lgTokensDefault: ComponentSizeTokens = {
   paddingX: "xl",
   fontSize: "lg",
   radius: "md",
+  borderSize: "xs",
 };

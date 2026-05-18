@@ -1,5 +1,21 @@
 import { Variant } from "@workspace/ui/constants";
 
+/**
+ * @type ShadowLayer
+ * @description
+ * Couche individuelle d'une shadow multicouche.
+ * Permet de composer des effets complexes (highlight + bord + diffus).
+ */
+export type ShadowLayer = {
+  offsetY: number;
+  blur: number;
+  spread: number;
+  /** "shadow" → var(--component-shadow), "highlight" → var(--component-highlight) */
+  colorVar: "shadow" | "highlight";
+  opacity: number | null; // null = couleur pleine sans alpha
+};
+
+
 // ---------------------------------------------------------------------------
 // Intents
 // ---------------------------------------------------------------------------
@@ -136,6 +152,7 @@ export type ResolvedShadowState = {
   blur: number;
   spread: number;
   opacity: number;
+  layers: ShadowLayer[];
 };
 
 /**

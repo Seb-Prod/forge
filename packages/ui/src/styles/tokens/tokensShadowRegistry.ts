@@ -3,7 +3,6 @@ import {
   elevatedShadow,
   ghostShadow,
   outlineShadow,
-  shadow3D,
   solidShadow,
 } from "./bases/shadow";
 
@@ -12,5 +11,4 @@ export const COMPONENT_SHADOW_TOKENS_DEFAULT = {
   ghost: ghostShadow,
   outline: outlineShadow,
   elevated: elevatedShadow,
-  "3d": shadow3D,
 } as const satisfies VariantShadowMap;

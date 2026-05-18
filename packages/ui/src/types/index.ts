@@ -24,6 +24,7 @@ export type {
   ShadowAmplitude,
   ResolvedShadowState,
   ResolvedVariantShadow,
+  ShadowLayer
 } from "./shadow.types";
 
 export type { PaletteBase } from "./palette.types";

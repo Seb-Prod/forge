@@ -1,65 +1,47 @@
-import { UIConstant, Variant } from "@workspace/ui/constants";
-import { ComponentShadowStates } from "@workspace/ui/constants/ui/types/ui-constant";
+import { CSSProperties } from "react";
+import { ComponentSize, Variant } from "@workspace/ui/constants";
+import { ResolvedShadowState, VariantShadowMap } from "@workspace/ui/types";
+import { resolveLayeredShadow, resolveVariantShadow, SHADOW_3D_AMPLITUDE_BY_SIZE } from "@workspace/ui/styles";
 
-type ShadowSizeMap = Record<string, UIConstant<ComponentShadowStates>>;
+const toBoxShadow = (s: ResolvedShadowState): string =>
+  `0 ${s.offsetY}px ${s.blur}px ${s.spread}px rgb(from var(--component-shadow) r g b / ${s.opacity})`;
 
-type GetComponentShadowStyleParams<T extends string> = {
-  size: T;
+type GetComponentShadowStyleParams = {
   variant?: Variant;
-  shadows: Partial<Record<Variant, ShadowSizeMap>>;
+  size?: ComponentSize;
+  shadows?: VariantShadowMap;
 };
 
-const SHADOW_STATES = ["default", "hover", "active", "disabled"] as const;
-type ShadowState = (typeof SHADOW_STATES)[number];
 
-const SHADOW_STATE_SUFFIX: Record<ShadowState, string> = {
-  default: "",
-  hover: "-hover",
-  active: "-active",
-  disabled: "-disabled",
-};
-
-/**
- * Generates a flat map of component-scoped CSS custom properties for
- * `box-shadow` values across all interactive states.
- *
- * Resolves via `shadows[variant][size].value[state]`.
- * Returns `{}` silently when the variant has no shadow definition
- * (e.g. `"ghost"`, `"outline"`).
- *
- * @example
- * ```tsx
- * getComponentShadowStyle({
- *   size: "md",
- *   variant: "elevated",
- *   shadows: COMPONENT_SHADOW_TOKENS_DEFAULT,
- * })
- * // → { "--component-shadow": "0 4px 8px …", "--component-shadow-hover": "…", … }
- * ```
- *
- * @version 1.0.0
- */
-export const getComponentShadowStyle = <T extends string>({
+export const getComponentShadowStyle = ({
+  variant,
   size,
-  variant = "solid",
   shadows,
-}: GetComponentShadowStyleParams<T>): Record<string, string> => {
-  const sizeMap = shadows[variant];
+}: GetComponentShadowStyleParams): CSSProperties => {
+  if (!variant || !size || !shadows) return {};
 
-  // Ce variant n'a pas de shadows (ghost, outline…) → rien à émettre
-  if (!sizeMap) return {};
+  // Cas 3d : résolution par couches directement depuis l'amplitude
+  if (variant === "3d") {
+    const amplitude = SHADOW_3D_AMPLITUDE_BY_SIZE[size as ComponentSize];
+    return {
+      "--component-shadow-box":          resolveLayeredShadow(amplitude.default),
+      "--component-shadow-box-hover":    resolveLayeredShadow(amplitude.hover),
+      "--component-shadow-box-active":   resolveLayeredShadow(amplitude.active),
+      "--component-shadow-box-disabled": resolveLayeredShadow(amplitude.disabled),
+    } as CSSProperties;
+  }
 
-  const token = sizeMap[size];
+  // Cas standard
+  const variantShadow = shadows[variant];
+  if (!variantShadow) return {};
 
-  // Taille non couverte → rien à émettre
-  if (!token) return {};
+  const resolved = resolveVariantShadow(variantShadow, size as ComponentSize);
 
-  return Object.fromEntries(
-    SHADOW_STATES.map((state) => {
-      const suffix = SHADOW_STATE_SUFFIX[state];
-      const key = `--component-shadow-box${suffix}`;
-      const value = token.value[state] ?? "none";
-      return [key, value];
-    }),
-  );
+  return {
+    "--component-shadow-box":          resolved.default  ? toBoxShadow(resolved.default)  : "none",
+    "--component-shadow-box-hover":    resolved.hover    ? toBoxShadow(resolved.hover)    : "none",
+    "--component-shadow-box-active":   resolved.active   ? toBoxShadow(resolved.active)   : "none",
+    "--component-shadow-box-focus":    resolved.focus    ? toBoxShadow(resolved.focus)    : "none",
+    "--component-shadow-box-disabled": resolved.disabled ? toBoxShadow(resolved.disabled) : "none",
+  } as CSSProperties;
 };
